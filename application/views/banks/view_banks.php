@@ -16,7 +16,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     <section class="content">
       <div class="box box-success">
             <div class="box-header">
-              <h3 class="box-title pull-left"><?php echo ucwords(str_replace('_', ' ', 'districts detail')); ?></h3>
+              <h3 class="box-title pull-left"><?php echo ucwords(str_replace('_', ' ', 'banks detail')); ?></h3>
              <!--  <h3 class="box-title pull-right">
                 <a href="<?php echo base_url(); ?>add_admin" type="button" class="btn btn-block btn-danger btn-sm"><i class="fa fa-trash-o"> all </i></a></h3> -->
 
@@ -35,9 +35,9 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                 <thead>
                 <tr>
                   <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
-                  <th width="15%"><?php echo ucwords(str_replace('_', ' ', 'district name')); ?></th>
+                  <th width="15%"><?php echo ucwords(str_replace('_', ' ', 'banks name')); ?></th>
                   <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th>
-                  <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
+                  <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
                   <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th>
                 </tr>
                 </thead>
@@ -59,7 +59,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo ucwords(str_replace('_', ' ', 'edit district')); ?></h4>
+        <h4 class="modal-title"><?php echo ucwords(str_replace('_', ' ', 'edit banks')); ?></h4>
 
       </div>
       <p class="jquery_alert_modal"></p>
@@ -70,11 +70,11 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
       <div class="modal-body">
 
             <div class="form-group">
-                  <label class="label-control col-md-4"><?php echo $label = ucwords(str_replace('_', ' ', 'district name')); ?>:</label>
+                  <label class="label-control col-md-4"><?php echo $label = ucwords('banks name'); ?>:</label>
                   <div class="col-md-8">
                   <div class="input-group">
                   <div class="input-group-addon">
-                    <i class="fa fa-building-o"></i>
+                    <i class="fa fa-bank"></i>
                   </div>
                   <input type="hidden" value="" name="id"/>
                   <!-- <div id="error"></div> -->
@@ -132,7 +132,7 @@ $(document).ready(function(){
         "order": [],
         // Load data from an Ajax source
         "ajax": {
-            "url": "<?php echo base_url('district/get_district/'); ?>",
+            "url": "<?php echo base_url('banks/get_banks/'); ?>",
             "type": "POST"
         },
         //Set column definition initialisation properties
@@ -161,11 +161,11 @@ function save()
       var url;
       if(save_method == 'add')
       {
-        url = "<?php echo site_url('district/add_district') ?>";
+        url = "<?php echo site_url('banks/add_banks') ?>";
       }
       else
       {
-        url = "<?php echo site_url('district/update_district') ?>";
+        url = "<?php echo site_url('banks/update_banks') ?>";
       }
 
        // ajax adding data to database
@@ -203,10 +203,8 @@ function add()
       save_method = 'add';
       form_reset(); // reset form on modals
       $('#modal_form').modal('show'); // show bootstrap modal
-      $('.modal-title').text('<?php echo ucwords(str_replace('_', ' ', 'add new district')); ?>'); 
-      // Set Title to Bootstrap modal title
+      $('.modal-title').text('<?php echo ucwords(str_replace('_', ' ', 'add new banks')); ?>'); // Set Title to Bootstrap modal title
     }
-
 function form_reset()
     {
     $('#formID')[0].reset(); // reset form on modals
@@ -218,12 +216,12 @@ function form_reset()
 // getData function for get data for editment and updating
   function getData(id)
   {
+    form_reset();
       save_method = 'update';
-      form_reset();
 
       //Ajax Load data from ajax
       $.ajax({
-        url : "<?php echo site_url('district/getData/') ?>/" + id,
+        url : "<?php echo site_url('banks/getData/') ?>/" + id,
         type: "post",
         dataType: "JSON",
         success: function(data)

@@ -7,6 +7,10 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     <?php $this->load->view('templates/alerts');?>
 
       <h1>
+          <?php  
+          //$getAmount = $this->common_model->getSumByColoumn('tbl_retirement_grant', 'grant_amount', 'total_amount', '1', '1');
+          //echo '<pre>'; print_r($getAmount);
+          ?>
         <?php echo ucwords(str_replace('_', ' ', $page_title)); ?>
         <small><?php echo ucwords(str_replace('_', ' ', $description)); ?></small>
       </h1>
@@ -16,30 +20,19 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     <section class="content">
       <div class="box box-success">
             <div class="box-header">
-              <h3 class="box-title pull-left"><?php echo ucwords(str_replace('_', ' ', 'districts detail')); ?></h3>
-             <!--  <h3 class="box-title pull-right">
-                <a href="<?php echo base_url(); ?>add_admin" type="button" class="btn btn-block btn-danger btn-sm"><i class="fa fa-trash-o"> all </i></a></h3> -->
-
-                <h3 class="box-title pull-right">
-
-                  <?php if ($_SESSION['tbl_admin_role_id'] == '1') {?>
-                    <button type="button" onclick="add()" class="btn btn-block btn-success btn-sm">
-                <i class="fa fa-plus"> New </i>
-              </button>
-              <?php }?>
-              </h3>
+              <h3 class="box-title pull-left"><?php echo ucwords(str_replace('_', ' ', 'grants details')); ?></h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
               <table id="ssp_datatable" class="table table-bordered table-striped table-hover table-condensed">
                 <thead>
-                <tr>
-                  <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
-                  <th width="15%"><?php echo ucwords(str_replace('_', ' ', 'district name')); ?></th>
-                  <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th>
-                  <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
-                  <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th>
-                </tr>
+                    <tr>
+                        <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
+                        <th width="15%"><?php echo ucwords(str_replace('_', ' ', 'grants name')); ?></th>
+                        <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Amount')); ?></th>
+                        <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Cases')); ?></th> 
+                        <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Action')); ?></th> 
+                    </tr>
                 </thead>
                 <tbody>
                 </tbody>
@@ -59,7 +52,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo ucwords(str_replace('_', ' ', 'edit district')); ?></h4>
+        <h4 class="modal-title"><?php echo ucwords(str_replace('_', ' ', 'edit grants')); ?></h4>
 
       </div>
       <p class="jquery_alert_modal"></p>
@@ -70,11 +63,11 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
       <div class="modal-body">
 
             <div class="form-group">
-                  <label class="label-control col-md-4"><?php echo $label = ucwords(str_replace('_', ' ', 'district name')); ?>:</label>
+                  <label class="label-control col-md-4"><?php echo $label = ucwords('grants name'); ?>:</label>
                   <div class="col-md-8">
                   <div class="input-group">
                   <div class="input-group-addon">
-                    <i class="fa fa-building-o"></i>
+                    <i class="fa fa-money"></i>
                   </div>
                   <input type="hidden" value="" name="id"/>
                   <!-- <div id="error"></div> -->
@@ -132,7 +125,7 @@ $(document).ready(function(){
         "order": [],
         // Load data from an Ajax source
         "ajax": {
-            "url": "<?php echo base_url('district/get_district/'); ?>",
+            "url": "<?php echo base_url('reports/get_disbursements_list/'); ?>",
             "type": "POST"
         },
         //Set column definition initialisation properties
@@ -142,14 +135,14 @@ $(document).ready(function(){
         }]
     });
 
-            // for form error validation
-            $('#error').html(" ");
+    // for form error validation
+    $('#error').html(" ");
 
-            $('#formID input').on('keyup', function () {
-                $(this).removeClass('is-invalid').addClass('is-valid');
-                $(this).parents('.form-group').find('#error').html(" ");
-            });
-        });
+    $('#formID input').on('keyup', function () {
+        $(this).removeClass('is-invalid').addClass('is-valid');
+        $(this).parents('.form-group').find('#error').html(" ");
+    });
+});
 
 function reload_table()
     {
@@ -161,11 +154,11 @@ function save()
       var url;
       if(save_method == 'add')
       {
-        url = "<?php echo site_url('district/add_district') ?>";
+        url = "<?php echo site_url('grants/add_grants') ?>";
       }
       else
       {
-        url = "<?php echo site_url('district/update_district') ?>";
+        url = "<?php echo site_url('grants/update_grants') ?>";
       }
 
        // ajax adding data to database
@@ -203,8 +196,7 @@ function add()
       save_method = 'add';
       form_reset(); // reset form on modals
       $('#modal_form').modal('show'); // show bootstrap modal
-      $('.modal-title').text('<?php echo ucwords(str_replace('_', ' ', 'add new district')); ?>'); 
-      // Set Title to Bootstrap modal title
+      $('.modal-title').text('<?php echo ucwords(str_replace('_', ' ', 'add new grants')); ?>'); // Set Title to Bootstrap modal title
     }
 
 function form_reset()
@@ -214,7 +206,6 @@ function form_reset()
       $('div[id=error]').html(" ");
 
  };
-
 // getData function for get data for editment and updating
   function getData(id)
   {
@@ -223,7 +214,7 @@ function form_reset()
 
       //Ajax Load data from ajax
       $.ajax({
-        url : "<?php echo site_url('district/getData/') ?>/" + id,
+        url : "<?php echo site_url('grants/getData/') ?>/" + id,
         type: "post",
         dataType: "JSON",
         success: function(data)
@@ -243,7 +234,7 @@ function form_reset()
           }
         });
       // $('#modalEdit').modal('show');
-      // form_reset();
+      // $('#formID')[0].reset();
     }
 
 </script>
