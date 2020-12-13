@@ -21,7 +21,9 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                 <a href="<?php echo base_url(); ?>add_admin" type="button" class="btn btn-block btn-danger btn-sm"><i class="fa fa-trash-o"> all </i></a></h3> -->
 
                 <h3 class="box-title pull-right">
-                    <?php if ($_SESSION['tbl_admin_role_id'] == '1' || $_SESSION['tbl_admin_role_id'] == '4' || $_SESSION['tbl_admin_role_id'] == '6') { ?>
+                    <?php 
+                    //echo 'admin_id = '. $_SESSION['tbl_admin_role_id']; exit;
+                    if ($_SESSION['tbl_admin_role_id'] == '1' || $_SESSION['tbl_admin_role_id'] == '4' || $_SESSION['tbl_admin_role_id'] == '6' || $_SESSION['tbl_admin_role_id'] == '7') { ?>
                         <a href="<?php echo base_url('add_emp_info'); ?>" type="button" class="btn btn-block btn-success btn-sm"><i class="fa fa-plus"> New </i></a>
                     <?php } ?>
                 </h3>

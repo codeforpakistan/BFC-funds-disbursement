@@ -24,7 +24,7 @@ date_default_timezone_set("Asia/Karachi");
 | a PHP script and you can easily do that on your own.
 |
  */
-$config['base_url'] = 'http://localhost/kpitb/bfc/';
+$config['base_url'] = 'http://localhost/projects/kpitb/BFC-funds-disbursement/';
 //$config['base_url'] = 'http://malakand.com.pk/projects/bfc/';
 /*
 |--------------------------------------------------------------------------

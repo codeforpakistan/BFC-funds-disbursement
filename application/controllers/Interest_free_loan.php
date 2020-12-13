@@ -26,12 +26,17 @@ class Interest_free_loan extends MY_Controller {
         //echo 'i m here'; exit();
          
 		$data['page_title'] = 'Add New Interest Free Loan Grant';
-		$data['description'] = '...';
+        $data['description'] = '...';
+        
+        if (!($_SESSION['tbl_admin_role_id'] == '1')) {
+            $emp_array = array('status'=> '1', 'record_add_by'=> $_SESSION['admin_id']);
+        }
+
 		$data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['department'] = $this->common_model->getAllRecordByArray('tbl_department', array('status' => '1'));
         //$data['payment_modes'] = $this->common_model->getAllRecordByArray('tbl_payment_mode', array('status' => '1'));
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
-        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', array('status' => '1'));
+        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array );
         $data['districts'] = $this->common_model->getAllRecordByArray('tbl_district', array('status' => '1'));
         $data['payscales'] = $this->common_model->getAllRecordByArray('tbl_pay_scale', array('status' => '1'));
         $data['posts'] = $this->common_model->getAllRecordByArray('tbl_post', array('status' => '1'));
@@ -91,13 +96,17 @@ class Interest_free_loan extends MY_Controller {
          
 		$data['page_title'] = 'Edit Interest Free Loan Grant';
         $data['description'] = '...';
-        $data['all'] = $this->common_model->getRecordById($id, 'tbl_interest_free_loan');
 
+        if (!($_SESSION['tbl_admin_role_id'] == '1')) {
+            $emp_array = array('status'=> '1', 'record_add_by'=> $_SESSION['admin_id']);
+        }
+
+        $data['all'] = $this->common_model->getRecordById($id, 'tbl_interest_free_loan'); 
 		$data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['department'] = $this->common_model->getAllRecordByArray('tbl_department', array('status' => '1'));
         //$data['payment_modes'] = $this->common_model->getAllRecordByArray('tbl_payment_mode', array('status' => '1'));
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
-        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', array('status' => '1'));
+        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array );
         $data['districts'] = $this->common_model->getAllRecordByArray('tbl_district', array('status' => '1'));
         $data['payscales'] = $this->common_model->getAllRecordByArray('tbl_pay_scale', array('status' => '1'));
         $data['posts'] = $this->common_model->getAllRecordByArray('tbl_post', array('status' => '1'));

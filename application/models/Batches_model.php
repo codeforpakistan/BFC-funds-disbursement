@@ -102,7 +102,7 @@ class Batches_model extends CI_Model {
         $to_app_no = $postData['to_app_no'];
         $tbl_bank_id = $postData['tbl_bank_id'];
         $district_id = $postData['district_id'];
-        $admin_role = $postData['admin_role'];
+        $admin_id = $postData['admin_id'];
 
 
 		## Search
@@ -119,7 +119,9 @@ class Batches_model extends CI_Model {
 		if ($status != '') {
 			$search_arr[] = " status = '" . $status . "' ";
 		}
-
+        if ($admin_id != '') {
+			$search_arr[] = " added_by = '" . $admin_id . "' ";
+        }
 		if ($tbl_grants_id != '') {
 			$search_arr[] = " tbl_grants_id = '" . $tbl_grants_id . "' ";
         }
@@ -174,17 +176,18 @@ class Batches_model extends CI_Model {
 		$i = 1;
 		foreach ($records as $record) {
 
-			if ($record->status == 1) {
-				$status = '<span class="label label-primary">Inprocess</span>';
-			} else if ($record->status == 2) {
-				$status = '<span class="label label-success">Complete</span>';
-			} else if ($record->status == 3) {
-				$status = '<span class="label label-danger">Rejected / Not Approved</span>';
-			} else if ($record->status == 4) {
-                $status = '<span class="label label-success">Approved</span>';
-            }
+			// if ($record->status == 1) {
+			// 	$status = '<span class="label label-primary">Inprocess</span>';
+			// } else if ($record->status == 2) {
+			// 	$status = '<span class="label label-success">Complete</span>';
+			// } else if ($record->status == 3) {
+			// 	$status = '<span class="label label-danger">Rejected / Not Approved</span>';
+			// } else if ($record->status == 4) {
+            //     $status = '<span class="label label-success">Approved</span>';
+            // }
             
-            
+            $get_status = $this->common_model->getRecordByColoumn('tbl_case_status', 'id', $record->status);
+            $status = '<label class="'.$get_status['label'].'">'. $get_status['name']. '</label>';
 
             $applicationNo = $record->application_no;
 

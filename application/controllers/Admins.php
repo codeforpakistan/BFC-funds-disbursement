@@ -110,7 +110,30 @@ class Admins extends MY_Controller {
 			$this->load->view('admin/add_admin');
 			$this->load->view('templates/footer');
 		}
-	}
+    }
+    
+
+    public function get_admin_by_role($id=null) {
+        $data = $this->admin_model->getAdminByRoleId($id);
+        //print_r($data);
+        $dropdown = '<label for="">Select User</label>';
+        $dropdown .= '<select name="admin_id" id="admin_id" class="form-control">';
+        $dropdown .= '<option value="">Select</option>';
+        if(count($data) > 0) {
+            foreach ($data as $key => $value) {
+                $dropdown .= '<option value="'.$value->id.'">'.$value->name.'</option>';
+            } 
+        }
+        $dropdown .= '</select>';
+        echo "<script> 
+            $('#admin_id').change(function() {
+                sspDataTable.draw();
+            });
+        </script>";
+        echo $dropdown;
+        //echo json_encode($data);
+    }
+
 	public function edit_admin($id = null) {
 		if ($this->input->post('submit')) {
 

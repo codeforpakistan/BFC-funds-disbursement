@@ -745,7 +745,7 @@
                     data : formData,
                     dataType: "json",
                     success:function(response) {  
-                        //alert('response = ' + JSON.stringify(response));
+                        alert(JSON.stringify(response));
                         //alert('Status = '+response.status + ' Amount = ' + response.data.amount);
                         if(response.status == 'success')
                         { 

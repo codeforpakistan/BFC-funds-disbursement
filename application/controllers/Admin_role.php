@@ -12,7 +12,8 @@ class Admin_role extends MY_Controller {
 		// 	$this->session->sess_destroy();
 		// 	redirect('admin', 'refresh');
 		// }
-	}
+    }
+    
 	public function add_admin_role() {
 
 		$json = array();

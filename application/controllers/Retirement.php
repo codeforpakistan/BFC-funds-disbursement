@@ -22,12 +22,16 @@ class Retirement extends MY_Controller {
         //echo '<pre>'; print_r($_POST); exit(); 
 
 		$data['page_title'] = 'Add New Retirement Grant';
-		$data['description'] = '...';
+        $data['description'] = '...';
+        
+        if (!($_SESSION['tbl_admin_role_id'] == '1')) {
+            $emp_array = array('status'=> '1', 'record_add_by'=> $_SESSION['admin_id']);
+        }
     
         $data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['payment_modes'] = $this->common_model->getAllRecordByArray('tbl_payment_mode', array('status' => '1'));
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
-        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', array('status' => '1'));
+        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array );
         
         if($id!=''){
             $data['emp_info'] = $this->emp_info_model->getRecordById($id);
@@ -112,11 +116,16 @@ class Retirement extends MY_Controller {
 
 		$data['page_title'] = 'Edit Retirement Grant';
 		$data['description'] = '...';
+
+        if (!($_SESSION['tbl_admin_role_id'] == '1')) {
+            $emp_array = array('status'=> '1', 'record_add_by'=> $_SESSION['admin_id']);
+        }
+
         $data['all'] = $this->common_model->getRecordById($id, 'tbl_retirement_grant');
         $data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['payment_modes'] = $this->common_model->getAllRecordByArray('tbl_payment_mode', array('status' => '1'));
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
-        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', array('status' => '1'));
+        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array);
         $data['emp_info'] = $this->emp_info_model->getRecordById($data['all']['tbl_emp_info_id']);
        
         

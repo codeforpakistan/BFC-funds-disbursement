@@ -63,7 +63,7 @@
                                          
                                         <input type="text" name="pay_scale" id="pay_scale" value="<?php echo $emp_info->pay_scale;?>" class="form-control" readonly>
                                         <input type="hidden" id="pay_scale_id" name="pay_scale_id" value="<?php echo $emp_info->pay_scale_id;?>">
-
+                                        <input type="hidden" name="tbl_district_id" id="tbl_district_id" value="">
                                     </div><?php echo form_error('pay_scale'); ?>
                                 </div>
                             </div> 
@@ -601,6 +601,7 @@
                     success:function(data) { 
                         $('#pay_scale_id').val(data.pay_scale_id);
                         $('#pay_scale').val(data.pay_scale);
+                        $('#tbl_district_id').val(data.tbl_district_id); 
                         $('#doa').val('');
                         $('#dor').val('');   
                         $('#grant_amount').val('');
@@ -610,7 +611,8 @@
                 });
             }else{
                 $('#pay_scale_id').val('');
-                $('#pay_scale').val(''); 
+                $('#pay_scale').val('');
+                $('#tbl_district_id').val('');  
                 $('#doa').val('');
                 $('#dor').val('');   
                 $('#grant_amount').val('');

@@ -165,8 +165,13 @@
                                     <?php } ?>
                                 </select> 
                             </div><?php echo form_error('admin_role'); ?>
-                        </div>
+                        </div> 
+                    </div>
 
+                    <div class="col-md-3">
+                        <div class="form-group" id="admin_dropdown">
+                            
+                        </div>
                     </div>
                 </div>
 
@@ -262,9 +267,7 @@
             "searching": false,
 
             // Load data from an Ajax source
-            "ajax": {
-                //"url": "<?php //echo base_url('form_8a/get_form_8a_report/'); ?>",
-                // "type": "POST"
+            "ajax": { 
                 "url": "<?php echo base_url('batches/get_reports/'); ?>",
                 'data': function(data) {
                     //alert(JSON.stringify(data)); 
@@ -276,7 +279,7 @@
                     data.to_app_no = $('#to_app_no').val();
                     data.tbl_bank_id = $('#tbl_bank_id').val();
                     data.district_id = $('#district_id').val();
-                    data.admin_role = $('#admin_role').val();
+                    data.admin_id = $('#admin_id').val();
 
                     //data.tbl_bank_id = $('#tbl_bank_id').val();
                     //data.keyword = $('#keyword').val();
@@ -317,8 +320,26 @@
             }]
         });
 
+        $('#admin_role').change(function() {
+            var base_url = "<?php echo base_url(); ?>";
+            var admin_role = $('#admin_role').val();
+            if (admin_role) {
+                $.ajax({
+                    url: base_url + 'admins/get_admin_by_role/' + admin_role, 
+                    type: "post", 
+                    success: function(data) {
+                        $('#admin_dropdown').html(data);
+                        //alert(JSON.stringify(data));
+                        //$('[name="pay_scale"]').val(data.pay_scale_name);
+                        //$('[name="pay_scale_id"]').val(data.payscaleid);
+                    }
+                });
+            } else {
+                //$('select[id="pay_scale"]').empty();
+            }
+        });
 
-        $('#tbl_grants_id, #admin_role, #district_id, #tbl_bank_id').change(function() {
+        $('#tbl_grants_id, #district_id, #admin_id, #tbl_bank_id').change(function() {
             sspDataTable.draw();
         });
 
@@ -349,8 +370,7 @@
 <script type="text/javascript">
     $(function() {
         $('#from_date').datetimepicker({
-            useCurrent: false,
-            // defaultDate: null,
+            useCurrent: false, 
             format: "DD-MM-YYYY",
             showTodayButton: true,
             ignoreReadonly: true

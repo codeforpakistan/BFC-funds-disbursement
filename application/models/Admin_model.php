@@ -109,7 +109,17 @@ class Admin_model extends CI_Model {
 			return $query->result_array();
 		}
 
-	}
+    }
+    
+
+    public function getAdminByRoleId($roleId) {
+        $this->db->select('id, username, name');
+        $this->db->from('tbl_admin');  
+        $this->db->where('tbl_admin_role_id', $roleId); 
+        $this->db->order_by("id", "desc"); 
+        $query = $this->db->get();
+        return $query->result(); 
+    }
 
 	public function check_username_exists($username) {
 		$query = $this->db->get_where('tbl_admin', array('username' => $username));
