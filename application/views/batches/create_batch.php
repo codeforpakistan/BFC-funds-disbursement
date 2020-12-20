@@ -130,22 +130,22 @@
                         </div> 
                     </div>
 
-                    <div class="col-md-3"> 
+                    <!-- <div class="col-md-3"> 
                         <div class="form-group">
-                            <label><?php echo $label = ucwords('District'); ?>:</label>
+                            <label><?php //echo $label = ucwords('District'); ?>:</label>
                             <div class="input-group">
                                 <div class="input-group-addon">
                                     <i class="fa fa-user"></i>
                                 </div>  
                                 <select name="district_id" id="district_id" class="form-control select2">
                                     <option value="">Select District</option>
-                                    <?php foreach($districts as $district) { ?>
-                                        <option value="<?=$district['id'];?>"><?=$district['name'];?></option>
-                                    <?php } ?>
+                                    <?php //foreach($districts as $district) { ?>
+                                        <option value="<? //=$district['id'];?>"><? //=$district['name'];?></option>
+                                    <?php //} ?>
                                 </select>
-                            </div><?php echo form_error('district_id'); ?>
+                            </div><?php //echo form_error('district_id'); ?>
                         </div> 
-                    </div>
+                    </div> -->
 
                 </div>
  

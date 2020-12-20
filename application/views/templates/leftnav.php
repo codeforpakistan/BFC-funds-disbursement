@@ -41,12 +41,9 @@ if ($_SESSION['admin_id']) {
                         <?php if ($_SESSION['tbl_admin_role_id'] == 1) { ?>
                             <li><a href="<?php echo base_url('add_admin'); ?>"><i class="fa fa-plus"></i> Add</a></li>
                         <?php } ?>
-                        <li><a href="<?php echo base_url('view_admin'); ?>"><i class="fa fa-circle-o"></i> View </a></li>
                         <?php if ($_SESSION['tbl_admin_role_id'] == 1) { ?>
-
-                            <li>
-                                <a href="<?php echo base_url('view_admin_role'); ?>"><i class="fa fa-user"></i> <span>Role Manag.</span></a>
-                            </li>
+                            <li><a href="<?php echo base_url('view_admin'); ?>"><i class="fa fa-circle-o"></i> View </a></li>
+                            <li><a href="<?php echo base_url('view_admin_role'); ?>"><i class="fa fa-user"></i> <span>Role Manag.</span></a></li>
                         <?php } ?>
                     </ul>
                 </li>

@@ -502,7 +502,8 @@ class Scholarship_model extends CI_Model {
         if (!($_SESSION['tbl_admin_role_id'] == '1') && !($_SESSION['tbl_admin_role_id'] == '7') && !($_SESSION['tbl_admin_role_id'] == '2')) {
             $this->db->where('record_add_by', $_SESSION['admin_id']);
         }
-		$query = $this->db->get();
+        $query = $this->db->get();
+        //echo $this->db->last_query();
 		return $query->result();
 	}
 
@@ -513,7 +514,7 @@ class Scholarship_model extends CI_Model {
         $this->db->from($this->table);
         if (!($_SESSION['tbl_admin_role_id'] == '1') && !($_SESSION['tbl_admin_role_id'] == '7') && !($_SESSION['tbl_admin_role_id'] == '2')) {
             $this->db->where('record_add_by', $_SESSION['admin_id']);
-        }
+        } 
 		return $this->db->count_all_results();
 	}
 
@@ -522,6 +523,7 @@ class Scholarship_model extends CI_Model {
 		     * @param $_POST filter data based on the posted parameters
 	*/
 	public function countFiltered($postData) {
+        
         $this->_get_datatables_query($postData);
         if (!($_SESSION['tbl_admin_role_id'] == '1') && !($_SESSION['tbl_admin_role_id'] == '7') && !($_SESSION['tbl_admin_role_id'] == '2')) {
             $this->db->where('record_add_by', $_SESSION['admin_id']);

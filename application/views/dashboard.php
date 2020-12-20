@@ -15,7 +15,7 @@
 
         <? //echo '<pre>'; print_r($_SESSION); exit; ?>
 
-        <?php if ($_SESSION['admin_id'] == 1) {  ?>
+        
 
             <!-- <div class="box box-info">
                 <div class="box-header with-border">
@@ -177,6 +177,9 @@
                         </div>
                     </a>
                 </div>
+                    
+
+            <?php if ($_SESSION['admin_id'] == 1) {  ?>
 
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
@@ -211,13 +214,8 @@
                     </a>
                 </div>
 
-            </div>
-
-
-
-            <div class="row">
-
-                <!-- ./col -->
+            
+ 
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
                     <a href="<?php echo base_url('view_emp_info'); ?>">
@@ -234,8 +232,7 @@
                     </a>
                 </div>
 
-
-                <!-- ./col -->
+ 
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
                     <a href="<?php echo base_url('view_banks'); ?>">
@@ -250,14 +247,13 @@
                             <span class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></span>
                         </div>
                     </a>
-                </div>
-                <!-- ./col -->
-                <!-- ./col -->
-
+                </div> 
+                
+            <?php } ?>
 
             </div>
 
-        <?php } ?>
+        
 
 
     </section>

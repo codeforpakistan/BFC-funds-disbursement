@@ -35,7 +35,7 @@ class Batches_model extends CI_Model {
     }
 
     public function get_sum_amount_transaction() {
-
+ 
         $application_no = $this->input->post('application_no');  
         
         $this->db->select('SUM(amount) as amount');
@@ -270,9 +270,15 @@ class Batches_model extends CI_Model {
         //$batch_no = date('Ymd');
        
         foreach ($postData as $key => $value) { 
+            $getApplication = $this->common_model->getRecordByColoumn('tbl_grants_has_tbl_emp_info_gerund', 'application_no', $value);
+            $districtID = $getApplication['tbl_district_id'];
+            $grantID = $getApplication['tbl_grants_id'];
+
             $data = array( 
                 'batch_no'=> $batch_no, 
                 'application_no' => $value,  
+                'tbl_grants_id' => $grantID,
+                'tbl_district_id' => $districtID,  
                 'record_add_date' => date('Y-m-d H:i:s'),
                 'record_add_by' => $_SESSION['admin_id'],
                 'status' => '1',

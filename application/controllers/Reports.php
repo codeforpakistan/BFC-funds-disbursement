@@ -132,7 +132,7 @@ class Reports extends MY_Controller {
 
             $tbl_name = $grantsInfo->tbl_name;
 
-            $getAmount = $this->common_model->getSumByColoumn($tbl_name, 'grant_amount', 'total_amount', '1', '1');
+            $getAmount = $this->common_model->getSumByColoumn($tbl_name, 'net_amount', 'total_amount', '1', '1');
             $total_amount = 'Rs. '. $getAmount['total_amount'];
   
             $cases = $this->common_model->getCountAll($tbl_name);

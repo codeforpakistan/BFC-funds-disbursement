@@ -6,7 +6,8 @@ class Common_model extends CI_Model {
 	}
 	public function getAllRecordByArray($tbl_name, $array) {
 		$this->db->order_by('id', 'desc');
-		$query = $this->db->get_where($tbl_name, $array);
+        $query = $this->db->get_where($tbl_name, $array);
+        
 		return $query->result_array();
 	}
 	public function getAllRecordByArrayGroupBy($tbl_name, $group_by, $array) {
@@ -64,11 +65,27 @@ class Common_model extends CI_Model {
 		return $query->result_array();
     }
     public function getSumByColoumn($tbl_name, $field, $alias, $tbl_col, $value) {
+        // $this->db->select('SUM('.$field.') as '.$alias);
+        // $this->db->from($tbl_name);
+		// $this->db->where( $tbl_col, $value);
+		// $query = $this->db->get();
+        // return $query->row_array();  
+
         $this->db->select('SUM('.$field.') as '.$alias);
-        $this->db->from($tbl_name);
-		$this->db->where( $tbl_col, $value);
-		$query = $this->db->get();
-        return $query->row_array(); 
+        $this->db->from($tbl_name);  
+        $this->db->where($tbl_col, $value);  
+        $query = $this->db->get();
+        $result = $query->row_array(); 
+        $amount = $result['amount']; 
+
+        //return $this->db->last_query();
+
+        if($amount > 0) {
+            return $amount;
+        } else {
+            return '0';
+        }
+
 	}
     public function getCountAll($tbl_name){
         $counter = $this->db->count_all($tbl_name);

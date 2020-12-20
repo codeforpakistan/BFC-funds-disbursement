@@ -321,15 +321,17 @@ class Reports_model extends CI_Model {
 		if ($from_date != '' && $to_date != '') {
 			$from_date = date('Y-m-d', strtotime($postData['from_date']));
 			$to_date = date('Y-m-d', strtotime($postData['to_date']));
-			$search_arr[] = " date_added BETWEEN '" . $from_date . "' and '" . $to_date . "' ";
+			$search_arr[] = " status_dated BETWEEN '" . $from_date . "' and '" . $to_date . "' ";
 		}
 		if ($district != '') {
-			$search_arr[] = " status = '" . $district . "' ";
+			$search_arr[] = " tbl_district_id = '" . $district . "' ";
 		}
 
 		if ($tbl_grants_id != '') {
 			$search_arr[] = " tbl_grants_id = '" . $tbl_grants_id . "' ";
         } 
+
+        $search_arr[] = " status = '4' ";
 
 		if (count($search_arr) > 0) {
 			$searchQuery = implode(" and ", $search_arr);
@@ -343,25 +345,29 @@ class Reports_model extends CI_Model {
 
 		## Total number of records without filtering
 		$this->db->select('count(*) as allcount');
-        $this->db->group_by('batch_no');
+        $this->db->group_by('tbl_district_id');
 		$records = $this->db->get('tbl_batches')->result();
-		$totalRecords = $records[0]->allcount;
+        $totalRecords = $records[0]->allcount;
+        //echo '<br>total = '. $totalRecords;
+        
 
         ## Total number of record with filtering
-        $this->db->group_by('batch_no');
-		$this->db->select('count(*) as allcount');
+        $this->db->select('count(*) as allcount');
+        $this->db->group_by('tbl_district_id');
 		if ($searchQuery != '') {
 			$this->db->where($searchQuery);
 		}
 	 
 		$records = $this->db->get('tbl_batches')->result();
 		$totalRecordwithFilter = $records[0]->allcount;
-		## Fetch records
-		$this->db->select('*');
+        //echo '<br>totalFilter = '. $totalRecordwithFilter;
+        
+        ## Fetch records
+		$this->db->select('count(*) as cases, batch_no, application_no, tbl_grants_id, tbl_district_id, record_add_date, record_add_by, status, status_dated');
 		if ($searchQuery != '') {
 			$this->db->where($searchQuery);
 		} 
-        $this->db->group_by('batch_no');
+        $this->db->group_by('tbl_district_id');
 		$this->db->order_by($columnName, $columnSortOrder);
 		$this->db->limit($rowperpage, $start);
 		$this->db->order_by('id', 'desc');
@@ -373,39 +379,46 @@ class Reports_model extends CI_Model {
 		$i = 1;
 		foreach ($records as $record) {
 
-			// if ($record->status == 1) {
-			// 	$status = '<span class="label label-primary">Inprocess</span>';
-			// } else if ($record->status == 2) {
-			// 	$status = '<span class="label label-success">Complete</span>';
-			// } else if ($record->status == 3) {
-			// 	$status = '<span class="label label-danger">Rejected / Not Approved</span>';
-			// } else if ($record->status == 4) {
-            //     $status = '<span class="label label-success">Approved</span>';
-            // }
+		 
             
             // $get_status = $this->common_model->getRecordByColoumn('tbl_case_status', 'id', $record->status);
             // $status = '<label for="" class="'.$get_status['label'].' label-sm">'.$get_status['name'] .'</label>';
 
-            $applicationNo = $record->application_no;
+            //$applicationNo = $record->application_no;
+            $district_id = $record->tbl_district_id;
+            $cases  =   $record->cases;
+            $batch_no  =   $record->batch_no;
 
-            $grantID = $record->tbl_grants_id; 
-            $getGrantDetails = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $grantID);
-            $grant_type = $getGrantDetails['name'];
-            $grant_tbl_name = $getGrantDetails['tbl_name'];
-            
-            //$get_status = $this->common_model->getRecordByColoumn('tbl_case_status', 'id', $record->status);
+            $cond = array('batch_no' => $batch_no ); //'status' => '4'
+            $get_apps = $this->common_model->getAllRecordByArray('tbl_batches', $cond);
+            //echo $this->db->last_query();
+            //echo '<pre>'; print_r($get_apps);
+            $amount = 0;
+            foreach ($get_apps as $key => $app) {
+                $application_no = $app['application_no'];
+                $amount_paid = $this->common_model->getSumByColoumn('tbl_transactions', 'amount', 'amount', 'application_no', $application_no);
+                  
+            }
+
+            //$get_apps = $this->common_model->getAllRecordByColoumn('tbl_batches', 'batch_no', $batch_no);
+
+            // $grantID = $record->tbl_grants_id; 
+            // $getGrantDetails = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $grantID);
+            // $grant_type = $getGrantDetails['name'];
+            // $grant_tbl_name = $getGrantDetails['tbl_name'];
              
+            $get_district = $this->common_model->getRecordByColoumn('tbl_district', 'id', $district_id);
+            $district_name = $get_district['name'];
 
-            
-            $recordAddDate = date("d-M-Y", strtotime($record->record_add_date)); 
+            $recordAddDate = date("d-M-Y", strtotime($record->status_dated)); 
  
             //$input = '<input type="checkbox" name="selectall[]" id="selectall" value="'.$applicationNo.'">';
             
 			$data[] = array( 
                 "no" => $i, 
-				"District" => $applicationNo,
+				"District" => $district_name,
 				"Cases" => $cases,
-				"Amount" => $amount, 
+				"Amount" => $amount_paid, 
 				"DateAdded" => $recordAddDate 
 			);
 			$i++;

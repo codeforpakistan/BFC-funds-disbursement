@@ -71,7 +71,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'department')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Office / Department')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-industry"></i>
@@ -88,7 +88,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'duty_place')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Place of Duty')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-industry"></i>
@@ -103,7 +103,7 @@
                         <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'student_name')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Name of Student')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-graduation-cap"></i>
@@ -115,7 +115,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'class_pass')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Class Passed')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-home"></i>
@@ -135,7 +135,7 @@
                         <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'examination_pass')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Exam Passed (Science / Arts) Subject')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-file"></i>
@@ -147,7 +147,7 @@
                             </div>
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'result_date')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Date of Declaration of Result')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
@@ -162,7 +162,7 @@
                         <div class="row">
                             <div class="col-md-6">  
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'marks_obtained')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Marks Obtained')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calculator"></i>
@@ -174,7 +174,7 @@
                             </div>
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'total_marks')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Total Marks')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calculator"></i>
@@ -201,7 +201,7 @@
                             </div>
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'institute_name')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Name of Institute')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-building"></i>
@@ -216,7 +216,7 @@
                         <div class="row">
                             <div class="col-md-6">  
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'institute_address')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Address of Institute')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-map-marker"></i>

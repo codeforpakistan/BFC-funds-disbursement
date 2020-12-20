@@ -290,8 +290,8 @@ class Scholarship extends MY_Controller {
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->grants_model->countAll(),
-			"recordsFiltered" => $this->grants_model->countFiltered($_POST),
+			"recordsTotal" => $this->scholarship_model->countAll(),
+			"recordsFiltered" => $this->scholarship_model->countFiltered($_POST),
 			"data" => $data,
 		);
 
