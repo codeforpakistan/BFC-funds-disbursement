@@ -28,8 +28,7 @@
 
                                 <input type="text" readonly autocomplete="off" value="" name="from_date" id="from_date" class="form-control validate[required,minSize[1]" placeholder="Enter <?php echo $label; ?>" />
                             </div><?php echo form_error('from_date'); ?>
-                        </div>
-
+                        </div> 
                     </div>
 
                     <div class="col-md-3">
@@ -42,8 +41,7 @@
 
                                 <input type="text" readonly autocomplete="off" value="" name="to_date" id="to_date" class="form-control validate[required,minSize[1]" placeholder="Enter <?php echo $label; ?>" />
                             </div><?php echo form_error('to_date'); ?>
-                        </div>
-
+                        </div> 
                     </div>
 
                     <div class="col-md-3"> 
@@ -63,8 +61,7 @@
                         </div> 
                     </div>
 
-                    <div class="col-md-3">
-
+                    <div class="col-md-3"> 
                         <div class="form-group">
                             <label><?php echo $label = ucwords('Districts'); ?>:</label>
                             <div class="input-group">
@@ -79,8 +76,7 @@
                                     <?php } ?>
                                 </select>
                             </div><?php echo form_error('district'); ?>
-                        </div>
-
+                        </div> 
                     </div>
 
                 </div>
@@ -141,9 +137,7 @@
 <script type="text/javascript">
     var save_method; //for save method string
     var sspDataTable;
-    $(document).ready(function() { 
-
-        
+    $(document).ready(function() {  
 
         sspDataTable = $('#ssp_datatable').DataTable({
             // Processing indicator
@@ -158,9 +152,7 @@
             "searching": false,
 
             // Load data from an Ajax source
-            "ajax": {
-                //"url": "<?php //echo base_url('form_8a/get_form_8a_report/'); ?>",
-                // "type": "POST"
+            "ajax": { 
                 "url": "<?php echo base_url('reports/get_grant_released/'); ?>",
                 'data': function(data) {
                     //alert(JSON.stringify(data));
@@ -168,7 +160,7 @@
                     data.from_date = $('#from_date').val();
                     data.to_date = $('#to_date').val();
                     data.tbl_grants_id = $('#tbl_grants_id').val(); 
-                    data.batch_status = $('#district').val();
+                    data.district = $('#district').val();
 
                     //data.tbl_bank_id = $('#tbl_bank_id').val();
                     //data.keyword = $('#keyword').val();

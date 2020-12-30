@@ -86,18 +86,18 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
             </div>
 
             <div class="form-group">
-                  <label class="label-control col-md-4"><?php echo $label = ucwords('status') ?>:</label>
-                  <div class="col-md-8">
-                  <div class="input-group">
-                  <!-- <div class="input-group-addon">
-                    <i class="fa fa-check"></i>
-                  </div> -->
+                <label class="label-control col-md-4"><?php echo $label = ucwords('status') ?>:</label>
+                <div class="col-md-8">
+                    <div class="input-group">
+                    <!--  <div class="input-group-addon">
+                        <i class="fa fa-check"></i>
+                    </div> -->
                     <input type="radio" id="status" name="status" value="1"> Active
                     <input type="radio" id="status" name="status" value="0"> Inactive
-                  </div><div id="error"></div>
+                    </div><div id="error"></div>
                 </div>
             </div>
-                    <!-- </div> -->
+                     
 
       </div>
           <?php echo form_close(); ?>

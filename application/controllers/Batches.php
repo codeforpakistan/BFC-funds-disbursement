@@ -110,6 +110,39 @@ class Batches extends MY_Controller {
     }
 
 
+    public function add_app_to_batch(){
+        
+        $postData = $this->input->post();
+        echo '<pre>'; print_r($postData); 
+        exit;
+        
+        // $json = array();
+        // //print_r($this->input->post());
+		// $this->form_validation->set_rules('application_number', ucwords(str_replace('_', ' ', 'application_number')), 'required|xss_clean|trim|min_length[3]|max_length[25]');
+		// $this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
+
+		// if ($this->form_validation->run() === FALSE) {
+
+		// 	$json = array(
+		// 		'application_number' => form_error('application_number'), 
+		// 	);
+		// 	echo json_encode($json);
+
+		// } else {
+		// 	$result = $this->batches_model->add_application_to_batch();
+
+		// 	$json = array(
+		// 		'success' => false,
+		// 	);
+		// 	if ($result) {
+		// 		$json = array(
+		// 			'success' => true,
+		// 		);
+		// 	}
+		// 	echo json_encode($json);
+        // }
+        
+    }
 
     public function add_transaction() {
 
@@ -150,7 +183,7 @@ class Batches extends MY_Controller {
             //checking...
             if($remaining_amount >= $amount_to_send) {
             
-                $result = $this->batches_model->add_transaction(); 
+                $result = $this->batches_model->add_transaction($tbl_grant_id); 
                 $json = array(
                     'success' => false,
                 );
@@ -201,7 +234,8 @@ class Batches extends MY_Controller {
 
     public function batch_details($id = null) { 
          
-		$data['page_title'] = 'Batch Details: ' . $id;
+        $data['page_title'] = 'Batch Details: ' . $id;
+        $data['batch_number'] = $id;
         $data['description'] = '...';  
         $data['batch_nmbr'] =  $id;
         $data['applications'] = $this->common_model->getAllRecordByArray('tbl_batches', array('batch_no' => $id));

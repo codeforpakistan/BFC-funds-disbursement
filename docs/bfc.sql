@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 09, 2020 at 02:35 PM
+-- Generation Time: Dec 30, 2020 at 11:17 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.3.9
 
@@ -82,10 +82,10 @@ CREATE TABLE `tbl_admin_role` (
 --
 
 INSERT INTO `tbl_admin_role` (`id`, `name`, `status`, `record_add_by`, `record_add_date`) VALUES
-(1, 'Admin', 1, 1, '2020-07-20 02:48:43'),
+(1, 'Super Admin', 1, 1, '2020-07-20 02:48:43'),
 (2, 'Secretary Office', 1, 1, '2020-07-20 02:49:58'),
 (3, 'Account Section', 1, 1, '2020-07-20 02:50:15'),
-(4, 'Welfare Section', 1, 1, '2020-07-20 02:50:43'),
+(4, 'Gazetted Officer', 1, 1, '2020-07-20 02:50:43'),
 (5, 'Issue Branch', 1, 1, '2020-07-20 02:51:03'),
 (6, 'DC Office', 1, 1, '2020-07-20 02:51:11'),
 (7, 'Secretariat Office', 1, 1, '2020-07-20 02:51:45');
@@ -124,37 +124,21 @@ CREATE TABLE `tbl_batches` (
   `id` int(11) NOT NULL,
   `batch_no` varchar(255) NOT NULL,
   `application_no` varchar(255) NOT NULL,
+  `tbl_grants_id` int(11) NOT NULL,
   `tbl_district_id` int(11) NOT NULL,
   `record_add_date` varchar(255) NOT NULL,
   `record_add_by` varchar(255) NOT NULL,
-  `status` int(11) NOT NULL
+  `status` int(11) NOT NULL,
+  `status_dated` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `tbl_batches`
 --
 
-INSERT INTO `tbl_batches` (`id`, `batch_no`, `application_no`, `tbl_district_id`, `record_add_date`, `record_add_by`, `status`) VALUES
-(1, '20201122-1', '10000019', 1, '2020-11-22 21:41:37', '1', 3),
-(2, '20201122-1', '10000018', 1, '2020-11-22 21:41:37', '1', 6),
-(3, '20201122-1', '10000017', 1, '2020-11-22 21:41:37', '1', 5),
-(4, '20201122-1', '10000016', 1, '2020-11-22 21:41:37', '1', 4),
-(5, '20201122-2', '10000015', 2, '2020-11-22 21:42:06', '1', 3),
-(6, '20201122-2', '10000014', 2, '2020-11-22 21:42:06', '1', 3),
-(7, '20201122-2', '10000013', 2, '2020-11-22 21:42:06', '1', 3),
-(8, '20201122-2', '10000012', 3, '2020-11-22 21:42:06', '1', 3),
-(9, '20201122-3', '10000011', 3, '2020-11-22 22:09:16', '1', 3),
-(10, '20201122-3', '10000010', 3, '2020-11-22 22:09:16', '1', 3),
-(11, '20201125-1', '10000009', 4, '2020-11-25 01:46:15', '1', 3),
-(12, '20201125-1', '10000008', 4, '2020-11-25 01:46:16', '1', 3),
-(13, '20201125-1', '10000007', 5, '2020-11-25 01:46:16', '1', 3),
-(14, '20201208-1', '10000025', 0, '2020-12-08 10:50:37', '1', 1),
-(15, '20201208-2', '10000025', 0, '2020-12-08 10:52:46', '1', 1),
-(16, '20201208-2', '10000024', 0, '2020-12-08 10:52:46', '1', 1),
-(17, '20201208-2', '10000023', 0, '2020-12-08 10:52:46', '1', 1),
-(18, '20201208-3', '10000019', 0, '2020-12-08 11:05:33', '1', 1),
-(19, '20201208-4', '10000026', 0, '2020-12-08 11:11:18', '1', 1),
-(20, '20201208-4', '10000022', 0, '2020-12-08 11:11:18', '1', 1);
+INSERT INTO `tbl_batches` (`id`, `batch_no`, `application_no`, `tbl_grants_id`, `tbl_district_id`, `record_add_date`, `record_add_by`, `status`, `status_dated`) VALUES
+(1, '20201221-1', '10000005', 6, 3, '2020-12-21 02:10:44', '1', 1, '2020-12-21'),
+(2, '20201221-1', '10000004', 5, 3, '2020-12-21 02:10:45', '1', 1, '2020-12-21');
 
 -- --------------------------------------------------------
 
@@ -335,7 +319,9 @@ INSERT INTO `tbl_emp_info` (`id`, `grantee_name`, `father_name`, `contact_no`, `
 (3, 'Ali Muhammad', 'Ali Khan', '35465432156', 'married', 2, 2, 'BS-16', 16, 2, 'This is test address', 'Other addrress', '1540279864425', '321654', '1996-06-12', 1, '2020-09-23 13:05:48', 1),
 (4, 'Shahab Hussain', 'Hussain Ali', '03459270525', 'married', 22, 2, 'BS-16', 16, 3, 'Test address is here', 'other address goes here', '1540279479435', '2575525', '1986-06-18', 10, '2020-11-04 12:19:33', 1),
 (5, 'Irfan', 'Raza', '034559887622', 'married', 21, 2, 'BS-16', 16, 2, 'This is test office address', 'This is test other address', '1540298749879', '100225', '1980-06-17', 1, '2020-11-17 11:06:16', 1),
-(6, 'Dawood', 'Raza', '5464654466', 'married', 22, 2, 'BS-16', 16, 2, 'test office address', 'test other address', '5154027955986', '2020', '2020-11-17', 13, '2020-11-17 11:31:44', 1);
+(6, 'Dawood', 'Raza', '5464654466', 'married', 22, 2, 'BS-16', 16, 2, 'test office address', 'test other address', '5154027955986', '2020', '2020-11-17', 13, '2020-11-17 11:31:44', 1),
+(7, 'Ahmad', 'Ali', '216354321351', 'married', 23, 2, 'BS-16', 16, 3, 'This is test office address', 'this is test other address', '1540298765432', '23546321', '2020-12-13', 11, '2020-12-13 15:52:04', 1),
+(8, 'Zahid Hussain', 'Shahid Hussain', '033312365478', 'married', 23, 1, 'BS-01', 1, 3, 'This is test address', 'This is other address', '1544022344278', '23322211', '2020-12-21', 10, '2020-12-21 00:28:59', 1);
 
 -- --------------------------------------------------------
 
@@ -389,12 +375,7 @@ CREATE TABLE `tbl_funeral_grant` (
 --
 
 INSERT INTO `tbl_funeral_grant` (`id`, `application_no`, `record_no`, `record_no_year`, `doa`, `name_deceased`, `dor`, `los`, `dept_letter_no`, `dept_letter_no_date`, `grant_amount`, `deduction`, `net_amount`, `tbl_case_status_id`, `tbl_payment_mode_id`, `tbl_list_bank_branches_id`, `account_no`, `bank_verification`, `sign_of_applicant`, `s_n_office_dept_seal`, `s_n_dept_admin_seal`, `cnic_attach`, `payroll_attach`, `dc_attach`, `bf_contribution_attach`, `boards_approval`, `ac_edit`, `sent_to_secretary`, `approve_secretary`, `sent_to_bank`, `feedback_website`, `record_add_by`, `record_add_date`, `repeat_case`, `tbl_emp_info_id`, `tbl_district_id`, `gazette`) VALUES
-(1, '', '21313123', '2442', '2020-08-27', 'test namw', '2020-08-31', '234', '4234234', '2020-08-06', '234234', '234', '234234', 1, 2, 2, '24234234234', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 1, 1, 1, 1, 1, 'This is test feedback This is test feedback This is test feedback This is test feedback This is test', 1, '2020-08-26 02:53:59', 0, 0, 0, 0),
-(2, '', '21313123', '2442', '2020-08-27', 'test namw', '2020-08-31', '234', '4234234', '2020-08-06', '234234', '234', '234234', 1, 2, 2, '24234234234', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 1, 1, 1, 1, 1, 'This is test feedback This is test feedback This is test feedback This is test feedback This is test', 1, '2020-08-26 02:54:48', 0, 0, 0, 0),
-(3, '', '132123213', '2016', '2013-06-12', 'Khan Muhammad', '2017-12-19', '4 year(s) 6 month(s) 8 and day(s)', '123123', '2020-10-21', '6000', '1000', '5000', 2, 2, 2, '1231321313123', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-10-02 12:20:19', 0, 2, 0, 0),
-(4, '', '123123123', '2009', '2016-02-02', 'Ali Raza', '2016-10-05', '0 year(s) 8 month(s) 2 and day(s)', '12313123', '2020-10-20', '6000', '1000', '5000', 2, 2, 2, '131312312313', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 0, 0, 0, 0, 0, '', 1, '2020-10-20 09:05:31', 0, 2, 0, 0),
-(5, '1589763357', '234234234', '2020', '2011-02-01', 'Xyz khan', '2030-11-13', '19 year(s) 9 month(s) 16 and day(s)', '234234234', '2020-12-02', '10000', '0', '10000', 1, 2, 2, '564631654', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-11-10 16:06:09', 0, 2, 0, 0),
-(6, '10000022', '321543231', '2020', '2020-11-01', 'Ali', '2020-11-30', '0 year(s) 0 month(s) 29 and day(s)', '203135132', '2020-12-08', '10000', '1000', '9000', 3, 2, 2, '24234234324', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-11-25 10:17:00', 0, 2, 0, 0);
+(1, '10000003', '24323222', '2020', '2001-01-30', 'Ali', '2012-01-31', '11 year(s) 0 month(s) 3 and day(s)', '2322456', '2020-12-21', '6000', '0', '6000', 3, 2, 2, '24324232211', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 10, '2020-12-21 00:31:46', 0, 8, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -500,6 +481,8 @@ CREATE TABLE `tbl_grants_has_tbl_emp_info_gerund` (
   `tbl_emp_info_id` int(11) NOT NULL,
   `application_no` varchar(255) NOT NULL,
   `tbl_district_id` int(11) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `added_by` int(11) NOT NULL,
   `gazette` tinyint(1) NOT NULL,
   `date_added` datetime NOT NULL DEFAULT current_timestamp(),
   `batch_status` tinyint(1) NOT NULL,
@@ -510,35 +493,12 @@ CREATE TABLE `tbl_grants_has_tbl_emp_info_gerund` (
 -- Dumping data for table `tbl_grants_has_tbl_emp_info_gerund`
 --
 
-INSERT INTO `tbl_grants_has_tbl_emp_info_gerund` (`id`, `tbl_grants_id`, `tbl_emp_info_id`, `application_no`, `tbl_district_id`, `gazette`, `date_added`, `batch_status`, `status`) VALUES
-(1, 1, 4, '10000001', 0, 0, '2020-11-01 00:00:00', 0, 1),
-(2, 5, 4, '10000002', 0, 0, '2020-11-02 00:00:00', 0, 1),
-(3, 5, 4, '10000003', 0, 0, '2020-11-03 00:00:00', 0, 1),
-(4, 5, 4, '10000004', 0, 0, '2020-11-03 00:00:00', 0, 1),
-(5, 5, 4, '10000005', 0, 0, '2020-11-08 00:00:00', 0, 1),
-(6, 5, 4, '10000006', 0, 0, '2020-11-09 00:00:00', 0, 1),
-(7, 5, 4, '10000007', 0, 0, '2020-11-10 00:00:00', 1, 1),
-(8, 5, 4, '10000008', 0, 0, '2020-11-10 00:00:00', 1, 1),
-(9, 1, 4, '10000009', 0, 0, '2020-11-13 00:00:00', 1, 1),
-(10, 1, 4, '10000010', 0, 0, '2020-11-13 00:00:00', 1, 1),
-(11, 1, 4, '10000011', 0, 0, '2020-11-16 00:00:00', 1, 1),
-(12, 1, 0, '10000012', 0, 0, '2020-11-17 10:33:46', 1, 2),
-(13, 1, 0, '10000013', 0, 0, '2020-11-17 10:35:18', 1, 2),
-(14, 1, 0, '10000014', 0, 0, '2020-11-17 10:35:28', 1, 2),
-(15, 1, 0, '10000015', 0, 0, '2020-11-17 10:36:06', 1, 2),
-(16, 1, 5, '10000016', 0, 0, '2020-11-17 11:13:56', 1, 1),
-(17, 6, 5, '10000017', 0, 0, '2020-11-17 11:16:56', 1, 1),
-(18, 1, 6, '10000018', 0, 0, '2020-11-22 19:36:32', 1, 1),
-(19, 1, 6, '10000019', 0, 0, '2020-11-22 19:55:15', 1, 2),
-(20, 1, 6, '10000020', 0, 0, '2020-11-25 10:10:04', 0, 3),
-(21, 3, 6, '10000021', 0, 0, '2020-11-25 10:15:45', 0, 3),
-(22, 2, 2, '10000022', 0, 0, '2020-11-25 10:17:00', 1, 3),
-(23, 5, 3, '10000023', 0, 0, '2020-11-25 10:42:30', 1, 3),
-(24, 5, 6, '10000024', 0, 0, '2020-11-25 11:07:32', 1, 3),
-(25, 6, 6, '10000025', 0, 0, '2020-11-25 11:12:00', 1, 3),
-(26, 5, 0, '10000026', 0, 0, '2020-12-02 10:25:54', 1, 3),
-(27, 1, 6, '10000027', 2, 1, '2020-12-08 16:25:56', 0, 3),
-(28, 3, 6, '10000028', 2, 1, '2020-12-09 11:00:33', 0, 4);
+INSERT INTO `tbl_grants_has_tbl_emp_info_gerund` (`id`, `tbl_grants_id`, `tbl_emp_info_id`, `application_no`, `tbl_district_id`, `role_id`, `added_by`, `gazette`, `date_added`, `batch_status`, `status`) VALUES
+(1, 1, 4, '10000001', 3, 6, 10, 1, '2020-12-21 00:09:24', 0, 3),
+(2, 3, 4, '10000002', 3, 6, 10, 1, '2020-12-21 00:13:57', 0, 3),
+(3, 2, 8, '10000003', 3, 6, 10, 0, '2020-12-21 00:31:46', 0, 3),
+(4, 5, 8, '10000004', 3, 6, 10, 0, '2020-12-21 00:41:29', 1, 3),
+(5, 6, 4, '10000005', 3, 6, 10, 1, '2020-12-21 01:15:45', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -756,19 +716,7 @@ CREATE TABLE `tbl_interest_free_loan` (
 --
 
 INSERT INTO `tbl_interest_free_loan` (`id`, `application_no`, `tbl_emp_info_id`, `pay_scale_id`, `dao`, `ddo_code`, `ddo_address`, `marital_status`, `personnel_no`, `tbl_loan_type_id`, `grantee_name`, `father_name`, `cnic_no`, `office_address`, `tbl_department_id`, `tbl_post_id`, `tbl_pay_scale_id`, `tbl_district_id`, `gazette`, `dob`, `doa`, `dor`, `los`, `grant_amount`, `deduction`, `net_amount`, `present_add`, `permanent_add`, `duty_place`, `contact_no`, `applicant_sign`, `tbl_bank_branch_id`, `account_no`, `bank_verification`, `hod_attached`, `dc_admin`, `tbl_case_status`, `boards_approval`, `ac_edit`, `sent_to_secretary`, `approve_secretary`, `sent_to_bank`, `feedback_website`, `record_add_by`, `record_add_date`, `repeat_case`) VALUES
-(1, '', 3, 16, '', 'test', 'test', 'married', '321654', 2, 'Ali Muhammad', 'Ali Khan', '1540279864425', 'This is test address', 2, 2, 0, 2, 0, '1996-06-12', '2009-03-12', '2031-07-16', '22 year(s) 4 month(s) 9 and day(s)', 80000, 0, 80000, 'test street', 'test', 'test', 'test', 'test', 2, '32234234324', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-10-12', 0),
-(2, '', 3, 16, '', 'test', 'test', 'married', '321654', 2, 'Ali Muhammad', 'Ali Khan', '1540279864425', 'This is test address', 2, 2, 0, 2, 0, '1996-06-12', '2009-03-12', '2031-07-16', '22 year(s) 4 month(s) 9 and day(s)', 80000, 0, 80000, 'test street', 'test', 'test', 'test', 'test', 2, '32234234324', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-10-12', 0),
-(3, '', 2, 2, '', '234234', 'test street', 'married', '123654789', 1, 'Asif', 'Raza Khan', '1540279479435', 'Malakand', 1, 1, 0, 2, 0, '2020-08-31', '2010-02-02', '2030-06-12', '20 year(s) 4 month(s) 13 and day(s)', 8000, 1000, 7000, 'Malakand Division', 'test', 'test', '03459270525', 'test', 2, '1419123654789', 'Yes', 'Yes', 'Yes', 2, '1', 0, 0, 0, 0, 0, 1, '2020-10-20', 0),
-(4, '', 1, 1, '', 'test', 'test', 'married', 'asdasd', 1, 'awais', 'khan', '1111111111111', 'asdas', 1, 1, 0, 2, 0, '2020-08-19', '2010-05-13', '2031-01-27', '20 year(s) 8 month(s) 20 and day(s)', 8000, 100, 7900, 'test', 'test', 'test', '1111111111111', 'test', 2, '1419123654789', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-10-20', 0),
-(5, '10000002', 4, 16, 'test', 'test', 'test', 'married', '2575525', 3, 'Shahab Hussain', 'Hussain Ali', '1540279479435', 'Test address is here', 22, 2, 0, 3, 0, '1986-06-18', '2006-06-05', '2031-06-18', '25 year(s) 0 month(s) 19 and day(s)', 250000, 0, 250000, 'test street', 'test', 'test', '03459270525', 'test', 2, '234234234', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-11-11', 0),
-(6, '10000003', 4, 16, 'test', 'test', 'test', 'married', '2575525', 3, 'Shahab Hussain', 'Hussain Ali', '1540279479435', 'Test address is here', 22, 2, 0, 3, 0, '1986-06-18', '2006-06-05', '2031-06-18', '25 year(s) 0 month(s) 19 and day(s)', 250000, 0, 250000, 'test street', 'test', 'test', '03459270525', 'test', 2, '234234234', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-11-11', 0),
-(7, '10000004', 4, 16, 'test', 'test', 'test', 'married', '2575525', 3, 'Shahab Hussain', 'Hussain Ali', '1540279479435', 'Test address is here', 22, 2, 0, 3, 0, '1986-06-18', '2006-06-05', '2031-06-18', '25 year(s) 0 month(s) 19 and day(s)', 250000, 0, 250000, 'test street', 'test', 'test', '03459270525', 'test', 2, '234234234', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-11-11', 0),
-(8, '10000005', 4, 16, 'test', 'test', 'test', 'married', '2575525', 3, 'Shahab Hussain', 'Hussain Ali', '1540279479435', 'Test address is here', 22, 2, 0, 3, 0, '1986-06-18', '2006-06-05', '2031-06-18', '25 year(s) 0 month(s) 19 and day(s)', 250000, 0, 250000, 'test street', 'test', 'test', '03459270525', 'test', 2, '234234234', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-11-11', 0),
-(9, '10000006', 4, 16, 'test', 'test', 'test', 'married', '2575525', 3, 'Shahab Hussain', 'Hussain Ali', '1540279479435', 'Test address is here', 22, 2, 0, 3, 0, '1986-06-18', '2006-06-05', '2031-06-18', '25 year(s) 0 month(s) 19 and day(s)', 250000, 0, 250000, 'test street', 'test', 'test', '03459270525', 'test', 2, '234234234', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-11-11', 0),
-(10, '10000007', 4, 16, 'test', 'test', 'test', 'married', '2575525', 3, 'Shahab Hussain', 'Hussain Ali', '1540279479435', 'Test address is here', 22, 2, 0, 3, 0, '1986-06-18', '2006-06-05', '2031-06-18', '25 year(s) 0 month(s) 19 and day(s)', 250000, 0, 250000, 'test street', 'test', 'test', '03459270525', 'test', 2, '234234234', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-11-11', 0),
-(11, '10000008', 4, 16, 'test', 'test', 'test', 'married', '2575525', 3, 'Shahab Hussain', 'Hussain Ali', '1540279479435', 'Test address is here', 22, 2, 0, 3, 0, '1986-06-18', '2006-06-05', '2031-06-18', '25 year(s) 0 month(s) 19 and day(s)', 250000, 0, 250000, 'test street', 'test', 'test', '03459270525', 'test', 2, '234234234', 'No', 'No', 'No', 2, '0', 0, 0, 0, 0, 0, 1, '2020-11-11', 0),
-(12, '10000023', 3, 16, 'test', '324234', 'test', 'married', '321654', 1, 'Ali Muhammad', 'Ali Khan', '1540279864425', 'This is test address', 2, 2, 0, 2, 0, '1996-06-12', '2020-11-01', '2024-11-13', '4 year(s) 0 month(s) 13 and day(s)', 8000, 0, 8000, 'Test Name', 'test', 'test', '35465432156', 'test', 2, '2424234', 'No', 'No', 'No', 3, '0', 0, 0, 0, 0, 0, 1, '2020-11-25', 0),
-(13, '10000024', 6, 16, 'test', '234', 'test', 'married', '2020', 2, 'Dawood', 'Raza', '5154027955986', 'test office address', 22, 2, 0, 2, 0, '2020-11-17', '2014-06-10', '2027-10-05', '13 year(s) 3 month(s) 28 and day(s)', 80000, 0, 80000, 'test', 'test', 'test', '5464654466', 'test', 2, '234234234', 'No', 'No', 'No', 3, '0', 0, 0, 0, 0, 0, 1, '2020-11-25', 0);
+(1, '10000004', 8, 1, 'Malakand', '2342223', 'Batkhela Malakand', 'married', '23322211', 3, 'Zahid Hussain', 'Shahid Hussain', '1544022344278', 'This is test address', 23, 1, 0, 3, 0, '2020-12-21', '2003-06-10', '2035-10-16', '32 year(s) 4 month(s) 14 and day(s)', 250000, 0, 250000, 'test street', 'test permanent address', 'Malakand', '033312365478', 'Zahid Khan', 2, '32424324234', 'No', 'No', 'No', 3, '0', 0, 0, 0, 0, 0, 10, '2020-12-21', 0);
 
 -- --------------------------------------------------------
 
@@ -981,7 +929,22 @@ INSERT INTO `tbl_logger` (`id`, `tbl_name`, `tbl_name_id`, `action_type`, `detai
 (116, 'tbl_interest_free_loan', 13, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000024</td></tr><tr><td><strong>Employee ID</strong></td><td>6</td><td><strong>Pay Scale</strong></td><td>BS-16</td><td><strong>Pay Scale ID</strong></td><td>16</td></tr><tr><td><strong>Date of appointment</strong></td><td></td><td><strong>DDO Code</strong></td><td>234</td><td><strong>DDO Address</strong></td><td>test</td></tr><tr><td><strong>Marital Status</strong></td><td>married</td><td><strong>Personnel No</strong></td><td>2020</td><td><strong>Loan Type</strong></td><td>Motorcycle Advance</td></tr><tr><td><strong>Grantee Name</strong></td><td>Dawood</td><td><strong>Father Name</strong></td><td>Raza</td><td><strong>CNIC</strong></td><td>5154027955986</td></tr><td><strong>Office Address</strong></td><td>test office address</td><td><strong>Department</strong></td><td>Department of Transport</td><td><strong>Post Scale</strong></td><td>BS-02</td></tr><td><strong>District</strong></td><td>Peshawar</td><td><strong>Date of Birth</strong></td><td>2020-11-17</td><td><strong>Date of Appointment</strong></td><td>2014-06-10</td></tr><td><strong>Date of Retirement</strong></td><td>2027-10-05</td><td><strong>Length of Service</strong></td><td>13 year(s) 3 month(s) 28 and day(s)</td><td><strong>Grant Amount</strong></td><td>80000</td></tr><td><strong>Deduction</strong></td><td>0</td><td><strong>Net Amount</strong></td><td>80000</td><td><strong>Present Address</strong></td><td>test</td></tr><td><strong>Permanent Address</strong></td><td>test</td><td><strong>Duty Place</strong></td><td>test</td><td><strong>Contact No</strong></td><td>5464654466</td></tr><td><strong>Applicant Sign</strong></td><td>test</td><td><strong>Bank Branch</strong></td><td>2</td><td><strong>account_no</strong></td><td>234234234</td></tr><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>hod_attached</strong></td><td>No</td><td><strong>dc_admin</strong></td><td>No</td></tr><td><strong>bank_verification</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td><td><strong>submit</strong></td><td>submit</td></tr>', 1, '2020-11-25 11:07:32'),
 (117, 'tbl_lump_sum_grant', 6, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000025</td></tr><tr><td><strong>Employee ID</strong></td><td>6</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Gov Emp Name</strong></td><td>test</td><td><strong>Wife Name</strong></td><td>1</td><td><strong>Son Name</strong></td><td>2</td></tr><tr><td><strong>Daughter Name</strong></td><td>3</td><td><strong>tbl_grantee_type_id</strong></td><td>1</td><td><strong></strong></td><td> </td></tr><tr><td><strong>Record no</strong></td><td>231313</td><td><strong>Record_no_year</strong></td><td>2020</td><td><strong>Date of appointment </strong></td><td>2020-11-01</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2020-12-12</td><td><strong>los</strong></td><td>0 year(s) 1 month(s) 10 and day(s)</td><td><strong>dept_letter_no</strong></td><td>test</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-11-25</td><td><strong>grant_amount</strong></td><td>500000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>500000</td><td><strong>succession</strong></td><td>test</td><td><strong></strong></td><td></td></tr><tr><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td></tr><tr><td><strong>account_no</strong></td><td>23423424243</td><td><strong>bank_verification</strong></td><td>No</td><td><strong></strong></td><td></td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>cnic_attach</strong></td><td>No</td><td><strong>cnic_widow_attach</strong></td><td>No</td><td><strong>dc_attach</strong></td><td>No</td></tr><tr><td><strong>family_attach</strong></td><td>No</td><td><strong>payroll_lpc_attach</strong></td><td>No</td><td><strong>dob_ac_attach</strong></td><td>No</td></tr><tr><td><strong>single_widow_attach</strong></td><td>No</td><td><strong>no_marriage_attach</strong></td><td>No</td><td><strong>disc_attach</strong></td><td>No</td></tr><tr><td><strong>undertaking</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td></tr><tr><td><strong>sent_to_secretary</strong></td><td></td><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td></tr><tr><td><strong>feedback_website</strong></td><td colspan=\"5\"></td></tr>', 1, '2020-11-25 11:12:00'),
 (118, 'tbl_scholaarship_grant', 24, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000027</td></tr><tr><td><strong>Department</strong></td><td>Department of Transport</td><td><strong>Duty place</strong></td><td>test</td><td><strong>std name</strong></td><td>test</td></tr><tr><td><strong>Class pass</strong></td><td>4</td><td><strong>Exam pass</strong></td><td>test</td><td><strong>Result date</strong></td><td>2020-12-22</td></tr><tr><td><strong>Marks Obtained</strong></td><td>234</td><td><strong>Total Marks</strong></td><td>532</td><td><strong>Percentage</strong></td><td>43.98</td></tr><tr><td><strong>Institute name</strong></td><td>test</td><td><strong>institute address</strong></td><td>test</td><td><strong>grant amount</strong></td><td>40000.00</td></tr><td><strong>deduction</strong></td><td>0</td><td><strong>net amount</strong></td><td>40000.00</td><td><strong>tbl_case_status_id</strong></td><td>3</td></tr><td><strong>tbl_payment_mode_id</strong></td><td>2</td><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td><td><strong>account_no</strong></td><td>2342424234</td></tr><td><strong>std_signature</strong></td><td>No</td><td><strong>gov_servent_sign</strong></td><td>No</td><td><strong>seal_institute</strong></td><td>No</td></tr><td><strong>head_institute</strong></td><td>No</td><td><strong>office_seal_hod</strong></td><td>No</td><td><strong>hod_sign</strong></td><td>No</td></tr><td><strong>bank_verification</strong></td><td>No</td><td><strong>payroll_lpc_attach</strong></td><td>No</td><td><strong>dmc_attach</strong></td><td>No</td></tr><td><strong>cnic_attach</strong></td><td>No</td><td><strong>grade_attach</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td></tr><td><strong>sent_to_secretary</strong></td><td></td><td><strong>approve_secretary</strong></td><td></td><td><strong>ac_edit</strong></td><td></td></tr><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td><td><strong>employee ID</strong></td><td>6</td></tr>', 1, '2020-12-08 16:25:56'),
-(119, 'tbl_retirement_grant', 7, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000028</td></tr><tr><td><strong>Employee ID</strong></td><td>6</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Record no</strong></td><td>313</td><td><strong>record_no_year</strong></td><td>2020</td><td><strong>Date of appointment </strong></td><td>2012-01-31</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2037-09-14</td><td><strong>los</strong></td><td>25 year(s) 7 month(s) 20 and day(s)</td><td><strong>dept_letter_no</strong></td><td>2424234</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-12-30</td><td><strong>grant_amount</strong></td><td>500000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>500000</td><td><strong>tbl_case_status_id</strong></td><td>4</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td></tr><tr><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td><td><strong>account_no</strong></td><td>32234234234234</td><td><strong>bank_verification</strong></td><td>No</td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>payroll_attach</strong></td><td>No</td><td><strong>dob_ac_attach</strong></td><td>No</td><td><strong>retirement_attach</strong></td><td>No</td></tr><tr><td><strong>bf_contribution_attach</strong></td><td>No</td><td><strong>cnic_attach</strong></td><td>No</td><td><strong>ppo_attach</strong></td><td>No</td></tr><tr><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td><td><strong>sent_to_secretary</strong></td><td></td></tr><tr><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td></tr>', 1, '2020-12-09 11:00:33');
+(119, 'tbl_retirement_grant', 7, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000028</td></tr><tr><td><strong>Employee ID</strong></td><td>6</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Record no</strong></td><td>313</td><td><strong>record_no_year</strong></td><td>2020</td><td><strong>Date of appointment </strong></td><td>2012-01-31</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2037-09-14</td><td><strong>los</strong></td><td>25 year(s) 7 month(s) 20 and day(s)</td><td><strong>dept_letter_no</strong></td><td>2424234</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-12-30</td><td><strong>grant_amount</strong></td><td>500000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>500000</td><td><strong>tbl_case_status_id</strong></td><td>4</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td></tr><tr><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td><td><strong>account_no</strong></td><td>32234234234234</td><td><strong>bank_verification</strong></td><td>No</td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>payroll_attach</strong></td><td>No</td><td><strong>dob_ac_attach</strong></td><td>No</td><td><strong>retirement_attach</strong></td><td>No</td></tr><tr><td><strong>bf_contribution_attach</strong></td><td>No</td><td><strong>cnic_attach</strong></td><td>No</td><td><strong>ppo_attach</strong></td><td>No</td></tr><tr><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td><td><strong>sent_to_secretary</strong></td><td></td></tr><tr><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td></tr>', 1, '2020-12-09 11:00:33'),
+(120, 'tbl_scholaarship_grant', 25, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000029</td></tr><tr><td><strong>Department</strong></td><td>Department of Transport</td><td><strong>Duty place</strong></td><td>test</td><td><strong>std name</strong></td><td>test</td></tr><tr><td><strong>Class pass</strong></td><td>4</td><td><strong>Exam pass</strong></td><td>test</td><td><strong>Result date</strong></td><td>2020-12-07</td></tr><tr><td><strong>Marks Obtained</strong></td><td>543</td><td><strong>Total Marks</strong></td><td>643</td><td><strong>Percentage</strong></td><td>84.45</td></tr><tr><td><strong>Institute name</strong></td><td>test</td><td><strong>institute address</strong></td><td>test</td><td><strong>grant amount</strong></td><td>40000.00</td></tr><td><strong>deduction</strong></td><td>0</td><td><strong>net amount</strong></td><td>40000.00</td><td><strong>tbl_case_status_id</strong></td><td>3</td></tr><td><strong>tbl_payment_mode_id</strong></td><td>2</td><td><strong>tbl_list_bank_branches_id</strong></td><td>1</td><td><strong>account_no</strong></td><td>2312313212</td></tr><td><strong>std_signature</strong></td><td>No</td><td><strong>gov_servent_sign</strong></td><td>No</td><td><strong>seal_institute</strong></td><td>No</td></tr><td><strong>head_institute</strong></td><td>No</td><td><strong>office_seal_hod</strong></td><td>No</td><td><strong>hod_sign</strong></td><td>No</td></tr><td><strong>bank_verification</strong></td><td>No</td><td><strong>payroll_lpc_attach</strong></td><td>No</td><td><strong>dmc_attach</strong></td><td>No</td></tr><td><strong>cnic_attach</strong></td><td>No</td><td><strong>grade_attach</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td></tr><td><strong>sent_to_secretary</strong></td><td></td><td><strong>approve_secretary</strong></td><td></td><td><strong>ac_edit</strong></td><td></td></tr><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td><td><strong>employee ID</strong></td><td>6</td></tr>', 1, '2020-12-10 00:48:28'),
+(121, 'tbl_retirement_grant', 8, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000030</td></tr><tr><td><strong>Employee ID</strong></td><td>6</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Record no</strong></td><td>23234234</td><td><strong>record_no_year</strong></td><td>2342</td><td><strong>Date of appointment </strong></td><td>2020-12-10</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2021-01-08</td><td><strong>los</strong></td><td>0 year(s) 0 month(s) 29 and day(s)</td><td><strong>dept_letter_no</strong></td><td>23423</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-12-23</td><td><strong>grant_amount</strong></td><td>500000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>500000</td><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td></tr><tr><td><strong>tbl_list_bank_branches_id</strong></td><td>1</td><td><strong>account_no</strong></td><td>234234324</td><td><strong>bank_verification</strong></td><td>No</td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>payroll_attach</strong></td><td>No</td><td><strong>dob_ac_attach</strong></td><td>No</td><td><strong>retirement_attach</strong></td><td>No</td></tr><tr><td><strong>bf_contribution_attach</strong></td><td>No</td><td><strong>cnic_attach</strong></td><td>No</td><td><strong>ppo_attach</strong></td><td>No</td></tr><tr><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td><td><strong>sent_to_secretary</strong></td><td></td></tr><tr><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td></tr>', 13, '2020-12-10 00:49:45'),
+(122, 'tbl_retirement_grant', 9, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000031</td></tr><tr><td><strong>Employee ID</strong></td><td>6</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Record no</strong></td><td>3223424324</td><td><strong>record_no_year</strong></td><td>2121</td><td><strong>Date of appointment </strong></td><td>2020-12-10</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2021-01-07</td><td><strong>los</strong></td><td>0 year(s) 0 month(s) 28 and day(s)</td><td><strong>dept_letter_no</strong></td><td>24324234</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-12-29</td><td><strong>grant_amount</strong></td><td>500000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>500000</td><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td></tr><tr><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td><td><strong>account_no</strong></td><td>2423423423</td><td><strong>bank_verification</strong></td><td>No</td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>payroll_attach</strong></td><td>No</td><td><strong>dob_ac_attach</strong></td><td>No</td><td><strong>retirement_attach</strong></td><td>No</td></tr><tr><td><strong>bf_contribution_attach</strong></td><td>No</td><td><strong>cnic_attach</strong></td><td>No</td><td><strong>ppo_attach</strong></td><td>No</td></tr><tr><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td><td><strong>sent_to_secretary</strong></td><td></td></tr><tr><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td></tr>', 13, '2020-12-10 00:58:04'),
+(123, 'tbl_emp_info', 7, 'add', '<tr><td><strong>Grantee Name</strong></td><td>Ahmad</td><td><strong>Father Name</strong></td><td>Ali</td><td><strong>Contact No</strong></td><td>216354321351</td></tr><tr><td><strong>Marital Status</strong></td><td>married</td><td><strong>CNIC No</strong></td><td>1540298765432</td><td><strong>Date Of Birth</strong></td><td>13-12-2020</td></tr><tr><td><strong>Personnel No</strong></td><td>23546321</td><td><strong>District</strong></td><td>Malakand</td><td><strong>Status</strong></td><td>Active</td></tr><tr><td><strong>Department</strong></td><td>Department of Zakat & Ushr</td><td><strong>Post</strong></td><td>Computer Operator</td><td><strong>Pay Scale</strong></td><td>BS-16</td></tr><tr><td><strong>Office Address</strong></td><td>This is test office address</td><td><strong>Other Address</strong></td><td>this is test other address</td></tr>', 11, '2020-12-13 15:52:04'),
+(124, 'tbl_scholaarship_grant', 26, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000032</td></tr><tr><td><strong>Department</strong></td><td>Department of Zakat & Ushr</td><td><strong>Duty place</strong></td><td>test</td><td><strong>std name</strong></td><td>test</td></tr><tr><td><strong>Class pass</strong></td><td>4</td><td><strong>Exam pass</strong></td><td>test</td><td><strong>Result date</strong></td><td>2020-12-29</td></tr><tr><td><strong>Marks Obtained</strong></td><td>546</td><td><strong>Total Marks</strong></td><td>643</td><td><strong>Percentage</strong></td><td>84.91</td></tr><tr><td><strong>Institute name</strong></td><td>test</td><td><strong>institute address</strong></td><td>test</td><td><strong>grant amount</strong></td><td>40000.00</td></tr><td><strong>deduction</strong></td><td>0</td><td><strong>net amount</strong></td><td>40000.00</td><td><strong>tbl_case_status_id</strong></td><td>3</td></tr><td><strong>tbl_payment_mode_id</strong></td><td>2</td><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td><td><strong>account_no</strong></td><td>34234234324</td></tr><td><strong>std_signature</strong></td><td>No</td><td><strong>gov_servent_sign</strong></td><td>No</td><td><strong>seal_institute</strong></td><td>No</td></tr><td><strong>head_institute</strong></td><td>No</td><td><strong>office_seal_hod</strong></td><td>No</td><td><strong>hod_sign</strong></td><td>No</td></tr><td><strong>bank_verification</strong></td><td>No</td><td><strong>payroll_lpc_attach</strong></td><td>No</td><td><strong>dmc_attach</strong></td><td>No</td></tr><td><strong>cnic_attach</strong></td><td>No</td><td><strong>grade_attach</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td></tr><td><strong>sent_to_secretary</strong></td><td></td><td><strong>approve_secretary</strong></td><td></td><td><strong>ac_edit</strong></td><td></td></tr><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td><td><strong>employee ID</strong></td><td>7</td></tr>', 11, '2020-12-13 16:22:47'),
+(125, 'tbl_retirement_grant', 10, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000033</td></tr><tr><td><strong>Employee ID</strong></td><td>7</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Record no</strong></td><td>23423424</td><td><strong>record_no_year</strong></td><td>2020</td><td><strong>Date of appointment </strong></td><td>2020-12-13</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2020-12-30</td><td><strong>los</strong></td><td>0 year(s) 0 month(s) 17 and day(s)</td><td><strong>dept_letter_no</strong></td><td>234234234</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-12-31</td><td><strong>grant_amount</strong></td><td>500000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>500000</td><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td></tr><tr><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td><td><strong>account_no</strong></td><td>2342424234342</td><td><strong>bank_verification</strong></td><td>No</td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>payroll_attach</strong></td><td>No</td><td><strong>dob_ac_attach</strong></td><td>No</td><td><strong>retirement_attach</strong></td><td>No</td></tr><tr><td><strong>bf_contribution_attach</strong></td><td>No</td><td><strong>cnic_attach</strong></td><td>No</td><td><strong>ppo_attach</strong></td><td>No</td></tr><tr><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td><td><strong>sent_to_secretary</strong></td><td></td></tr><tr><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td></tr>', 11, '2020-12-13 16:31:02'),
+(126, 'tbl_interest_free_loan', 14, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000034</td></tr><tr><td><strong>Employee ID</strong></td><td>7</td><td><strong>Pay Scale</strong></td><td>BS-16</td><td><strong>Pay Scale ID</strong></td><td>16</td></tr><tr><td><strong>Date of appointment</strong></td><td></td><td><strong>DDO Code</strong></td><td>2342</td><td><strong>DDO Address</strong></td><td>test</td></tr><tr><td><strong>Marital Status</strong></td><td>married</td><td><strong>Personnel No</strong></td><td>23546321</td><td><strong>Loan Type</strong></td><td>House Building Advance</td></tr><tr><td><strong>Grantee Name</strong></td><td>Ahmad</td><td><strong>Father Name</strong></td><td>Ali</td><td><strong>CNIC</strong></td><td>1540298765432</td></tr><td><strong>Office Address</strong></td><td>This is test office address</td><td><strong>Department</strong></td><td>Department of Zakat & Ushr</td><td><strong>Post Scale</strong></td><td>BS-02</td></tr><td><strong>District</strong></td><td>Malakand</td><td><strong>Date of Birth</strong></td><td>2020-12-13</td><td><strong>Date of Appointment</strong></td><td>2004-09-06</td></tr><td><strong>Date of Retirement</strong></td><td>2034-10-17</td><td><strong>Length of Service</strong></td><td>30 year(s) 1 month(s) 17 and day(s)</td><td><strong>Grant Amount</strong></td><td>250000</td></tr><td><strong>Deduction</strong></td><td>0</td><td><strong>Net Amount</strong></td><td>250000</td><td><strong>Present Address</strong></td><td>test</td></tr><td><strong>Permanent Address</strong></td><td>test</td><td><strong>Duty Place</strong></td><td>test</td><td><strong>Contact No</strong></td><td>216354321351</td></tr><td><strong>Applicant Sign</strong></td><td>test</td><td><strong>Bank Branch</strong></td><td>2</td><td><strong>account_no</strong></td><td>2342432423</td></tr><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>hod_attached</strong></td><td>No</td><td><strong>dc_admin</strong></td><td>No</td></tr><td><strong>bank_verification</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td><td><strong>submit</strong></td><td>submit</td></tr>', 11, '2020-12-13 16:45:55');
+INSERT INTO `tbl_logger` (`id`, `tbl_name`, `tbl_name_id`, `action_type`, `detail`, `record_add_by`, `record_add_date`) VALUES
+(127, 'tbl_lump_sum_grant', 7, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000035</td></tr><tr><td><strong>Employee ID</strong></td><td>7</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Gov Emp Name</strong></td><td>test</td><td><strong>Wife Name</strong></td><td>2</td><td><strong>Son Name</strong></td><td>2</td></tr><tr><td><strong>Daughter Name</strong></td><td>2</td><td><strong>tbl_grantee_type_id</strong></td><td>2</td><td><strong></strong></td><td> </td></tr><tr><td><strong>Record no</strong></td><td>232342342</td><td><strong>Record_no_year</strong></td><td>2020</td><td><strong>Date of appointment </strong></td><td>2007-01-30</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2034-11-15</td><td><strong>los</strong></td><td>27 year(s) 9 month(s) 22 and day(s)</td><td><strong>dept_letter_no</strong></td><td>234234234</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-12-30</td><td><strong>grant_amount</strong></td><td>500000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>500000</td><td><strong>succession</strong></td><td>test</td><td><strong></strong></td><td></td></tr><tr><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td></tr><tr><td><strong>account_no</strong></td><td>2323423422</td><td><strong>bank_verification</strong></td><td>No</td><td><strong></strong></td><td></td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>cnic_attach</strong></td><td>No</td><td><strong>cnic_widow_attach</strong></td><td>No</td><td><strong>dc_attach</strong></td><td>No</td></tr><tr><td><strong>family_attach</strong></td><td>No</td><td><strong>payroll_lpc_attach</strong></td><td>No</td><td><strong>dob_ac_attach</strong></td><td>No</td></tr><tr><td><strong>single_widow_attach</strong></td><td>No</td><td><strong>no_marriage_attach</strong></td><td>No</td><td><strong>disc_attach</strong></td><td>No</td></tr><tr><td><strong>undertaking</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td></tr><tr><td><strong>sent_to_secretary</strong></td><td></td><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td></tr><tr><td><strong>feedback_website</strong></td><td colspan=\"5\"></td></tr>', 11, '2020-12-13 16:53:38'),
+(128, 'tbl_scholaarship_grant', 1, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000001</td></tr><tr><td><strong>Department</strong></td><td>Department of Transport</td><td><strong>Duty place</strong></td><td>Malakand</td><td><strong>std name</strong></td><td>Muhammad Bilal</td></tr><tr><td><strong>Class pass</strong></td><td>4</td><td><strong>Exam pass</strong></td><td>Science</td><td><strong>Result date</strong></td><td>2020-12-29</td></tr><tr><td><strong>Marks Obtained</strong></td><td>850</td><td><strong>Total Marks</strong></td><td>1050</td><td><strong>Percentage</strong></td><td>80.95</td></tr><tr><td><strong>Institute name</strong></td><td>Lalazar</td><td><strong>institute address</strong></td><td>Thana Malakand</td><td><strong>grant amount</strong></td><td>40000.00</td></tr><td><strong>deduction</strong></td><td>0</td><td><strong>net amount</strong></td><td>40000.00</td><td><strong>tbl_case_status_id</strong></td><td>3</td></tr><td><strong>tbl_payment_mode_id</strong></td><td>2</td><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td><td><strong>account_no</strong></td><td>793132123123</td></tr><td><strong>std_signature</strong></td><td>No</td><td><strong>gov_servent_sign</strong></td><td>No</td><td><strong>seal_institute</strong></td><td>No</td></tr><td><strong>head_institute</strong></td><td>No</td><td><strong>office_seal_hod</strong></td><td>No</td><td><strong>hod_sign</strong></td><td>No</td></tr><td><strong>bank_verification</strong></td><td>No</td><td><strong>payroll_lpc_attach</strong></td><td>No</td><td><strong>dmc_attach</strong></td><td>No</td></tr><td><strong>cnic_attach</strong></td><td>No</td><td><strong>grade_attach</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td></tr><td><strong>sent_to_secretary</strong></td><td></td><td><strong>approve_secretary</strong></td><td></td><td><strong>ac_edit</strong></td><td></td></tr><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td><td><strong>employee ID</strong></td><td>4</td></tr>', 10, '2020-12-21 00:09:24'),
+(129, 'tbl_retirement_grant', 1, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000002</td></tr><tr><td><strong>Employee ID</strong></td><td>4</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Record no</strong></td><td>5100122</td><td><strong>record_no_year</strong></td><td>2020</td><td><strong>Date of appointment </strong></td><td>2003-12-29</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2015-06-21</td><td><strong>los</strong></td><td>11 year(s) 5 month(s) 24 and day(s)</td><td><strong>dept_letter_no</strong></td><td>221313</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-12-21</td><td><strong>grant_amount</strong></td><td>55000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>55000</td><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td></tr><tr><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td><td><strong>account_no</strong></td><td>43242423422</td><td><strong>bank_verification</strong></td><td>No</td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>payroll_attach</strong></td><td>No</td><td><strong>dob_ac_attach</strong></td><td>No</td><td><strong>retirement_attach</strong></td><td>No</td></tr><tr><td><strong>bf_contribution_attach</strong></td><td>No</td><td><strong>cnic_attach</strong></td><td>No</td><td><strong>ppo_attach</strong></td><td>No</td></tr><tr><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td><td><strong>sent_to_secretary</strong></td><td></td></tr><tr><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td></tr>', 10, '2020-12-21 00:13:57'),
+(130, 'tbl_emp_info', 8, 'add', '<tr><td><strong>Grantee Name</strong></td><td>Zahid Hussain</td><td><strong>Father Name</strong></td><td>Shahid Hussain</td><td><strong>Contact No</strong></td><td>033312365478</td></tr><tr><td><strong>Marital Status</strong></td><td>married</td><td><strong>CNIC No</strong></td><td>1544022344278</td><td><strong>Date Of Birth</strong></td><td>21-12-2020</td></tr><tr><td><strong>Personnel No</strong></td><td>23322211</td><td><strong>District</strong></td><td>Malakand</td><td><strong>Status</strong></td><td>Active</td></tr><tr><td><strong>Department</strong></td><td>Department of Zakat & Ushr</td><td><strong>Post</strong></td><td>Nayib Qasid</td><td><strong>Pay Scale</strong></td><td>BS-01</td></tr><tr><td><strong>Office Address</strong></td><td>This is test address</td><td><strong>Other Address</strong></td><td>This is other address</td></tr>', 10, '2020-12-21 00:28:59'),
+(131, 'tbl_funeral_grant', 1, 'add', '<tr><td><strong>Employee ID</strong></td><td>8</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Record no</strong></td><td>24323222</td><td><strong>record_no_year</strong></td><td>2020</td><td><strong>Date of appointment </strong></td><td>2001-01-30</td></tr><tr><td colspan=\"3\"><strong>name deceased</strong></td><td>Ali</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2012-01-31</td><td><strong>los</strong></td><td>11 year(s) 0 month(s) 3 and day(s)</td><td><strong>dept_letter_no</strong></td><td>2322456</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-12-21</td><td><strong>grant_amount</strong></td><td>6000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>6000</td><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td></tr><tr><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td><td><strong>account_no</strong></td><td>24324232211</td><td><strong>bank_verification</strong></td><td>No</td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>payroll_attach</strong></td><td>No</td><td><strong>dc_attach</strong></td><td>No</td><td><strong>retirement_attach</strong></td><td></td></tr><tr><td><strong>bf_contribution_attach</strong></td><td>No</td><td><strong>cnic_attach</strong></td><td>No</td><td><strong>&nbsp;</strong></td><td>&nbsp;</td></tr><tr><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td><td><strong>sent_to_secretary</strong></td><td></td></tr><tr><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td><td><strong>feedback_website</strong></td><td></td></tr>', 10, '2020-12-21 00:31:46'),
+(132, 'tbl_interest_free_loan', 1, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000004</td></tr><tr><td><strong>Employee ID</strong></td><td>8</td><td><strong>Pay Scale</strong></td><td>BS-01</td><td><strong>Pay Scale ID</strong></td><td>1</td></tr><tr><td><strong>Date of appointment</strong></td><td></td><td><strong>DDO Code</strong></td><td>2342223</td><td><strong>DDO Address</strong></td><td>Batkhela Malakand</td></tr><tr><td><strong>Marital Status</strong></td><td>married</td><td><strong>Personnel No</strong></td><td>23322211</td><td><strong>Loan Type</strong></td><td>House Building Advance</td></tr><tr><td><strong>Grantee Name</strong></td><td>Zahid Hussain</td><td><strong>Father Name</strong></td><td>Shahid Hussain</td><td><strong>CNIC</strong></td><td>1544022344278</td></tr><td><strong>Office Address</strong></td><td>This is test address</td><td><strong>Department</strong></td><td>Department of Zakat & Ushr</td><td><strong>Post Scale</strong></td><td>BS-01</td></tr><td><strong>District</strong></td><td>Malakand</td><td><strong>Date of Birth</strong></td><td>2020-12-21</td><td><strong>Date of Appointment</strong></td><td>2003-06-10</td></tr><td><strong>Date of Retirement</strong></td><td>2035-10-16</td><td><strong>Length of Service</strong></td><td>32 year(s) 4 month(s) 14 and day(s)</td><td><strong>Grant Amount</strong></td><td>250000</td></tr><td><strong>Deduction</strong></td><td>0</td><td><strong>Net Amount</strong></td><td>250000</td><td><strong>Present Address</strong></td><td>test street</td></tr><td><strong>Permanent Address</strong></td><td>test permanent address</td><td><strong>Duty Place</strong></td><td>Malakand</td><td><strong>Contact No</strong></td><td>033312365478</td></tr><td><strong>Applicant Sign</strong></td><td>Zahid Khan</td><td><strong>Bank Branch</strong></td><td>2</td><td><strong>account_no</strong></td><td>32424324234</td></tr><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>hod_attached</strong></td><td>No</td><td><strong>dc_admin</strong></td><td>No</td></tr><td><strong>bank_verification</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td><td><strong>submit</strong></td><td>submit</td></tr>', 10, '2020-12-21 00:41:29'),
+(133, 'tbl_lump_sum_grant', 1, 'add', '<tr><td><strong>Application Number</strong></td>\n                     <td colspan=\"5\">10000005</td></tr><tr><td><strong>Employee ID</strong></td><td>4</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td><strong>Gov Emp Name</strong></td><td>Ali</td><td><strong>Wife Name</strong></td><td>1</td><td><strong>Son Name</strong></td><td>1</td></tr><tr><td><strong>Daughter Name</strong></td><td>1</td><td><strong>tbl_grantee_type_id</strong></td><td>2</td><td><strong></strong></td><td> </td></tr><tr><td><strong>Record no</strong></td><td>1313123</td><td><strong>Record_no_year</strong></td><td>1010</td><td><strong>Date of appointment </strong></td><td>2020-12-02</td></tr><tr><td><strong>Date of Retirement</strong></td><td>2020-12-30</td><td><strong>los</strong></td><td>0 year(s) 0 month(s) 28 and day(s)</td><td><strong>dept_letter_no</strong></td><td>243242432342</td></tr><tr><td><strong>dept_letter_no_date</strong></td><td>2020-12-30</td><td><strong>grant_amount</strong></td><td>500000</td><td><strong>deduction</strong></td><td>0</td></tr><tr><td><strong>net amount</strong></td><td>500000</td><td><strong>succession</strong></td><td>test succession</td><td><strong></strong></td><td></td></tr><tr><td><strong>tbl_case_status_id</strong></td><td>3</td><td><strong>tbl_payment_mode_id</strong></td><td>2</td><td><strong>tbl_list_bank_branches_id</strong></td><td>2</td></tr><tr><td><strong>account_no</strong></td><td>35324224367</td><td><strong>bank_verification</strong></td><td>No</td><td><strong></strong></td><td></td></tr><tr><td><strong>sign_of_applicant</strong></td><td>No</td><td><strong>s_n_office_dept_seal</strong></td><td>No</td><td><strong>s_n_dept_admin_seal</strong></td><td>No</td></tr><tr><td><strong>cnic_attach</strong></td><td>No</td><td><strong>cnic_widow_attach</strong></td><td>No</td><td><strong>dc_attach</strong></td><td>No</td></tr><tr><td><strong>family_attach</strong></td><td>No</td><td><strong>payroll_lpc_attach</strong></td><td>No</td><td><strong>dob_ac_attach</strong></td><td>No</td></tr><tr><td><strong>single_widow_attach</strong></td><td>No</td><td><strong>no_marriage_attach</strong></td><td>No</td><td><strong>disc_attach</strong></td><td>No</td></tr><tr><td><strong>undertaking</strong></td><td>No</td><td><strong>boards_approval</strong></td><td>0</td><td><strong>ac_edit</strong></td><td></td></tr><tr><td><strong>sent_to_secretary</strong></td><td></td><td><strong>approve_secretary</strong></td><td></td><td><strong>sent_to_bank</strong></td><td></td></tr><tr><td><strong>feedback_website</strong></td><td colspan=\"5\"></td></tr>', 10, '2020-12-21 01:15:45');
 
 -- --------------------------------------------------------
 
@@ -1046,12 +1009,7 @@ CREATE TABLE `tbl_lump_sum_grant` (
 --
 
 INSERT INTO `tbl_lump_sum_grant` (`id`, `application_no`, `gov_emp_name`, `wife`, `son`, `daughter`, `tbl_grantee_type_id`, `record_no`, `record_no_year`, `doa`, `dor`, `los`, `dept_letter_no`, `dept_letter_no_date`, `grant_amount`, `deduction`, `net_amount`, `succession`, `tbl_case_status_id`, `tbl_payment_mode_id`, `tbl_list_bank_branches_id`, `account_no`, `bank_verification`, `sign_of_applicant`, `s_n_office_dept_seal`, `s_n_dept_admin_seal`, `cnic_attach`, `cnic_widow_attach`, `dc_attach`, `family_attach`, `payroll_lpc_attach`, `dob_ac_attach`, `single_widow_attach`, `no_marriage_attach`, `disc_attach`, `undertaking`, `boards_approval`, `ac_edit`, `sent_to_secretary`, `approve_secretary`, `sent_to_bank`, `feedback_website`, `record_add_by`, `record_add_date`, `repeat_case`, `tbl_emp_info_id`, `tbl_district_id`, `gazette`) VALUES
-(1, '', 'Asif Khan', 0, 0, 0, 2, '321321321', '2004', '2020-08-25', '2020-08-18', 'test', 'test123', '2020-08-20', '20000', '1000', '19000', 'This is test succession This is test succession This is test succession', 1, 2, 2, '32135465432165', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', '0', 0, 0, 0, 0, 'This is test feedback This is test feedback This is test feedback This is test feedback This is test', 1, '2020-08-27 13:44:00', 0, 0, 0, 0),
-(2, '', 'Asif Khan', 0, 0, 0, 2, '231313123', '2009', '2020-10-05', '2020-11-06', '0 year(s) 1 month(s) 1 and day(s)', '3535345', '2020-10-30', '500000', '100', '499900', 'test', 2, 2, 2, '24242424234', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', '0', 0, 0, 0, 0, '', 1, '2020-10-05 04:17:00', 0, 3, 0, 0),
-(3, '', 'Abdul', 0, 0, 0, 2, '5566133', '2020', '1994-01-20', '2030-10-20', '36 year(s) 9 month(s) 8 and day(s)', '122', '2020-10-15', '500000', '1000', '499000', 'this is test succession description', 2, 2, 2, '1419123654789', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', '0', 0, 0, 0, 0, '', 1, '2020-10-20 09:08:28', 0, 3, 0, 0),
-(4, '', 'Abdul', 1, 2, 3, 1, '111111111', '2020', '2000-01-04', '2029-10-16', '29 year(s) 9 month(s) 19 and day(s)', '242424', '2020-10-20', '500000', '10000', '490000', 'test succession description', 1, 2, 2, '1419123654798', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 0, 0, 0, 0, '', 1, '2020-10-20 11:35:37', 0, 3, 0, 0),
-(5, '10000017', 'Raza', 1, 2, 3, 1, '123654', '2020', '2010-02-02', '2032-10-12', '22 year(s) 8 month(s) 14 and day(s)', '559904', '2020-11-17', '500000', '1000', '499000', 'This is test succession', 1, 2, 2, '354313213215', 'Yes', 'Yes', 'No', 'Yes', 'No', 'No', 'Yes', 'No', 'No', 'Yes', 'No', 'No', 'No', 'Yes', '1', 0, 0, 0, 0, '', 1, '2020-11-17 11:16:56', 0, 5, 0, 0),
-(6, '10000025', 'test', 1, 2, 3, 1, '231313', '2020', '2020-11-01', '2020-12-12', '0 year(s) 1 month(s) 10 and day(s)', 'test', '2020-11-25', '500000', '0', '500000', 'test', 3, 2, 2, '23423424243', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', '0', 0, 0, 0, 0, '', 1, '2020-11-25 11:12:00', 0, 6, 0, 0);
+(1, '10000005', 'Ali', 1, 1, 1, 2, '1313123', '1010', '2020-12-02', '2020-12-30', '0 year(s) 0 month(s) 28 and day(s)', '243242432342', '2020-12-30', '500000', '0', '500000', 'test succession', 3, 2, 2, '35324224367', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', '0', 0, 0, 0, 0, '', 10, '2020-12-21 01:15:45', 0, 4, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -1109,13 +1067,6 @@ CREATE TABLE `tbl_monthly_grant` (
   `tbl_district_id` int(11) NOT NULL,
   `gazette` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Dumping data for table `tbl_monthly_grant`
---
-
-INSERT INTO `tbl_monthly_grant` (`id`, `application_no`, `record_no`, `record_no_year`, `doa`, `dor`, `los`, `dept_letter_no`, `dept_letter_no_date`, `from_month`, `to_month`, `total_month`, `grant_amount`, `deduction`, `net_amount`, `tbl_case_status_id`, `tbl_payment_mode_id`, `tbl_list_bank_branches_id`, `account_no`, `bank_verification`, `sign_of_applicant`, `s_n_office_dept_seal`, `s_n_dept_admin_seal`, `cnic_attach`, `cnic_widow_attach`, `dc_attach`, `disc_attach`, `payroll_lpc_attach`, `retirement_attach`, `bf_contribution_attach`, `invalidation_attach`, `family_attach`, `bf_contribution_attach_copy3`, `no_marriage_attach`, `undertaking_attach`, `boards_approval`, `ac_edit`, `sent_to_secretary`, `approve_secretary`, `sent_to_bank`, `feedback_website`, `record_add_by`, `record_add_date`, `repeat_case`, `tbl_emp_info_id`, `tbl_district_id`, `gazette`) VALUES
-(1, '', '2123123', '123123', '2020-07-29', '2020-07-28', '23213', '123123', '2020-08-25', '123', '123', '123', '12', '12', '12', 1, 2, 1, '12312312313213', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 1, 1, 1, 1, 1, 'This is test feedback This is test feedback This is test feedback This is test feedback This is test', 1, '2020-08-26 13:11:39', 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
@@ -1260,13 +1211,7 @@ CREATE TABLE `tbl_retirement_grant` (
 --
 
 INSERT INTO `tbl_retirement_grant` (`id`, `application_no`, `record_no`, `record_no_year`, `doa`, `dor`, `los`, `dept_letter_no`, `dept_letter_no_date`, `grant_amount`, `deduction`, `net_amount`, `tbl_case_status_id`, `tbl_payment_mode_id`, `tbl_list_bank_branches_id`, `account_no`, `bank_verification`, `sign_of_applicant`, `s_n_office_dept_seal`, `s_n_dept_admin_seal`, `payroll_attach`, `dob_ac_attach`, `retirement_attach`, `bf_contribution_attach`, `cnic_attach`, `ppo_attach`, `boards_approval`, `ac_edit`, `sent_to_secretary`, `approve_secretary`, `sent_to_bank`, `feedback_website`, `record_add_by`, `record_add_date`, `repeat_case`, `tbl_emp_info_id`, `tbl_district_id`, `gazette`) VALUES
-(1, '', '123654', '2004', '2020-09-01', '2020-08-03', 'test', '265431', '2020-08-27', '100000', '1000', '99000', 1, 2, 2, '321534313541', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, 'This is test website feeback', 1, '2020-08-25 14:36:08', 0, 0, 0, 0),
-(2, '', '2323213', '12313212', '2020-09-17', '2020-09-22', '0 year(s) 0 month(s) 5 and day(s)', '3213', '2020-09-22', '230000', '1000', '229000', 2, 2, 2, '12313123', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-09-28 08:17:30', 0, 2, 0, 0),
-(3, '', '12345', '2002', '2020-10-11', '2020-10-21', '0 year(s) 0 month(s) 10 and day(s)', '12312312', '2020-10-27', '500000', '10000', '490000', 2, 2, 2, '12313123213', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-10-02 11:06:55', 0, 3, 0, 0),
-(4, '', '123123', '2009', '2020-10-20', '2020-11-07', '0 year(s) 0 month(s) 18 and day(s)', '354132132', '2020-10-20', '500000', '0', '500000', 2, 2, 2, '2354653', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-10-05 02:21:16', 0, 3, 0, 0),
-(5, '', '123123abc', '2009', '2020-10-20', '2020-11-07', '0 year(s) 0 month(s) 18 and day(s)', '354132132abc', '2020-10-20', '500000', '1000', '499000', 2, 2, 2, '2354653abc', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 1, 0, 0, 0, 0, '', 1, '2020-10-13 14:46:03', 0, 3, 0, 0),
-(6, '10000021', '5165432165', '2020', '2020-11-17', '2020-12-04', '0 year(s) 0 month(s) 17 and day(s)', '1513132', '2020-11-17', '500000', '0', '500000', 3, 2, 2, '165431016', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-11-25 10:15:45', 0, 6, 0, 0),
-(7, '10000028', '313', '2020', '2012-01-31', '2037-09-14', '25 year(s) 7 month(s) 20 and day(s)', '2424234', '2020-12-30', '500000', '0', '500000', 4, 2, 2, '32234234234234', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-12-09 11:00:33', 0, 6, 2, 1);
+(1, '10000002', '5100122', '2020', '2003-12-29', '2015-06-21', '11 year(s) 5 month(s) 24 and day(s)', '221313', '2020-12-21', '55000', '0', '55000', 3, 2, 2, '43242423422', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 10, '2020-12-21 00:13:57', 0, 4, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -1327,30 +1272,7 @@ CREATE TABLE `tbl_scholaarship_grant` (
 --
 
 INSERT INTO `tbl_scholaarship_grant` (`id`, `application_no`, `parent_dept`, `duty_place`, `std_name`, `class_pass`, `exam_pass`, `result_date`, `mo`, `tm`, `percentage`, `institute_name`, `institute_add`, `grant_amount`, `deduction`, `net_amount`, `tbl_case_status_id`, `tbl_payment_mode_id`, `tbl_list_bank_branches_id`, `account_no`, `bank_verification`, `std_signature`, `gov_servent_sign`, `seal_institute`, `head_institute`, `office_seal_hod`, `hod_sign`, `payroll_lpc_attach`, `dmc_attach`, `cnic_attach`, `grade_attach`, `boards_approval`, `ac_edit`, `sent_to_secretary`, `approve_secretary`, `sent_to_bank`, `feedback_website`, `record_add_by`, `record_add_date`, `repeat_case`, `tbl_emp_info_id`, `tbl_district_id`, `gazette`, `status`) VALUES
-(1, '', '2', 'Mardan', 'Muhammad Ali', 'Pre Medical', 'FSC', '24-08-2020', 'test', 'est', 'test', 'test', 'tes', 'tes', 'test', 'test', 1, 1, 2, 'test', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, 'test', 1, '2020-08-24 02:15:30', 0, 0, 0, 0, 1),
-(2, '', '1', 'Peshawar', 'Shayaan Asif', 'Computer Science', 'Bachelors', '24-08-2020', 'test', 'est', 'test', 'test', 'tes', 'tes', 'test', 'test', 1, 1, 2, 'test', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, 'test', 1, '2020-08-24 02:24:39', 0, 0, 0, 0, 1),
-(3, '', '1', 'Malakand', 'Asif Khan', 'SSC', 'Matriculation', '19-08-2020', '571', '850', '63', 'Lalazar', 'Thana', '1000', '50', '950', 1, 2, 2, '3216541654', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 1, 1, 1, 1, 1, 'kTest feedback', 1, '2020-08-31 09:18:32', 0, 0, 0, 0, 1),
-(4, '', '2', 'Malakand', 'Ahmad', '3', 'SSC', '15-09-2020', '850', '1100', '65', 'Govt School', 'This is school address', '48000.00', '1000', '47000', 2, 2, 2, '3165431654', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-09-23 13:31:33', 0, 3, 0, 0, 1),
-(5, '', '1', 'Malakand', 'Dawood', '2', 'Annual', '23-09-2020', '800', '1100', '45', 'Govt degree college', 'Address', '32000.00', '10000', '22000', 1, 2, 2, '123123213213', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, '', 1, '2020-10-13 12:27:13', 0, 2, 0, 0, 1),
-(6, '', '1', 'Mardan 2', 'Irfan Khan', '1', 'Annual', '20-10-2020', '571', '850', '67.18', 'Mardan Govt School', 'This is test address 1', '16000.00', '100', '15900', 2, 2, 2, '1231231231', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 1, 0, 0, 0, 0, '', 1, '2020-10-13 12:27:55', 0, 1, 0, 0, 1),
-(7, '', '2', 'Peshawar', 'Khan Ali', '4', 'Fsc', '01-10-2019', '800', '1100', '72.73', 'Edwardes College Peshawar', 'Peshawar', '40000.00', '0', '40000.00', 1, 1, 2, '2121212121212', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 1, 0, 0, 0, 0, NULL, 1, '2020-10-13 13:28:26', 0, 3, 0, 0, 1),
-(8, '', '22', 'Malakand', 'Akif Shahab', '1', '2020', '04-02-2020', '850', '1100', '77.27', 'Govt High School no 1', 'College Road Thana Bazar', '16000.00', '100', '15900', 1, 2, 2, '14196543214653', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'No', 0, 0, 0, 0, 0, NULL, 10, '2020-11-04 12:49:02', 0, 4, 0, 0, 1),
-(9, '', '22', 'test', 'test', '4', 'test', '17-11-2020', '345', '543', '63.54', 'test', 'test', '40000.00', '0', '40000.00', 1, 2, 2, '343534535354', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, NULL, 1, '2020-11-11 08:58:47', 0, 4, 0, 0, 1),
-(10, '482860427', '22', 'test', 'test', '4', 'test', '01-12-2020', '234', '432', '54.17', 'test', 'test', '40000.00', '0', '40000.00', 2, 2, 2, '234234324324', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, NULL, 1, '2020-11-11 09:01:58', 0, 4, 0, 0, 1),
-(11, '482860427', '22', 'test', 'test', '4', 'test', '24-11-2020', '234', '554', '42.24', 'test', 'test', '40000.00', '0', '40000.00', 2, 2, 2, '2342342342', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, NULL, 1, '2020-11-11 10:15:53', 0, 4, 0, 0, 1),
-(12, '10000001', '22', 'test', 'test', '4', 'test', '09-11-2020', '232', '423', '54.85', 'test', 'test', '40000.00', '0', '40000.00', 1, 2, 2, '24234234234', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, NULL, 1, '2020-11-11 10:52:43', 0, 4, 0, 0, 1),
-(13, '10000009', '22', 'Malakand', 'Ali', '1', 'Science', '17-11-2020', '571', '850', '67.18', 'Lalazar', 'Thana', '16000.00', '0', '16000.00', 1, 2, 2, '225546654', 'no', 'No', 'No', 'no', 'no', 'no', 'no', 'Yes', 'Yes', 'Yes', 'Yes', 0, 0, 0, 0, 0, NULL, 0, '2020-11-16 04:48:42', 0, 4, 0, 0, 1),
-(14, '10000010', '22', 'Malakand', 'Ali', '4', 'Science', '23-11-2020', '571', '850', '67.18', 'Lalazar', 'Thana', '40000.00', '0', '40000.00', 1, 2, 1, '3165415413232', 'no', 'Yes', 'Yes', 'no', 'no', 'no', 'no', 'Yes', 'Yes', 'Yes', 'Yes', 0, 0, 0, 0, 0, NULL, 0, '2020-11-16 05:41:21', 0, 4, 0, 0, 1),
-(15, '10000011', '22', 'test', 'test', '3', 'test', '09-11-2020', '571', '950', '60.11', 'test', 'test', '48000.00', '0', '48000.00', 1, 2, 2, '23423424234', 'no', 'No', 'No', 'no', 'no', 'no', 'no', 'Yes', 'Yes', 'Yes', 'Yes', 0, 0, 0, 0, 0, NULL, 0, '2020-11-16 07:06:23', 0, 4, 0, 0, 1),
-(16, '10000012', '10', 'test', 'test', '2', 'test', '23-11-2020', '571', '1000', '57.10', 'test', 'test', '', '', '', 1, 2, 1, '2423424234', 'no', 'No', 'No', 'no', 'no', 'no', 'no', 'Yes', 'Yes', 'Yes', 'Yes', 0, 0, 0, 0, 0, NULL, 0, '2020-11-17 10:33:47', 0, 0, 0, 0, 1),
-(17, '10000013', '10', 'test', 'test', '2', 'test', '23-11-2020', '571', '1000', '57.10', 'test', 'test', '', '', '', 1, 2, 1, '2423424234', 'no', 'No', 'No', 'no', 'no', 'no', 'no', 'Yes', 'Yes', 'Yes', 'Yes', 0, 0, 0, 0, 0, NULL, 0, '2020-11-17 10:35:18', 0, 0, 0, 0, 1),
-(18, '10000014', '10', 'test', 'test', '2', 'test', '23-11-2020', '571', '1000', '57.10', 'test', 'test', '', '', '', 1, 2, 1, '2423424234', 'no', 'No', 'No', 'no', 'no', 'no', 'no', 'Yes', 'Yes', 'Yes', 'Yes', 0, 0, 0, 0, 0, NULL, 0, '2020-11-17 10:35:28', 0, 0, 0, 0, 1),
-(19, '10000015', '10', 'test', 'test', '2', 'test', '23-11-2020', '571', '1000', '57.10', 'test', 'test', '', '', '', 1, 2, 1, '2423424234', 'no', 'No', 'No', 'no', 'no', 'no', 'no', 'Yes', 'Yes', 'Yes', 'Yes', 0, 0, 0, 0, 0, NULL, 0, '2020-11-17 10:36:06', 0, 0, 0, 0, 1),
-(20, '10000016', '21', 'Malakand', 'Asad', '4', 'Science', '17-11-2020', '571', '850', '67.18', 'Lalazar', 'Test inst Address', '40000.00', '1000', '39000', 1, 2, 2, '79065465466', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 1, 0, 0, 0, 0, NULL, 1, '2020-11-17 11:13:56', 0, 5, 0, 0, 1),
-(21, '10000018', '22', 'test', 'Dawood', '4', 'Annual', '25-11-2020', '890', '1100', '80.91', 'Lalazar', 'Thana', '40000.00', '0', '40000', 1, 2, 2, '516545165465', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, NULL, 1, '2020-11-22 19:36:32', 0, 6, 0, 0, 1),
-(22, '10000019', '22', 'test', 'test', '4', '2020', '11-11-2020', '850', '1100', '77.27', 'test', 'test', '40000.00', '0', '40000.00', 2, 2, 2, '3216431646161', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, NULL, 1, '2020-11-22 19:55:15', 0, 6, 0, 0, 1),
-(23, '10000020', '22', 'Malakand', 'Adnan Khan', '2', 'Science', '30-11-2020', '580', '850', '68.24', 'Lalazar', 'test address', '32000.00', '0', '32000', 3, 2, 2, '316543154555', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, NULL, 1, '2020-11-25 10:10:04', 0, 6, 0, 0, 1),
-(24, '10000027', '22', 'test', 'test', '4', 'test', '22-12-2020', '234', '532', '43.98', 'test', 'test', '40000.00', '0', '40000.00', 3, 2, 2, '2342424234', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, NULL, 1, '2020-12-08 16:25:56', 0, 6, 2, 1, 1);
+(1, '10000001', '22', 'Malakand', 'Muhammad Bilal', '4', 'Science', '29-12-2020', '850', '1050', '80.95', 'Lalazar', 'Thana Malakand', '40000.00', '0', '40000.00', 3, 2, 2, '793132123123', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 'No', 0, 0, 0, 0, 0, NULL, 10, '2020-12-21 00:09:24', 0, 4, 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -1405,6 +1327,7 @@ DROP TABLE IF EXISTS `tbl_transactions`;
 CREATE TABLE `tbl_transactions` (
   `id` int(11) NOT NULL,
   `application_no` varchar(255) NOT NULL,
+  `tbl_grants_id` int(11) NOT NULL,
   `amount` varchar(255) NOT NULL,
   `bank_transaction_id` varchar(255) NOT NULL,
   `date_added` date NOT NULL,
@@ -1415,31 +1338,13 @@ CREATE TABLE `tbl_transactions` (
 -- Dumping data for table `tbl_transactions`
 --
 
-INSERT INTO `tbl_transactions` (`id`, `application_no`, `amount`, `bank_transaction_id`, `date_added`, `added_by`) VALUES
-(1, '10000016', '2000', '2354524789', '2020-11-25', 1),
-(2, '10000016', '', '', '2020-11-25', 1),
-(3, '10000016', '10000', '1236547890', '2020-11-25', 1),
-(4, '10000017', '10000', '1236547890', '2020-11-25', 1),
-(5, '10000016', '2000', '1236547890', '2020-11-25', 1),
-(6, '10000016', '2000', '1236547890', '2020-11-25', 1),
-(7, '10000017', '1000', '1236547890', '2020-11-25', 1),
-(8, '10000018', '20000', '1236547890', '2020-11-25', 1),
-(9, '10000019', '10000', '1236547890', '2020-11-25', 1),
-(10, '10000016', '4000', '1236547891', '2020-11-25', 1),
-(11, '10000016', '2000', '1236547123', '2020-11-25', 1),
-(12, '10000016', '2000', '1236546547', '2020-11-25', 1),
-(13, '10000016', '10000', '1236547890', '2020-11-25', 1),
-(14, '10000016', '1000', 'test', '2020-11-25', 1),
-(15, '10000016', '2000', '1236547890', '2020-11-25', 1),
-(16, '10000016', '200', '1236547890', '2020-11-25', 1),
-(17, '10000022', '500', '1213', '2020-12-08', 1),
-(18, '10000022', '500', '13123213', '2020-12-08', 1),
-(19, '10000022', '500', '13123213', '2020-12-08', 1),
-(20, '10000022', '500', '13123213', '2020-12-08', 1),
-(21, '10000022', '500', '13123213', '2020-12-08', 1),
-(22, '10000022', '500', '13123213', '2020-12-08', 1),
-(24, '10000022', '5000', '13123213', '2020-12-08', 1),
-(25, '10000022', '1000', '13123213', '2020-12-08', 1);
+INSERT INTO `tbl_transactions` (`id`, `application_no`, `tbl_grants_id`, `amount`, `bank_transaction_id`, `date_added`, `added_by`) VALUES
+(1, '10000004', 5, '150000', '2254387', '2020-12-21', 1),
+(2, '10000004', 5, '100000', '7836394664', '2020-12-21', 1),
+(3, '10000006', 5, '100000', '47872205', '2020-12-21', 1),
+(4, '10000006', 5, '100000', '20948752', '2020-12-21', 1),
+(5, '10000005', 6, '100000', '0974524392', '2020-12-21', 1),
+(6, '10000005', 6, '10000', '9082745209837', '2020-12-21', 1);
 
 --
 -- Indexes for dumped tables
@@ -1721,7 +1626,7 @@ ALTER TABLE `tbl_banks`
 -- AUTO_INCREMENT for table `tbl_batches`
 --
 ALTER TABLE `tbl_batches`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `tbl_bfc_list_bank`
@@ -1751,13 +1656,13 @@ ALTER TABLE `tbl_district`
 -- AUTO_INCREMENT for table `tbl_emp_info`
 --
 ALTER TABLE `tbl_emp_info`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `tbl_funeral_grant`
 --
 ALTER TABLE `tbl_funeral_grant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_funeral_payments`
@@ -1775,13 +1680,13 @@ ALTER TABLE `tbl_grantee_type`
 -- AUTO_INCREMENT for table `tbl_grants`
 --
 ALTER TABLE `tbl_grants`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'table for grants like retirement grant, scholarship grant', AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'table for grants like retirement grant, scholarship grant', AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tbl_grants_has_tbl_emp_info_gerund`
 --
 ALTER TABLE `tbl_grants_has_tbl_emp_info_gerund`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_grant_payments`
@@ -1799,7 +1704,7 @@ ALTER TABLE `tbl_interestfreeloan_payments`
 -- AUTO_INCREMENT for table `tbl_interest_free_loan`
 --
 ALTER TABLE `tbl_interest_free_loan`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_legal_heirs`
@@ -1823,19 +1728,19 @@ ALTER TABLE `tbl_loan_types`
 -- AUTO_INCREMENT for table `tbl_logger`
 --
 ALTER TABLE `tbl_logger`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=120;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=134;
 
 --
 -- AUTO_INCREMENT for table `tbl_lump_sum_grant`
 --
 ALTER TABLE `tbl_lump_sum_grant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_monthly_grant`
 --
 ALTER TABLE `tbl_monthly_grant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `tbl_payment_mode`
@@ -1859,13 +1764,13 @@ ALTER TABLE `tbl_post`
 -- AUTO_INCREMENT for table `tbl_retirement_grant`
 --
 ALTER TABLE `tbl_retirement_grant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_scholaarship_grant`
 --
 ALTER TABLE `tbl_scholaarship_grant`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tbl_scholarship_classes`
@@ -1883,7 +1788,7 @@ ALTER TABLE `tbl_scholarship_payment`
 -- AUTO_INCREMENT for table `tbl_transactions`
 --
 ALTER TABLE `tbl_transactions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

@@ -308,7 +308,7 @@ class Lumpsum extends MY_Controller {
                                </a>';
             }
             $getDept = $this->common_model->getRecordById($lumpsumInfo->parent_dept, $tbl_name = 'tbl_department');
-			$data[] = array($i, $lumpsumInfo->application_no, $lumpsumInfo->record_no, $lumpsumInfo->record_no_year, $lumpsumInfo->name_deceased, $lumpsumInfo->doa, $lumpsumInfo->dor, $lumpsumInfo->los, $add_by_date, $actionBtn);
+			$data[] = array($i, $lumpsumInfo->application_no, $lumpsumInfo->record_no, $lumpsumInfo->record_no_year, $lumpsumInfo->doa, $lumpsumInfo->dor, $lumpsumInfo->los, $add_by_date, $actionBtn);
 		}
 
 		$output = array(

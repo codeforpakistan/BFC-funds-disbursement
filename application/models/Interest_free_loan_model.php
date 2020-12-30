@@ -83,7 +83,7 @@ class Interest_free_loan_model extends CI_Model {
     public function apply_interestfreeloan_grant() {
 
         // echo 'in model'; 
-        echo '<pre>'; print_r($_POST);
+        //echo '<pre>'; print_r($_POST);
         // exit();
         
         $application_no = $this->common_model->getApplicationNo();   

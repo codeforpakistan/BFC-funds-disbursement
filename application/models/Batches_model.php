@@ -54,10 +54,11 @@ class Batches_model extends CI_Model {
         
     }
 
-    public function add_transaction() {
+    public function add_transaction($tbl_grant_id) {
 
 		$data = array(
             'application_no' => $this->input->post('application_no'),
+            'tbl_grants_id' => $tbl_grant_id,
             'amount' => $this->input->post('amount'),
 			'bank_transaction_id' => $this->input->post('bank_transaction_id'),
             'date_added' => date('Y-m-d'),

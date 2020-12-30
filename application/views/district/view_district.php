@@ -59,12 +59,9 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><?php echo ucwords(str_replace('_', ' ', 'edit district')); ?></h4>
-
+        <h4 class="modal-title"><?php echo ucwords(str_replace('_', ' ', 'edit district')); ?></h4> 
       </div>
-      <p class="jquery_alert_modal"></p>
-
-
+      <p class="jquery_alert_modal"></p> 
         <?php echo validation_errors(); ?>
         <?php echo form_open_multipart('#', 'id="formID" class="form-horizontal"'); ?>
       <div class="modal-body">
@@ -157,55 +154,55 @@ function reload_table()
     }
 
 function save()
+{
+    var url;
+    if(save_method == 'add')
     {
-      var url;
-      if(save_method == 'add')
-      {
-        url = "<?php echo site_url('district/add_district') ?>";
-      }
-      else
-      {
-        url = "<?php echo site_url('district/update_district') ?>";
-      }
+    url = "<?php echo site_url('district/add_district') ?>";
+    }
+    else
+    {
+    url = "<?php echo site_url('district/update_district') ?>";
+    }
 
-       // ajax adding data to database
-       $.ajax({
+    // ajax adding data to database
+    $.ajax({
 
-                    type: "POST",
-                    url: url,
-                    async: false,
-                    data: $("#formID").serialize(),
-                    dataType: "json",
-                    success: function(data){
+        type: "POST",
+        url: url,
+        async: false,
+        data: $("#formID").serialize(),
+        dataType: "json",
+        success: function(data){
 
-                        $.each(data, function(key, value) {
-                          if(value==true){
-                            $('#modal_form').modal('hide');
-                            form_reset();
-                            sspDataTable.ajax.reload(); //reload datatable ajax
-                            $('.jquery_alert').html('<p class="alert alert-success">! Record has been successfully Added / Updated</p>').fadeIn().delay(4000).fadeOut('slow');
-                          }
-                          // else
-                          else {
-                            if(value==false){
-                            $('.jquery_alert_modal').html('<p class="alert alert-danger"> <strong>Oops! </strong> Data already Exists or Field may only contain A-Z, a-z and 0-9 characters.</p>').fadeIn().delay(4000).fadeOut('slow');
-                          }
-                            $('#' + key).addClass('is-invalid');
-                            $('#' + key).parents('.form-group').find('#error').html(value);
-                          }
-                        });
-                    }
-                });
-     }
+            $.each(data, function(key, value) {
+                if(value==true){
+                $('#modal_form').modal('hide');
+                form_reset();
+                sspDataTable.ajax.reload(); //reload datatable ajax
+                $('.jquery_alert').html('<p class="alert alert-success">! Record has been successfully Added / Updated</p>').fadeIn().delay(4000).fadeOut('slow');
+                }
+                // else
+                else {
+                if(value==false){
+                $('.jquery_alert_modal').html('<p class="alert alert-danger"> <strong>Oops! </strong> Data already Exists or Field may only contain A-Z, a-z and 0-9 characters.</p>').fadeIn().delay(4000).fadeOut('slow');
+                }
+                $('#' + key).addClass('is-invalid');
+                $('#' + key).parents('.form-group').find('#error').html(value);
+                }
+            });
+        }
+    });
+}
 
 function add()
-    {
-      save_method = 'add';
-      form_reset(); // reset form on modals
-      $('#modal_form').modal('show'); // show bootstrap modal
-      $('.modal-title').text('<?php echo ucwords(str_replace('_', ' ', 'add new district')); ?>'); 
-      // Set Title to Bootstrap modal title
-    }
+{
+    save_method = 'add';
+    form_reset(); // reset form on modals
+    $('#modal_form').modal('show'); // show bootstrap modal
+    $('.modal-title').text('<?php echo ucwords(str_replace('_', ' ', 'add new district')); ?>'); 
+    // Set Title to Bootstrap modal title
+}
 
 function form_reset()
     {

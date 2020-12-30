@@ -17,14 +17,24 @@ class Admins extends MY_Controller {
             $data['banks'] = $this->common_model->getCountAll('tbl_list_bank_branches');
             $data['departments'] = $this->common_model->getCountAll('tbl_department');
             $data['districts'] = $this->common_model->getCountAll('tbl_district');
-            $data['monthly_grants_applications'] = $this->common_model->getCountAll('tbl_monthly_grant');
-            $data['retirement_grants_applications'] = $this->common_model->getCountAll('tbl_retirement_grant');
-            $data['scholarship_grants_applications'] = $this->common_model->getCountAll('tbl_scholaarship_grant');
-            $data['lumpsum_grants_applications'] = $this->common_model->getCountAll('tbl_lump_sum_grant');
-            $data['interestfreeloan_grants_applications'] = $this->common_model->getCountAll('tbl_interest_free_loan');
-            $data['funeral_grants_applications'] = $this->common_model->getCountAll('tbl_funeral_grant');
-            //$data['applications'] = $this->common_model->getAllRecordByArray('tbl_grants_has_tbl_emp_info_gerund', null);
+            
+            if($_SESSION['admin_id'] == '1') {
+                $your_conditions = array('1' => '1' );
+            } else {
+                $your_conditions = array('record_add_by' => $_SESSION['admin_id'] );
+            }
+            
+            //$data['retirement_grants_applications'] = $this->common_model->getCountAll('tbl_retirement_grant');
+            $data['retirement_grants_applications'] = $this->common_model->countAllRecordsByCond('tbl_retirement_grant', $your_conditions);
+            $data['scholarship_grants_applications'] = $this->common_model->countAllRecordsByCond('tbl_scholaarship_grant', $your_conditions);
+            $data['lumpsum_grants_applications'] = $this->common_model->countAllRecordsByCond('tbl_lump_sum_grant', $your_conditions);
+            $data['interestfreeloan_grants_applications'] = $this->common_model->countAllRecordsByCond('tbl_interest_free_loan', $your_conditions);
+            $data['funeral_grants_applications'] = $this->common_model->countAllRecordsByCond('tbl_funeral_grant', $your_conditions);
+            $data['monthly_grants_applications'] = $this->common_model->countAllRecordsByCond('tbl_monthly_grant', $your_conditions);
 
+            //$data['applications'] = $this->common_model->getAllRecordByArray('tbl_grants_has_tbl_emp_info_gerund', null);
+            
+            
             $data['description'] = 'Welcome ' . $_SESSION['name'];
 			$data['rightDescription'] = $getAdminRole['name'];
 			$this->load->view('templates/header', $data);

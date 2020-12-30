@@ -75,23 +75,7 @@
             </div> -->
 
 
-            <div class="row">
-                <!-- ./col -->
-                <div class="col-lg-3 col-xs-6">
-                    <!-- small box -->
-                    <a href="<?php echo base_url('view_monthly_grants'); ?>">
-                        <div class="small-box bg-red">
-                            <div class="inner">
-                                <h3><?php echo $monthly_grants_applications; ?></h3>
-                                <p>Monthly Grants</p>
-                            </div>
-                            <div class="icon">
-                                <i class="ion ion-pie-graph"></i>
-                            </div>
-                            <span class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></span>
-                        </div>
-                    </a>
-                </div>
+            <div class="row"> 
                 <!-- ./col -->
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
@@ -141,11 +125,7 @@
                     </a>
                 </div>
 
-            </div>
-
-
-
-            <div class="row">
+                
                 <div class="col-lg-3 col-xs-6">
                     <!-- small box -->
                     <a href="<?php echo base_url('view_interest_free_loan_grants'); ?>">
@@ -156,6 +136,22 @@
                             </div>
                             <div class="icon">
                                 <i class="fa fa-map-marker"></i>
+                            </div>
+                            <span class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></span>
+                        </div>
+                    </a>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-3 col-xs-6">
+                    <!-- small box -->
+                    <a href="<?php echo base_url('view_monthly_grants'); ?>">
+                        <div class="small-box bg-red">
+                            <div class="inner">
+                                <h3><?php echo $monthly_grants_applications; ?></h3>
+                                <p>Monthly Grants</p>
+                            </div>
+                            <div class="icon">
+                                <i class="ion ion-pie-graph"></i>
                             </div>
                             <span class="small-box-footer">More info <i class="fa fa-arrow-circle-right"></i></span>
                         </div>

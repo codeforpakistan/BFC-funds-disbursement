@@ -242,7 +242,7 @@ class Interest_free_loan extends MY_Controller {
                         </a>';
             }
             $getDept = $this->common_model->getRecordById($intFreeLoanInfo->parent_dept, $tbl_name = 'tbl_department');
-			$data[] = array($i,  $intFreeLoanInfo->application_no, $intFreeLoanInfo->grantee_name,$intFreeLoanInfo->father_name,  $getDept['name'], $intFreeLoanInfo->personnel_no, $intFreeLoanInfo->doa, $intFreeLoanInfo->ddo_code,  $add_by_date, $actionBtn);
+			$data[] = array($i,  $intFreeLoanInfo->application_no, $intFreeLoanInfo->grantee_name,$intFreeLoanInfo->father_name, $intFreeLoanInfo->personnel_no, $intFreeLoanInfo->doa, $intFreeLoanInfo->ddo_code,  $add_by_date, $actionBtn);
 		}
 
 		$output = array(

@@ -123,11 +123,13 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             <td class="tdva"><?php echo ucwords(str_replace('_', ' ', 'pay_scale')); ?></td>
                             <td><input type="text" disabled readonly name="pay_scale"></td>
                             <td class="tdva"><?php echo ucwords(str_replace('_', ' ', 'district')); ?></td>
-                            <td><select class="sselect" disabled readonly name="tbl_district_id" id="tbl_district_id" style="width: 100%">
+                            <td>
+                                <select class="sselect" disabled readonly name="tbl_district_id" id="tbl_district_id" style="width: 100%">
                                     <?php foreach ($district as $districtInfo) : ?>
                                         <option value="<?php echo $districtInfo['id']; ?>"><?php echo $districtInfo['name']; ?></option>
                                     <?php endforeach; ?>
-                                </select></td>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td class="tdva"><?php echo ucwords(str_replace('_', ' ', 'cnic_no')); ?></td>
@@ -206,6 +208,12 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
             "serverSide": true,
             // Initial no order.
             "order": [],
+            //gkhgk
+            
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
             // Load data from an Ajax source
             "ajax": {
                 "url": "<?php echo base_url('emp_info/get_emp_info/'); ?>",

@@ -626,6 +626,7 @@
             dateOfRetirement = $('#dor').val(); 
             empScale_ID = $('#pay_scale_id').val();
             var formData = { dor: dateOfRetirement, empScaleID: empScale_ID };
+            //alert(formData);
             if(empScale_ID == ''){
                 alert('Please select employee to continue');
              
@@ -645,7 +646,7 @@
                         dataType: "json",
                         success:function(data) { 
                             //alert('data = ' + JSON.stringify(data));
-                            //alert(JSON.stringify(data));
+                            //console.log(JSON.stringify(data));
                             //deduction net_amount
                             //alert(data.amount);
                             $('#grant_amount').val(data.amount);

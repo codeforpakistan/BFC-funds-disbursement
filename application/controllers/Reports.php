@@ -82,7 +82,7 @@ class Reports extends MY_Controller {
         $data['districts'] = $this->common_model->getAllRecords('tbl_district');
         //$data['applications'] = $this->common_model->getAllRecordByArray('tbl_grants_has_tbl_emp_info_gerund', null);
         
-		$data['page_title'] = 'Grants Released';
+		$data['page_title'] = 'GRANT RELEASED TO VARIOUS DISTRICTS';
         $data['description'] = '...'; 
 
 		$this->load->view('templates/header', $data);
@@ -131,11 +131,18 @@ class Reports extends MY_Controller {
 			$i++;
 
             $tbl_name = $grantsInfo->tbl_name;
+            $tbl_id = $grantsInfo->id;
 
-            $getAmount = $this->common_model->getSumByColoumn($tbl_name, 'net_amount', 'total_amount', '1', '1');
-            $total_amount = 'Rs. '. $getAmount['total_amount'];
-  
-            $cases = $this->common_model->getCountAll($tbl_name);
+            //echo 'tblName = '. $tbl_name;
+            //$total_amount = $this->common_model->getSumByColoumn($tbl_name, 'net_amount', 'total_amount', '1', '1');
+            //$total_amount = 'Rs. '. $total_amount;
+ 
+            //$cases = $this->common_model->getCountAll($tbl_name);
+
+            $total_amount = $this->common_model->getSumByColoumn('tbl_transactions', 'amount', 'total_amount', 'tbl_grants_id', $tbl_id);
+            $total_amount = 'Rs. '. $total_amount;
+            $cases = $this->common_model->countRecordsByCondGroupBy('tbl_transactions', array('tbl_grants_id' => $tbl_id), 'application_no');
+            
 
 			$actionBtn = '<a href="' . site_url('' . $grantsInfo->id . '') . '">
                       <button type="button"class="btn btn-sm btn-xs btn-primary"><i class="fa fa-history"></i></button>

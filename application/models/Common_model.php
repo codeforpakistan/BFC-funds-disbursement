@@ -76,9 +76,9 @@ class Common_model extends CI_Model {
         $this->db->where($tbl_col, $value);  
         $query = $this->db->get();
         $result = $query->row_array(); 
-        $amount = $result['amount']; 
-
-        //return $this->db->last_query();
+        $amount = $result[$alias]; 
+        //echo 'amount = '. $amount;
+        //echo $this->db->last_query();
 
         if($amount > 0) {
             return $amount;
@@ -98,6 +98,21 @@ class Common_model extends CI_Model {
         //$this->db->limit($limit);
         $query = $this->db->get();
         return $query->result_array();
+    }
+    public function countAllRecordsByCond($tbl_name, $your_conditions) {
+        $this->db->select('id');
+        $this->db->from($tbl_name);
+        $this->db->where($your_conditions);
+        $count = $this->db->count_all_results();
+        return $count; 
+    }
+    public function countRecordsByCondGroupBy($tbl_name, $your_conditions, $group_by) {
+        $this->db->select('id');
+        $this->db->from($tbl_name);
+        $this->db->where($your_conditions);
+        $this->db->group_by($group_by);
+        $count = $this->db->count_all_results();
+        return $count;
     }
 	public function getAllRecord($tbl_name) {
 

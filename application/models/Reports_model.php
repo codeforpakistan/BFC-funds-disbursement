@@ -291,9 +291,9 @@ class Reports_model extends CI_Model {
 
     // Get Grant Released
 	function get_grant_released($postData = null) {
- 
+        //echo 'i m here'; exit;
 		$response = array();
-
+        //echo '<pre>'; print_r($postData); exit;
 		## Read value
 		$draw = $postData['draw'];
 		$start = $postData['start'];
@@ -307,7 +307,7 @@ class Reports_model extends CI_Model {
 		$from_date = $postData['from_date'];
 		$to_date = $postData['to_date']; 
 		$tbl_grants_id = $postData['tbl_grants_id'];
-		$district = $postData['district'];
+		$tbl_district_id = $postData['district'];
 
         //$tbl_bank_id = $postData['tbl_bank_id'];
         //$keyword = $postData['keyword'];
@@ -322,21 +322,25 @@ class Reports_model extends CI_Model {
 			$from_date = date('Y-m-d', strtotime($postData['from_date']));
 			$to_date = date('Y-m-d', strtotime($postData['to_date']));
 			$search_arr[] = " status_dated BETWEEN '" . $from_date . "' and '" . $to_date . "' ";
-		}
-		if ($district != '') {
-			$search_arr[] = " tbl_district_id = '" . $district . "' ";
+        }
+        
+		if ($tbl_district_id != '') {
+			$search_arr[] = " tbl_district_id = '" . $tbl_district_id . "' ";
 		}
 
 		if ($tbl_grants_id != '') {
 			$search_arr[] = " tbl_grants_id = '" . $tbl_grants_id . "' ";
         } 
 
-        $search_arr[] = " status = '4' ";
+        //$search_arr[] = " status = '4' ";
+
+        //print_r($search_arr);
 
 		if (count($search_arr) > 0) {
 			$searchQuery = implode(" and ", $search_arr);
         }
         
+        //echo 'query = ' . $searchQuery; exit;
         
         // $this->db->select('user_id, COUNT(user_id) as total');
         // $this->db->group_by('user_id'); 
@@ -356,15 +360,17 @@ class Reports_model extends CI_Model {
         $this->db->group_by('tbl_district_id');
 		if ($searchQuery != '') {
 			$this->db->where($searchQuery);
-		}
-	 
+		} 
 		$records = $this->db->get('tbl_batches')->result();
 		$totalRecordwithFilter = $records[0]->allcount;
         //echo '<br>totalFilter = '. $totalRecordwithFilter;
         
+        //echo '<pre>'; print_r($searchQuery); exit;
         ## Fetch records
 		$this->db->select('count(*) as cases, batch_no, application_no, tbl_grants_id, tbl_district_id, record_add_date, record_add_by, status, status_dated');
-		if ($searchQuery != '') {
+        
+        //$this->db->select('*');
+        if ($searchQuery != '') {
 			$this->db->where($searchQuery);
 		} 
         $this->db->group_by('tbl_district_id');
@@ -372,6 +378,8 @@ class Reports_model extends CI_Model {
 		$this->db->limit($rowperpage, $start);
 		$this->db->order_by('id', 'desc');
 		$records = $this->db->get('tbl_batches')->result();
+
+        //echo $this->db->last_query(); //exit;
 
         //echo '<pre>'; print_r($records); exit;
 
