@@ -28,9 +28,28 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
+
+                <?php echo form_open('funeral/change_status/', 'id="formID"'); ?>
+                    <?php 
+                    //to allow superadmin, gazzeted officer, dc user and civil secretariat...
+                    if ($_SESSION['tbl_admin_role_id'] == '1' || 
+                    $_SESSION['tbl_admin_role_id'] == '4' || 
+                    $_SESSION['tbl_admin_role_id'] == '6' || 
+                    $_SESSION['tbl_admin_role_id'] == '7') { ?> 
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="submit" name="btnSubmit" class="btn btn-sm btn-success" value="Approved By Board">
+                                <input type="submit" name="btnSubmit" class="btn btn-sm btn-danger" value="Rejected By Board"> 
+                            </div>
+                        </div>
+                        <p></p>
+                <?php } ?>
+                <p>&nbsp;</p>
+
                 <table id="ssp_datatable" class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
+                            <th width="2%" class="no-print"><input type="checkbox" name="checkbox" id="selectall"></th>
                             <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'app_no')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'record_no')); ?></th>
@@ -39,6 +58,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of appointment')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of retirement')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'length of service')); ?></th> 
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
                             <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th>
                         </tr>
@@ -46,6 +66,8 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                     <tbody>
                     </tbody>
                 </table>
+
+                <?php echo form_close(); ?>
             </div>
             <!-- /.box-body -->
         </div>
@@ -107,4 +129,13 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
 
     };  
  
+    $(function() {
+        $('#selectall').click(function() { 
+            var checked = this.checked;
+            $('input[type="checkbox"]').each(function() {
+            this.checked = checked;
+            });
+        });
+    });
+
 </script>

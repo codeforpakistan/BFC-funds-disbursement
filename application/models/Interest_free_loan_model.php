@@ -258,10 +258,12 @@ class Interest_free_loan_model extends CI_Model {
             'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'),
             'application_no' => $application_no,
             'tbl_district_id' => $this->input->post('tbl_district_id'),
+            'tbl_banks_id' => $this->input->post('bank_type_id'),
+            'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
             'gazette' => $gazette,
             'role_id' => $_SESSION['tbl_admin_role_id'],
             'added_by' => $_SESSION['admin_id'],
-            'status' => $this->input->post('tbl_case_status_id')
+            'status' => '1'
         );
         $this->db->insert('tbl_grants_has_tbl_emp_info_gerund', $app_data); 
         //$last_insert_id = $this->db->insert_id(); 
@@ -297,16 +299,16 @@ class Interest_free_loan_model extends CI_Model {
             'duty_place' => $this->input->post('duty_place'),
             'contact_no' => $this->input->post('contact_no'),
             'applicant_sign' => $this->input->post('applicant_sign'),
-            'tbl_bank_branch_id' => $this->input->post('tbl_list_bank_branches_id'),
+            'tbl_case_status_id' => '1',
+            'tbl_banks_id' => $this->input->post('bank_type_id'), 
+            'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
             'account_no' => $this->input->post('account_no'),
-            'tbl_case_status' => $this->input->post('tbl_case_status_id'),
+            'hod_sign' => $this->input->post('hod_sign'),
             'hod_attached' => $this->input->post('hod_attached'),
             'dc_admin' => $this->input->post('dc_admin'),
+            'sign_of_admin_dept' => $this->input->post('sign_of_admin_dept'),
             'bank_verification' => $this->input->post('bank_verification'),
-            'boards_approval' => $this->input->post('boards_approval'),  
-             
-            
-
+            //'boards_approval' => $this->input->post('boards_approval'),  
 			'record_add_by' => $_SESSION['admin_id'],
 			'record_add_date' => date('Y-m-d H:i:s'),
 		);
@@ -402,6 +404,57 @@ class Interest_free_loan_model extends CI_Model {
 		}
     }
     
+    function update_application_status() {
+        
+        //echo '<pre>'; print_r($this->input->post()); //exit();
+        $apps = $this->input->post('application_no');
+        $action = $this->input->post('btnSubmit'); 
+        $get_status = $this->common_model->getRecordByColoumn('tbl_case_status', 'name',  $action);
+        $status = $get_status['id'];
+        //echo '<br>status_id = '. $status; //exit;
+
+        if(count($apps) > 0) {
+            foreach ($apps as $key => $application_no) {
+                //echo '<br>app = '. $application_no; 
+                $gerund_status = array( 'status' => $status );
+                $self_tbl_status = array( 'tbl_case_status_id' => $status );
+                //XSS prevention
+                $gerund_status = $this->security->xss_clean($gerund_status);
+                $self_tbl_status = $this->security->xss_clean($self_tbl_status);
+                //updation in db
+                $this->db->where('application_no', $application_no); 
+                $result = $this->db->update('tbl_grants_has_tbl_emp_info_gerund', $gerund_status);
+                //echo '<br>affected = '. $this->db->affected_rows(); 
+                $this->db->where('application_no', $application_no); 
+                $result = $this->db->update('tbl_interest_free_loan', $self_tbl_status); 
+              
+
+                $get_status = $this->common_model->getRecordByColoumn('tbl_interest_free_loan', 'application_no',  $application_no);
+                $id = $get_status['id'];
+                //echo '<br>id = '. $id;  
+
+                $this->logger
+				->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
+				->tbl_name($this->table) //Entry table name
+				->tbl_name_id($id) //Entry table ID
+				->action_type('update') //action type identify Action like add or update
+				->detail( 
+					'<tr>' .
+					'<td><strong>' . 'Status' . '</strong></td><td>' . $action . '</td>'  .
+					'</tr>'  
+				) //detail
+				->log(); //Add Database Entry
+
+            } 
+            //exit;
+            return true;
+
+        } else {
+            return false;
+        }
+        
+    }
+
 
     public function edit_interestfreeloan_grant() {
 

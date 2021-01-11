@@ -100,7 +100,26 @@ class Banks_model extends CI_Model {
 			return false;
 		}
 
-	}
+    }
+    
+    public function getBranchesById($id){
+        $this->db->from('tbl_list_bank_branches');
+		$this->db->where('tbl_banks_id', $id);
+		$query = $this->db->get(); 
+		$result =  $query->result();
+        //return count($result);
+        if($result > 0){
+            $dropdown = '<option value="">Select Branch</option>';
+            foreach ($result as $key => $value) {
+                $dropdown .= '<option value="'.$value->id.'">'.$value->name.' ('.$value->branch_code.')</option>'; 
+            }
+
+            return $dropdown;
+        } else {
+            return null;
+        }
+
+    }
 
 	//////////////// below ajax and server side processing datatable ///////////
 

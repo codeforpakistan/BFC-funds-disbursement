@@ -167,6 +167,12 @@ class Monthly_grant extends MY_Controller {
 			$i++;
 			//$status = ($monthlyInfo->status == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Inactive</span>';
 
+
+            $case_status_id = $monthlyInfo->tbl_case_status_id;
+            $getstatus = $this->common_model->getRecordByColoumn('tbl_case_status', 'id',  $case_status_id);
+            $status = '<span class="'.$getstatus['label'].'">'.$getstatus['name'].'</span>';
+
+
 			$getRole = $this->admin->getRecordById($monthlyInfo->record_add_by, $tbl_name = 'tbl_admin');
 			$recordAddDate = $monthlyInfo->record_add_date;
 			$recordAddDate = date("d-M-Y", strtotime($recordAddDate));
@@ -185,8 +191,9 @@ class Monthly_grant extends MY_Controller {
                                </a>'; 
             }
             
-            $getDept = $this->common_model->getRecordById($monthlyInfo->parent_dept, $tbl_name = 'tbl_department');
-			$data[] = array($i, $monthlyInfo->application_no,  $monthlyInfo->record_no, $monthlyInfo->record_no_year, $monthlyInfo->doa, $monthlyInfo->dor, $monthlyInfo->los, $add_by_date, $actionBtn);
+            $input = '<input type="checkbox" name="application_no[]" id="application_no" value="'.$monthlyInfo->application_no.'">';
+            
+            $data[] = array( $input, $i, $monthlyInfo->application_no,  $monthlyInfo->record_no, $monthlyInfo->record_no_year, $monthlyInfo->doa, $monthlyInfo->dor, $monthlyInfo->los, $status, $add_by_date, $actionBtn);
 		}
 
 		$output = array(

@@ -139,10 +139,10 @@ class Reports_model extends CI_Model {
             
             $recordAddDate = date("d-M-Y", strtotime($record->date_added)); 
  
-            $input = '<input type="checkbox" name="selectall[]" id="selectall" value="'.$applicationNo.'">';
+            //$input = '<input type="checkbox" name="selectall[]" id="selectall" value="'.$applicationNo.'">';
             
 			$data[] = array(
-                "checkbox" => $input, 
+                //"checkbox" => $input, 
                 "no" => $i, 
 				"applicationNo" => $applicationNo,
 				"GrantType" => $grant_type,

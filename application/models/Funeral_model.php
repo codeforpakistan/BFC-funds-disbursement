@@ -76,11 +76,13 @@ class Funeral_model extends CI_Model {
             'tbl_grants_id' => '2',
             'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'), 
             'tbl_district_id' => $this->input->post('tbl_district_id'),
+            'tbl_banks_id' => $this->input->post('bank_type_id'),
+            'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
             'gazette' => $gazette,
             'role_id' => $_SESSION['tbl_admin_role_id'],
             'added_by' => $_SESSION['admin_id'],
             'application_no' => $application_no,
-            'status' => $this->input->post('tbl_case_status_id')
+            'status' => '1'
         );
         $this->db->insert('tbl_grants_has_tbl_emp_info_gerund', $app_data); 
         $last_insert_id = $this->db->insert_id(); 
@@ -101,10 +103,11 @@ class Funeral_model extends CI_Model {
             'grant_amount' => $this->input->post('grant_amount'),
             'deduction' => $this->input->post('deduction'),
             'net_amount' => $this->input->post('net_amount'),
-            'tbl_case_status_id' => $this->input->post('tbl_case_status_id'),
+            'tbl_case_status_id' => '1',
             'tbl_payment_mode_id' => $this->input->post('tbl_payment_mode_id'),
+            'tbl_banks_id' => $this->input->post('bank_type_id'), 
             'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
-            
+             
             'account_no' => $this->input->post('account_no'),
             'bank_verification' => $this->input->post('bank_verification'),
             'sign_of_applicant' => $this->input->post('sign_of_applicant'),
@@ -114,13 +117,13 @@ class Funeral_model extends CI_Model {
             'dc_attach' => $this->input->post('dc_attach'), 
             'bf_contribution_attach' => $this->input->post('bf_contribution_attach'), 
             'cnic_attach' => $this->input->post('cnic_attach'), 
-            'boards_approval' => $this->input->post('boards_approval'),
-            'ac_edit' => $this->input->post('ac_edit'),
-            'sent_to_secretary' => $this->input->post('sent_to_secretary'),
-            'approve_secretary' => $this->input->post('approve_secretary'),
+            //'boards_approval' => $this->input->post('boards_approval'),
+            //'ac_edit' => $this->input->post('ac_edit'),
+            //'sent_to_secretary' => $this->input->post('sent_to_secretary'),
+            //'approve_secretary' => $this->input->post('approve_secretary'),
             
-            'sent_to_bank' => $this->input->post('sent_to_bank'),
-            'feedback_website' => $this->input->post('feedback_website'), 
+            //'sent_to_bank' => $this->input->post('sent_to_bank'),
+            //'feedback_website' => $this->input->post('feedback_website'), 
 			'record_add_by' => $_SESSION['admin_id'],
 			'record_add_date' => date('Y-m-d H:i:s'),
         );
@@ -343,6 +346,60 @@ class Funeral_model extends CI_Model {
 		}
 	}
 
+
+    function update_application_status() {
+        
+        //echo '<pre>'; print_r($this->input->post()); exit();
+        $apps = $this->input->post('application_no');
+        $action = $this->input->post('btnSubmit'); 
+        $get_status = $this->common_model->getRecordByColoumn('tbl_case_status', 'name',  $action);
+        $status = $get_status['id'];
+        //echo 'id = '. $status; exit;
+
+        if(count($apps) > 0) {
+            foreach ($apps as $key => $application_no) {
+                //echo '<br>app = '. $application_no; 
+                $gerund_status = array( 'status' => $status );
+                $self_tbl_status = array( 'tbl_case_status_id' => $status );
+                //XSS prevention
+                $gerund_status = $this->security->xss_clean($gerund_status);
+                $self_tbl_status = $this->security->xss_clean($self_tbl_status);
+                //updation in db
+                $this->db->where('application_no', $application_no); 
+                $result = $this->db->update('tbl_grants_has_tbl_emp_info_gerund', $gerund_status);
+                
+                if ($this->db->affected_rows() > 0) {
+                    $this->db->where('application_no', $application_no); 
+                    $result = $this->db->update('tbl_funeral_grant', $self_tbl_status); 
+                }
+
+                $get_status = $this->common_model->getRecordByColoumn('tbl_funeral_grant', 'application_no',  $application_no);
+                $id = $get_status['id'];
+                //echo '<br>id = '. $id;  
+
+                $this->logger
+				->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
+				->tbl_name($this->table) //Entry table name
+				->tbl_name_id($id) //Entry table ID
+				->action_type('update') //action type identify Action like add or update
+				->detail( 
+					'<tr>' .
+					'<td><strong>' . 'Status' . '</strong></td><td>' . $action . '</td>'  .
+					'</tr>'  
+				) //detail
+				->log(); //Add Database Entry
+
+            } 
+            
+            return true;
+
+        } else {
+            return false;
+        }
+        
+        
+        
+    }
 
 	public function getRecordById($id) {
 		$this->db->from($this->table);

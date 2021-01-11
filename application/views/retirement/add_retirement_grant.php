@@ -105,7 +105,7 @@
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <!-- onchange="getServiceLength()" -->
-                                        <input type="date" autocomplete="off" value="<?php echo set_value('doa'); ?>" name="doa" id="doa" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('doa'); ?>" name="doa" id="doa" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('doa'); ?>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
                                             <i class="fa fa-calendar"></i>
                                         </div>
                                         <!-- onchange="getServiceLength()" -->
-                                        <input type="date" autocomplete="off" value="<?php echo set_value('dor'); ?>" name="dor" id="dor" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('dor'); ?>" name="dor" id="dor" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('dor'); ?>
                                 </div>
                             </div>
@@ -205,26 +205,9 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">  
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'tbl_case_status_id')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-eye"></i>
-                                        </div>
-
-                                        <select name="tbl_case_status_id" id="tbl_case_status_id" class="form-control select2 validate[required]">
-                                            <option value="">Select Case Status</option> 
-                                            <?php foreach ($cases as $case) : ?>
-                                                <option value="<?php echo $case['id']; ?>"><?php echo $case['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        
-                                    </div><?php echo form_error('tbl_case_status_id'); ?>
-                                </div>
-                            </div>
+                             
                             <div class="col-md-6"> 
-                            <div class="form-group">
+                                <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'payment_mode')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -241,9 +224,25 @@
                                     </div><?php echo form_error('tbl_payment_mode_id'); ?>
                                 </div>
                             </div>
+                        
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_type')); ?>:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-bank"></i>
+                                        </div>
+                                        <select name="bank_type_id" id="bank_type_id" class="form-control select2 validate[required]">
+                                            <option value="">Select Bank Type</option> 
+                                            <?php foreach ($bank_types as $bank) : ?>
+                                                <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select> 
+                                    </div><?php echo form_error('bank_type_id'); ?>
+                                </div>
+                            </div>
                         </div>
  
-
                         <div class="row">
                             <div class="col-md-6"> 
                                 <div class="form-group">
@@ -253,16 +252,15 @@
                                             <i class="fa fa-bank"></i>
                                         </div>
                                         <select name="tbl_list_bank_branches_id" id="tbl_list_bank_branches_id" class="form-control select2 validate[required]">
-                                            <option value="">Select Bank</option> 
-                                            <?php foreach ($banks as $bank) : ?>
+                                            <option value="">Select Branch</option> 
+                                            <?php /* foreach ($banks as $bank) : ?>
                                                 <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?> (<?php echo $bank['branch_code']; ?>)</option>
-                                            <?php endforeach; ?>
+                                            <?php endforeach; */ ?>
                                         </select>
                                         
                                     </div><?php echo form_error('tbl_list_bank_branches_id'); ?>
                                 </div>
-                            </div>
-
+                            </div>  
                             <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'account_no')); ?>:</label>
@@ -365,8 +363,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            
+                        <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'cnic_attach')); ?>:</label>
@@ -385,24 +382,7 @@
                                     <?php echo form_error('ppo_attach'); ?>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
-                            
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'boards_approval')); ?>:</label>
-                                    <br>
-                                    <input type="radio" class="validate[required]" checked name="boards_approval" id="boards_approval" value="0"> No
-                                    <input type="radio" class="validate[required]" name="boards_approval" id="boards_approval" value="1"> Yes
-                                    <?php echo form_error('boards_approval'); ?>
-                                </div>
-                            </div>  
-                            <div class="col-md-6"> 
-                                 
-                            </div>
-                            
-                        </div>
+                        </div> 
                          
                         <!-- /.row -->
                     </div>
@@ -436,55 +416,39 @@
 </div>
 
 <script type="text/javascript">
-
-    // $(document).ready(function() {
-    //     alert('i m here'); 
-    //     $('#doa').on('change', function() {
-            
-    //     });
-    // }); 
-
-
-    function getServiceLength() {
-        
+ 
+    function getServiceLength() { 
         startDate = new Date($('#doa').val());
-        endDate = new Date($('#dor').val());
-
-        var diff_date =  endDate - startDate;
-        
+        endDate = new Date($('#dor').val()); 
+        var diff_date =  endDate - startDate;   
         var years = Math.floor(diff_date/31536000000);
         var months = Math.floor((diff_date % 31536000000)/2628000000);
-        var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000);
-     
-
-        result = years+" year(s) "+months+" month(s) "+days+" and day(s)";
-
+        var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000); 
+        result = years+" year(s) "+months+" month(s) "+days+" and day(s)"; 
         if(result == 'NaN year(s) NaN month(s) NaN and day(s)'){
             $('#los').val(''); 
         } else {
             $('#los').val(result); 
+        }  
+    } 
+
+    $('#bank_type_id').on('change', function() {
+        var base_url = "<?php echo base_url(); ?>";
+        var bank_type_id = $('#bank_type_id').val(); 
+        if(tbl_emp_info_id) {
+            $.ajax({
+                url: base_url +'banks/get_branches/'+bank_type_id, 
+                type: "post",
+                dataType: "json",
+                success:function(data) { 
+                    $('#tbl_list_bank_branches_id').html(data); 
+                }
+            });
+        }else{
+            $('#tbl_list_bank_branches_id').html(data); 
         }
-
-        
-    }
-
-
-    // $("#dor, #tbl_emp_info_id").on('focus', function () {
-    //     //var ddl = $(this);
-    //     //ddl.data('previous', ddl.val());
-    //     emp_id = $('#tbl_emp_info_id').val();
-    //     alert('i m here');
-    // }).on('change', function () {
-    //     var base_url = "<?php echo base_url(); ?>"; 
-    //     var empScale = getEmpScale(emp_id);
-    //     alert(JSON.stringify(empScale));
-
-    //     //var ddl = $(this);
-    //     //var previous = ddl.data('previous');
-    //     //ddl.data('previous', ddl.val());
-    // });
-
-
+    });
+    
     $("#tbl_emp_info_id").on('change', function() {
         var base_url = "<?php echo base_url(); ?>";  
         emp_id = $('#tbl_emp_info_id').val(); 
@@ -492,14 +456,22 @@
     });
 
 
-    $('#dor').on('focusout', function(){
+     
 
+
+
+
+
+    $("#doa, #dor, #tbl_emp_info_id").on('focusout', function() {
         var base_url = "<?php echo base_url(); ?>";  
-        //emp_id = $('#tbl_emp_info_id').val(); 
+        emp_id = $('#tbl_emp_info_id').val();  
+        //var empScale = getEmpScale(emp_id);  
+        dateOfAppointment = $('#doa').val();
         dateOfRetirement = $('#dor').val(); 
-        empScale_ID = $('#pay_scale_id').val();
-        
+        empScale_ID = $('#pay_scale_id').val(); 
+
         var formData = { dor: dateOfRetirement, empScaleID: empScale_ID };
+        //alert(JSON.stringify(formData)); 
         if(emp_id == ''){
             alert('Please select employee to continue');
             $('#dor').val('');
@@ -507,37 +479,19 @@
         else { 
             
             if(dateOfRetirement) { 
-                 
-                startDate = new Date($('#doa').val());
-                endDate = new Date($('#dor').val()); 
-                var diff_date =  endDate - startDate; 
-                //alert('startDate = ' + startDate);
-                //alert('endDate = ' + endDate);
-                //alert('diff_date = ' + diff_date);
+                  
+                getServiceLength(); 
 
-                var years = Math.floor(diff_date/31536000000);
-                var months = Math.floor((diff_date % 31536000000)/2628000000);
-                var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000);
-            
-                
-
-                //alert('years = '+ years + ' months = '+ months + ' days = '+ days );
-
-                result = years+" year(s) "+months+" month(s) "+days+" and day(s)";
-                //alert('result = ' + result);
-
-                if(result == 'NaN year(s) NaN month(s) NaN and day(s)'){
-                    $('#los').val(''); 
-                } else {
-                    $('#los').val(result); 
-                }
-                
                 $.ajax({ 
                     url: base_url +'retirement/getAmountData/',  
                     type: "post",
                     data: formData,
                     dataType: "json",
-                    success:function(data) {  
+                    success:function(data) { 
+                        //alert('data = ' + JSON.stringify(data));
+                        //alert(JSON.stringify(data));
+                        //deduction net_amount
+                        //alert(data.amount);
                         $('#grant_amount').val(data.amount);
                         $('#deduction').val(0);
                         $('#net_amount').val(data.amount);   
@@ -547,72 +501,8 @@
             } else {
                 $('#grant_amount').empty();
             }
-        }
-
+        } 
     });
-
-
-
-
-
-
-
-    // $("#dor, #tbl_emp_info_id").on('change', function() {
-    //     var base_url = "<?php echo base_url(); ?>";  
-    //     emp_id = $('#tbl_emp_info_id').val(); 
-    //     var empScale = getEmpScale(emp_id);  
-    //     dateOfRetirement = $('#dor').val(); 
-    //     empScale_ID = $('#pay_scale_id').val();
-    
-    //     var formData = { dor: dateOfRetirement, empScaleID: empScale_ID };
-    //     if(emp_id == ''){
-    //         alert('Please select employee to continue');
-    //         $('#dor').val('');
-    //     }
-    //     else { 
-            
-    //         if(dateOfRetirement) { 
-    //             //alert(dateOfRetirement);
-    //             startDate = new Date($('#doa').val());
-    //             endDate = new Date($('#dor').val());
-
-    //             var diff_date =  endDate - startDate;
-    //             //alert(startDate+' == '+endDate);
-    //             var years = Math.floor(diff_date/31536000000);
-    //             var months = Math.floor((diff_date % 31536000000)/2628000000);
-    //             var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000);
-            
-
-    //             result = years+" year(s) "+months+" month(s) "+days+" and day(s)";
-
-    //             if(result == 'NaN year(s) NaN month(s) NaN and day(s)'){
-    //                 $('#los').val(''); 
-    //             } else {
-    //                 $('#los').val(result); 
-    //             }
-                
-    //             $.ajax({
-    //                 //+dateOfRetirement
-    //                 url: base_url +'retirement/getAmountData/',  
-    //                 type: "post",
-    //                 data: formData,
-    //                 dataType: "json",
-    //                 success:function(data) { 
-    //                     //alert('data = ' + JSON.stringify(data));
-    //                     //alert(JSON.stringify(data));
-    //                     //deduction net_amount
-    //                     //alert(data.amount);
-    //                     $('#grant_amount').val(data.amount);
-    //                     $('#deduction').val(0);
-    //                     $('#net_amount').val(data.amount);   
-    //                 }
-    //             });
-
-    //         } else {
-    //             $('#grant_amount').empty();
-    //         }
-    //     } 
-    // });
     
 
 
@@ -669,21 +559,21 @@
         }  
     }
     $(function() {
-        // $('#doa').datetimepicker({
-        //     useCurrent: false,
-        //     format: "DD-MM-YYYY",
-        //     showTodayButton: true,
-        //     ignoreReadonly: true
-        // }); 
-        // $('#dor').datetimepicker({
-        //     useCurrent: false,
-        //     format: "DD-MM-YYYY",
-        //     showTodayButton: true,
-        //     ignoreReadonly: true
-        // }); 
+        $('#doa').datetimepicker({
+            useCurrent: false,
+            format: "YYYY-MM-DD",
+            showTodayButton: true,
+            ignoreReadonly: true
+        }); 
+        $('#dor').datetimepicker({
+            useCurrent: false,
+            format: "YYYY-MM-DD",
+            showTodayButton: true,
+            ignoreReadonly: true
+        }); 
         $('#dept_letter_no_date').datetimepicker({
             useCurrent: false,
-            format: "DD-MM-YYYY",
+            format: "YYYY-MM-DD",
             showTodayButton: true,
             ignoreReadonly: true
         });

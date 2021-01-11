@@ -245,7 +245,7 @@
                     <table id="ssp_datatable" class="table table-bordered table-striped table-hover table-condensed display dataTable">
                         <thead>
                             <tr> 
-                                <th width="1%"><input type="checkbox" name="checkbox" id="selectall"></th>
+                                <!-- <th width="1%"><input type="checkbox" name="checkbox" id="selectall"></th> -->
                                 <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>                        
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'applicationNo')); ?></th>
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'GrantType')); ?></th>
@@ -283,6 +283,51 @@
         
 
         sspDataTable = $('#ssp_datatable').DataTable({
+
+            "paging": true,
+            "pageLength": 10,
+            //"pagingType": "simple",
+            "lengthChange": true,
+            "searching": true,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+ 
+            dom: 'lfrtipB',
+            //dom: 'Bfrtip',
+            buttons: [{
+                extend: 'print',
+                //className: 'btn btn-success btn-sm bg-green',
+                text:'<i class="fa fa-print"> </i> Print',
+                // autoPrint:false,
+                // footer: true,
+                messageTop: '<img width="120px" height="120px" src="<?php echo base_url('assets/upload/images/bfc.png'); ?>" class="img-circle" />',
+                // messageBottom: '',
+                title:'',
+                customize: function ( win ) {
+
+                $(win.document.body)
+                                .prepend('<div>Benevolanet Fund Cell KP<br>Search Report</div>')
+                                .css( 'font-size', '13pt' )
+                                .css( 'font-weight', 'bold' )
+                                .css( 'text-align', 'center' );
+
+                // $(win.document.body).find('h1')
+                //               .css( 'font-size', '12pt' )
+                //               .css( 'font-weight', 'bold' )
+                //               .css( 'text-align', 'center' );
+
+                $(win.document.body).find( 'table' )
+                                .addClass( 'compact' )
+                                .css( 'font-size', '10pt' );
+                }, // customize end
+            }, // print end
+
+            ],
+
+
+
+
             // Processing indicator
             "processing": true,
             // DataTables server-side processing mode
@@ -291,8 +336,8 @@
 
             // Initial no order.
             "order": [],
-            "filter": false,
-            "searching": false,
+            "filter": true,
+            "searching": true,
 
             // Load data from an Ajax source
             "ajax": {
@@ -320,9 +365,9 @@
             //     "orderable": false
             // }]
             'columns': [
-                {
-                    data: 'checkbox'
-                },
+                // {
+                //     data: 'checkbox'
+                // },
                 {
                     data: 'no'
                 }, 
@@ -344,7 +389,7 @@
             ],
             //Set column definition initialisation properties
             "columnDefs": [{
-                "targets": [0, 1, 2, 3, 4, 5],
+                "targets": [0, 1, 2, 3, 4], //5
                 "orderable": false
             }]
         });

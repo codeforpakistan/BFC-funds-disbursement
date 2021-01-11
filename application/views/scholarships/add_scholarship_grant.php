@@ -267,26 +267,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">   
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'case_status')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-eye"></i>
-                                        </div>
-
-                                        
-                                        <select name="tbl_case_status_id" id="tbl_case_status_id" class="form-control select2 validate[required]">
-                                            <option value="">Select Case Status</option> 
-                                            <?php foreach ($cases as $case) : ?>
-                                                <option value="<?php echo $case['id']; ?>"><?php echo $case['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-
-                                    </div><?php echo form_error('tbl_case_status_id'); ?>
-                                </div>
-                            </div>
+                        <div class="row"> 
                             <div class="col-md-6">   
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'payment_mode')); ?>:</label>
@@ -305,9 +286,25 @@
                                     </div><?php echo form_error('tbl_payment_mode_id'); ?>
                                 </div>
                             </div>
+                         
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_type')); ?>:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-bank"></i>
+                                        </div>
+                                        <select name="tbl_banks_id" id="tbl_banks_id" class="form-control select2 validate[required]">
+                                            <option value="">Select Bank Type</option> 
+                                            <?php foreach ($bank_types as $bank) : ?>
+                                                <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select> 
+                                    </div><?php echo form_error('tbl_banks_id'); ?>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="row">
+                        <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_branches')); ?>:</label>
@@ -316,16 +313,16 @@
                                             <i class="fa fa-bank"></i>
                                         </div>
                                         <select name="tbl_list_bank_branches_id" id="tbl_list_bank_branches_id" class="form-control select2 validate[required]">
-                                            <option value="">Select Bank</option> 
-                                            <?php foreach ($banks as $bank) : ?>
+                                            <option value="">Select Branch</option> 
+                                            <?php /* foreach ($banks as $bank) : ?>
                                                 <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?> (<?php echo $bank['branch_code']; ?>)</option>
-                                            <?php endforeach; ?>
+                                            <?php endforeach; */ ?>
                                         </select>
                                         
                                     </div><?php echo form_error('tbl_list_bank_branches_id'); ?>
                                 </div>
-                            </div>
-
+                            </div> 
+                         
                             <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'account_no')); ?>:</label>
@@ -337,7 +334,7 @@
                                         <input type="text" autocomplete="off" value="<?php echo set_value('account_no'); ?>" name="account_no" id="account_no" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('account_no'); ?>
                                 </div>
-                            </div>
+                            </div> 
                         </div>
 
                         <div class="row"> 
@@ -459,15 +456,15 @@
                                     <?php echo form_error('grade_attach'); ?>
                                 </div>
                             </div>
-                            <div class="col-md-6"> 
+                            <!-- <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'boards_approval')); ?>:</label>
+                                    <label><?php //echo $label = ucwords(str_replace('_', ' ', 'boards_approval')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="boards_approval" id="boards_approval" value="0"> No
                                     <input type="radio" class="validate[required]" name="boards_approval" id="boards_approval" value="1"> Yes
-                                    <?php echo form_error('boards_approval'); ?>
+                                    <?php //echo form_error('boards_approval'); ?>
                                 </div>
-                            </div>  
+                            </div>   -->
                         </div>
                         
                          
@@ -550,6 +547,23 @@
             }
         });
 
+
+        $('#tbl_banks_id').on('change', function() {
+            var base_url = "<?php echo base_url(); ?>";
+            var bank_type_id = $('#tbl_banks_id').val(); 
+            if(tbl_emp_info_id) {
+                $.ajax({
+                    url: base_url +'banks/get_branches/'+bank_type_id, 
+                    type: "post",
+                    dataType: "json",
+                    success:function(data) { 
+                        $('#tbl_list_bank_branches_id').html(data); 
+                    }
+                });
+            }else{
+                $('#tbl_list_bank_branches_id').html(data); 
+            }
+        });
 
         $('#class_pass').on('change', function() {
             var base_url = "<?php echo base_url(); ?>";

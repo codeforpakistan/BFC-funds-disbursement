@@ -21,31 +21,53 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                 <a href="<?php echo base_url(); ?>add_admin" type="button" class="btn btn-block btn-danger btn-sm"><i class="fa fa-trash-o"> all </i></a></h3> -->
 
                 <h3 class="box-title pull-right"> 
-                    <?php if ($_SESSION['tbl_admin_role_id'] == '1' || $_SESSION['tbl_admin_role_id'] == '6' || $_SESSION['tbl_admin_role_id'] == '7') { ?> 
+                    <?php if ($_SESSION['tbl_admin_role_id'] == '1' ||
+                    $_SESSION['tbl_admin_role_id'] == '4' ||  
+                    $_SESSION['tbl_admin_role_id'] == '6' || 
+                    $_SESSION['tbl_admin_role_id'] == '7') { ?> 
                         <a href="<?php echo base_url('add_scholarship_grant'); ?>" type="button" class="btn btn-block btn-success btn-sm"><i class="fa fa-plus"> New </i></a> 
                     <?php } ?>
                 </h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
-                <table id="ssp_datatable" class="table table-bordered table-striped table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
-                            <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'app no')); ?></th>
-                            <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'std name')); ?></th>
-                            <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'parent dept')); ?></th>
-                            <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'class_pass')); ?></th>
-                            <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'exam_pass')); ?></th>
-                            <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'result_date')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
-                            <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <?php echo form_open('scholarship/change_status/', 'id="formID"'); ?>
+                    <?php 
+                    //to allow superadmin, gazzeted officer, dc user and civil secretariat...
+                    if ($_SESSION['tbl_admin_role_id'] == '1' || 
+                    $_SESSION['tbl_admin_role_id'] == '4' || 
+                    $_SESSION['tbl_admin_role_id'] == '6' || 
+                    $_SESSION['tbl_admin_role_id'] == '7') { ?> 
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="submit" name="btnSubmit" class="btn btn-sm btn-success" value="Approved By Board">
+                                <input type="submit" name="btnSubmit" class="btn btn-sm btn-danger" value="Rejected By Board"> 
+                            </div>
+                        </div>
+                        <p></p>
+                    <?php } ?>
+                    
+                    <table id="ssp_datatable" class="table table-bordered table-striped table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th width="2%"><input type="checkbox" name="checkbox" id="selectall"></th>
+                                <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'app no')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'std name')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'parent dept')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'class_pass')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'exam_pass')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'result_date')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
+                                <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table> 
+                    
+                <?php echo form_close(); ?>
             </div>
             <!-- /.box-body -->
         </div>
@@ -108,4 +130,12 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
 
     };  
  
+    $(function() {
+        $('#selectall').click(function() { 
+            var checked = this.checked;
+            $('input[type="checkbox"]').each(function() {
+            this.checked = checked;
+            });
+        });
+    });
 </script>

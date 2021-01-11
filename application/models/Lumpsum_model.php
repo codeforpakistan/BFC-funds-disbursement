@@ -19,29 +19,27 @@ class Lumpsum_model extends CI_Model {
         
         $dateOfRetirement = $this->input->post('dor');
         $empScaleID = $this->input->post('empScaleID'); 
-        
+        //echo 'dor = ' . $dateOfRetirement;
         if(strtotime($dateOfRetirement) <= strtotime('2017-07-01')) {
-            //return 'less';
+            //echo 'less'; 
             $this->db->from('tbl_grant_payments'); 
-            $this->db->where('from_date <=', $dateOfRetirement);
-            $this->db->where('to_date >=', $dateOfRetirement);
+            $this->db->where('from_date <=', '2017-07-01'); 
             $this->db->where('tbl_pay_scale_id', $empScaleID);
             $this->db->where('tbl_grants_id', "6");
             $this->db->where('status', "1");
         } else if(strtotime($dateOfRetirement) >= strtotime('2017-07-01')) {
-            //return 'great';
+            //echo 'great';
             $this->db->from('tbl_grant_payments'); 
-            $this->db->where('from_date >=', '2017-07-01');
-            //$this->db->where('to_date >=', $dateOfRetirement);
+            $this->db->where('from_date >=', '2017-07-01'); 
             $this->db->where('tbl_pay_scale_id', $empScaleID);
             $this->db->where('tbl_grants_id', "6");
             $this->db->where('status', "1");
-        }
-        
+        } else {
+            return null;
+        } 
 
         $query = $this->db->get();
-        return $query->row();
-
+        return $query->row(); 
  
     }
 
@@ -65,23 +63,30 @@ class Lumpsum_model extends CI_Model {
             'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'),
             'application_no' => $application_no,
             'tbl_district_id' => $this->input->post('tbl_district_id'),
+            'tbl_banks_id' => $this->input->post('bank_type_id'),
+            'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
             'gazette' => $gazette,
             'role_id' => $_SESSION['tbl_admin_role_id'],
             'added_by' => $_SESSION['admin_id'],
-            'status' => $this->input->post('tbl_case_status_id')
+            'status' => '1'
         );
         $this->db->insert('tbl_grants_has_tbl_emp_info_gerund', $app_data); 
         //$last_insert_id = $this->db->insert_id(); 
- 
-		$data = array( 
+  
+        //'pay_scale' => BS-16
+        //'pay_scale_id' => 16
+        
+        $data = array(
             'application_no' => $application_no,
-            'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'),
-            'gov_emp_name' => $this->input->post('gov_emp_name'),
+            'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'), 
+            'tbl_district_id' => $this->input->post('tbl_district_id'),
             'wife' => $this->input->post('wife'),
             'son' => $this->input->post('son'),
             'daughter' => $this->input->post('daughter'),
             'tbl_grantee_type_id' => $this->input->post('tbl_grantee_type_id'),
-        
+            'grantee_name' => $this->input->post('grantee_name'),
+            'cnic_grantee' => $this->input->post('cnic_grantee'),
+            'grantee_contact_no' => $this->input->post('grantee_contact_no'),
             'record_no' => $this->input->post('record_no'),
             'record_no_year' => $this->input->post('record_no_year'), 
             'doa' => $doa,
@@ -92,46 +97,31 @@ class Lumpsum_model extends CI_Model {
             'grant_amount' => $this->input->post('grant_amount'),
             'deduction' => $this->input->post('deduction'),
             'net_amount' => $this->input->post('net_amount'),
-            'succession' => $this->input->post('succession'),
-
-            'tbl_case_status_id' => $this->input->post('tbl_case_status_id'),
-            'tbl_payment_mode_id' => $this->input->post('tbl_payment_mode_id'),
-            'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
-            
-            'account_no' => $this->input->post('account_no'),
+            'tbl_payment_mode_id' => $this->input->post('tbl_payment_mode_id'), 
+            'tbl_case_status_id' => '1',
+            'tbl_banks_id' => $this->input->post('bank_type_id'), 
+            'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'), 
+            'account_no' => $this->input->post('account_no'), 
             'bank_verification' => $this->input->post('bank_verification'),
             'sign_of_applicant' => $this->input->post('sign_of_applicant'),
             's_n_office_dept_seal' => $this->input->post('s_n_office_dept_seal'),
             's_n_dept_admin_seal' => $this->input->post('s_n_dept_admin_seal'),
-            
             'cnic_attach' => $this->input->post('cnic_attach'), 
             'cnic_widow_attach' => $this->input->post('cnic_widow_attach'), 
             'dc_attach' => $this->input->post('dc_attach'), 
-            'family_attach' => $this->input->post('family_attach'), 
-
+            'family_attach' => $this->input->post('family_attach'),  
             'payroll_lpc_attach' => $this->input->post('payroll_lpc_attach'), 
-            'dob_ac_attach' => $this->input->post('dob_ac_attach'), 
-
+            'dob_ac_attach' => $this->input->post('dob_ac_attach'),  
             'single_widow_attach' => $this->input->post('single_widow_attach'), 
             'no_marriage_attach' => $this->input->post('no_marriage_attach'), 
             'disc_attach' => $this->input->post('disc_attach'), 
             'undertaking' => $this->input->post('undertaking'), 
-
-            
-            'boards_approval' => $this->input->post('boards_approval'),
-            'ac_edit' => $this->input->post('ac_edit'),
-            'sent_to_secretary' => $this->input->post('sent_to_secretary'),
-            'approve_secretary' => $this->input->post('approve_secretary'),
-            
-            'tbl_district_id' => $this->input->post('tbl_district_id'),
-            'gazette' => $gazette, 
-
-            'sent_to_bank' => $this->input->post('sent_to_bank'),
-            'feedback_website' => $this->input->post('feedback_website'), 
+            'gazette' => $gazette,  
 			'record_add_by' => $_SESSION['admin_id'],
-			'record_add_date' => date('Y-m-d H:i:s'),
+			'record_add_date' => date('Y-m-d H:i:s'), 
         );
-        
+
+
         //echo '<pre>'; print_r($data); exit;
 		//XSS prevention
 		$data = $this->security->xss_clean($data); 
@@ -247,7 +237,60 @@ class Lumpsum_model extends CI_Model {
 		} else {
 			return false;
 		}
-	}
+    }
+    
+
+    function update_application_status() {
+        
+        //echo '<pre>'; print_r($this->input->post()); //exit();
+        $apps = $this->input->post('application_no');
+        $action = $this->input->post('btnSubmit'); 
+        $get_status = $this->common_model->getRecordByColoumn('tbl_case_status', 'name',  $action);
+        $status = $get_status['id'];
+        //echo '<br>status_id = '. $status; //exit;
+
+        if(count($apps) > 0) {
+            foreach ($apps as $key => $application_no) {
+                //echo '<br>app = '. $application_no; 
+                $gerund_status = array( 'status' => $status );
+                $self_tbl_status = array( 'tbl_case_status_id' => $status );
+                //XSS prevention
+                $gerund_status = $this->security->xss_clean($gerund_status);
+                $self_tbl_status = $this->security->xss_clean($self_tbl_status);
+                //updation in db
+                $this->db->where('application_no', $application_no); 
+                $result = $this->db->update('tbl_grants_has_tbl_emp_info_gerund', $gerund_status);
+                //echo '<br>affected = '. $this->db->affected_rows(); 
+                $this->db->where('application_no', $application_no); 
+                $result = $this->db->update('tbl_lump_sum_grant', $self_tbl_status); 
+              
+
+                $get_status = $this->common_model->getRecordByColoumn('tbl_lump_sum_grant', 'application_no',  $application_no);
+                $id = $get_status['id'];
+                //echo '<br>id = '. $id;  
+
+                $this->logger
+				->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
+				->tbl_name($this->table) //Entry table name
+				->tbl_name_id($id) //Entry table ID
+				->action_type('update') //action type identify Action like add or update
+				->detail( 
+					'<tr>' .
+					'<td><strong>' . 'Status' . '</strong></td><td>' . $action . '</td>'  .
+					'</tr>'  
+				) //detail
+				->log(); //Add Database Entry
+
+            } 
+            //exit;
+            return true;
+
+        } else {
+            return false;
+        }
+        
+    }
+
 
 	public function edit_lumpsum_grant() {
 

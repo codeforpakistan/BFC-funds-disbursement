@@ -311,6 +311,23 @@
                         <div class="row">
                             <div class="col-md-6"> 
                                 <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_type')); ?>:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-bank"></i>
+                                        </div>
+                                        <select name="bank_type_id" id="bank_type_id" class="form-control select2 validate[required]">
+                                            <option value="">Select Bank Type</option> 
+                                            <?php foreach ($bank_types as $bank) : ?>
+                                                <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select> 
+                                    </div><?php echo form_error('bank_type_id'); ?>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6"> 
+                                <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_branches')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -326,7 +343,9 @@
                                     </div><?php echo form_error('tbl_list_bank_branches_id'); ?>
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'account_no')); ?>:</label>

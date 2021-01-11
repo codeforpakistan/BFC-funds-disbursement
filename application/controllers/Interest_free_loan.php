@@ -32,6 +32,8 @@ class Interest_free_loan extends MY_Controller {
             $emp_array = array('status'=> '1', 'record_add_by'=> $_SESSION['admin_id']);
         }
 
+
+        $data['bank_types'] = $this->common_model->getAllRecordByArray('tbl_banks', array('status' => '1'));
 		$data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['department'] = $this->common_model->getAllRecordByArray('tbl_department', array('status' => '1'));
         //$data['payment_modes'] = $this->common_model->getAllRecordByArray('tbl_payment_mode', array('status' => '1'));
@@ -51,21 +53,15 @@ class Interest_free_loan extends MY_Controller {
 
             $this->form_validation->set_rules('tbl_emp_info_id', ucwords(str_replace('_', ' ', 'tbl_emp_info_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_department_id', ucwords(str_replace('_', ' ', 'tbl_department_id')), 'required|xss_clean|trim');
-
 			$this->form_validation->set_rules('duty_place', ucwords(str_replace('_', ' ', 'duty_place')), 'required|xss_clean|trim');
-
-            
             $this->form_validation->set_rules('grant_amount', ucwords(str_replace('_', ' ', 'grant_amount')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('deduction', ucwords(str_replace('_', ' ', 'deduction')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('net_amount', ucwords(str_replace('_', ' ', 'net_amount')), 'required|xss_clean|trim');
-            $this->form_validation->set_rules('tbl_case_status_id', ucwords(str_replace('_', ' ', 'tbl_case_status_id')), 'required|xss_clean|trim');
+            //$this->form_validation->set_rules('tbl_case_status_id', ucwords(str_replace('_', ' ', 'tbl_case_status_id')), 'required|xss_clean|trim');
             //$this->form_validation->set_rules('tbl_payment_mode_id', ucwords(str_replace('_', ' ', 'tbl_payment_mode_id')), 'required|xss_clean|trim');
-            
             $this->form_validation->set_rules('tbl_list_bank_branches_id', ucwords(str_replace('_', ' ', 'tbl_list_bank_branches_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('account_no', ucwords(str_replace('_', ' ', 'account_no')), 'required|xss_clean|trim');
             
-  
-
 			$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
 			if ($this->form_validation->run() === FALSE) {
 				$this->load->view('templates/header', $data);
@@ -158,6 +154,23 @@ class Interest_free_loan extends MY_Controller {
 	}
 
 
+    public function change_status() {
+        $postData = $this->input->post();  
+        //echo '<pre>'; print_r($postData); exit;
+        if(isset($postData['btnSubmit'])){ 
+            $countSelected = count($postData['application_no']); 
+            if($countSelected > 0) {
+                $this->interest_free_loan_model->update_application_status(); 
+				$this->session->set_flashdata('custom', 'Application(s) status updated successfully!');
+				redirect(base_url('view_interest_free_loan_grants'));
+            } else {
+                $this->session->set_flashdata('error_custom', 'Please select some applications to proceed!');
+				redirect(base_url('view_interest_free_loan_grants'));
+            }
+        } 
+    }
+
+
 
 	public function getData($id) {
 		$data = $this->interest_free_loan_model->getRecordById($id);
@@ -222,7 +235,12 @@ class Interest_free_loan extends MY_Controller {
 		$i = $_POST['start'];
 		foreach ($intFreeLoanData as $intFreeLoanInfo) {
 			$i++;
-			$status = ($intFreeLoanInfo->status == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Inactive</span>';
+			//$status = ($intFreeLoanInfo->status == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Inactive</span>';
+
+            $case_status_id = $intFreeLoanInfo->tbl_case_status_id;
+            $getstatus = $this->common_model->getRecordByColoumn('tbl_case_status', 'id',  $case_status_id);
+            $status = '<span class="'.$getstatus['label'].'">'.$getstatus['name'].'</span>';
+
 
 			$getRole = $this->admin->getRecordById($intFreeLoanInfo->record_add_by, $tbl_name = 'tbl_admin');
 			$recordAddDate = $intFreeLoanInfo->record_add_date;
@@ -241,8 +259,9 @@ class Interest_free_loan extends MY_Controller {
                             <button type="button" class="item_edit btn btn-sm btn-xs btn-warning"><i class="fa fa-edit"></i></button>
                         </a>';
             }
-            $getDept = $this->common_model->getRecordById($intFreeLoanInfo->parent_dept, $tbl_name = 'tbl_department');
-			$data[] = array($i,  $intFreeLoanInfo->application_no, $intFreeLoanInfo->grantee_name,$intFreeLoanInfo->father_name, $intFreeLoanInfo->personnel_no, $intFreeLoanInfo->doa, $intFreeLoanInfo->ddo_code,  $add_by_date, $actionBtn);
+            //$getDept = $this->common_model->getRecordById($intFreeLoanInfo->parent_dept, $tbl_name = 'tbl_department');
+            $input = '<input type="checkbox" name="application_no[]" id="application_no" value="'.$intFreeLoanInfo->application_no.'">';
+            $data[] = array($input, $i,  $intFreeLoanInfo->application_no, $intFreeLoanInfo->grantee_name,$intFreeLoanInfo->father_name, $intFreeLoanInfo->personnel_no, $intFreeLoanInfo->doa, $intFreeLoanInfo->ddo_code, $status, $add_by_date, $actionBtn);
 		}
 
 		$output = array(

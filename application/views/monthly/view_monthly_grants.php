@@ -31,6 +31,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                 <table id="ssp_datatable" class="table table-bordered table-striped table-hover table-condensed">
                     <thead>
                         <tr>
+                            <th width="2%"><input type="checkbox" name="checkbox" id="selectall"></th>
                             <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'app_no')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'record_no')); ?></th>
@@ -38,6 +39,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of appointment')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of retirement')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'length of service')); ?></th> 
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
                             <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th>
                         </tr>

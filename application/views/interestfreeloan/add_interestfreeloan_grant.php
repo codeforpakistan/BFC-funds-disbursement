@@ -282,8 +282,8 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-
-                                        <input type="date" onchange="getServiceLength()" autocomplete="off" value="<?php echo set_value('doa'); ?>" name="doa" id="doa" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
+                                        <!-- onchange="getServiceLength()" -->
+                                        <input type="text"  autocomplete="off" value="<?php echo set_value('doa'); ?>" name="doa" id="doa" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('doa'); ?>
                                 </div>
                             </div>
@@ -294,8 +294,8 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-
-                                        <input type="date" onchange="getServiceLength()" autocomplete="off" value="<?php echo set_value('dor'); ?>" name="dor" id="dor" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
+                                        <!-- onchange="getServiceLength()" -->
+                                        <input type="text"  autocomplete="off" value="<?php echo set_value('dor'); ?>" name="dor" id="dor" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('dor'); ?>
                                 </div>
                             </div>
@@ -411,16 +411,21 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">
+                            
+                            <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'applicant_sign')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_type')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
-                                            <i class="fa fa-user"></i>
+                                            <i class="fa fa-bank"></i>
                                         </div>
-
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('applicant_sign'); ?>" name="applicant_sign" id="applicant_sign" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
-                                    </div><?php echo form_error('applicant_sign'); ?>
+                                        <select name="bank_type_id" id="bank_type_id" class="form-control select2 validate[required]">
+                                            <option value="">Select Bank Type</option> 
+                                            <?php foreach ($bank_types as $bank) : ?>
+                                                <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select> 
+                                    </div><?php echo form_error('bank_type_id'); ?>
                                 </div>
                             </div> 
                             <div class="col-md-6"> 
@@ -431,10 +436,7 @@
                                             <i class="fa fa-bank"></i>
                                         </div>
                                         <select name="tbl_list_bank_branches_id" id="tbl_list_bank_branches_id" class="form-control select2 validate[required]">
-                                            <option value="">Select Bank</option> 
-                                            <?php foreach ($banks as $bank) : ?>
-                                                <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?> (<?php echo $bank['branch_code']; ?>)</option>
-                                            <?php endforeach; ?>
+                                            <option value="">Select Branch</option> 
                                         </select>
                                         
                                     </div><?php echo form_error('tbl_list_bank_branches_id'); ?>
@@ -455,36 +457,36 @@
                                     </div><?php echo form_error('account_no'); ?>
                                 </div>
                             </div>
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'case_status')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-eye"></i>
-                                        </div>
-
-                                        
-                                        <select name="tbl_case_status_id" id="tbl_case_status_id" class="form-control select2 validate[required]">
-                                            <option value="">Select Case Status</option> 
-                                            <?php foreach ($cases as $case) : ?>
-                                                <option value="<?php echo $case['id']; ?>"><?php echo $case['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-
-                                    </div><?php echo form_error('tbl_case_status_id'); ?>
-                                </div>
-
-                                
-                            </div>
+                            
                         </div>
 
                          
 
 
                         <div class="row">
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature_of_applicant')); ?>:</label>
+                                    <br>
+                                    <input type="radio" class="validate[required]" checked name="applicant_sign" id="applicant_sign" value="No"> No
+                                    <input type="radio" class="validate[required]" name="applicant_sign" id="applicant_sign" value="Yes"> Yes
+                                    <?php echo form_error('applicant_sign'); ?>
+                                </div>
+                            </div>  
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature & Stamp of EDO / Head of Department')); ?>:</label>
+                                    <br>
+                                    <input type="radio" class="validate[required]" checked name="hod_sign" id="hod_sign" value="No"> No
+                                    <input type="radio" class="validate[required]" name="hod_sign" id="hod_sign" value="Yes"> Yes
+                                    <?php echo form_error('hod_sign'); ?>
+                                </div>
+                            </div> 
+                        </div> 
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'hod_attached')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature & Stamp of Head of Attached Department')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="hod_attached" id="hod_attached" value="No"> No
                                     <input type="radio" class="validate[required]" name="hod_attached" id="hod_attached" value="Yes"> Yes
@@ -493,7 +495,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'dc_admin')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature & Stamp of DC')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="dc_admin" id="dc_admin" value="No"> No
                                     <input type="radio" class="validate[required]" name="dc_admin" id="dc_admin" value="Yes"> Yes
@@ -501,27 +503,20 @@
                                 </div>
                             </div>
                         </div>
-
+                        
 
                         <div class="row">
-                            <div class="col-md-6">   
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_verification')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature & Stamp of Head of Administrative Department')); ?>:</label>
                                     <br>
-                                    <input type="radio" class="validate[required]" checked name="bank_verification" id="bank_verification" value="No"> No
-                                    <input type="radio" class="validate[required]" name="bank_verification" id="bank_verification" value="Yes"> Yes
-                                    <?php echo form_error('bank_verification'); ?>
+                                    <input type="radio" class="validate[required]" checked name="sign_of_admin_dept" id="sign_of_admin_dept" value="No"> No
+                                    <input type="radio" class="validate[required]" name="sign_of_admin_dept" id="sign_of_admin_dept" value="Yes"> Yes
+                                    <?php echo form_error('sign_of_admin_dept'); ?>
                                 </div>
                             </div>
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'boards_approval')); ?>:</label>
-                                    <br>
-                                    <input type="radio" class="validate[required]" checked name="boards_approval" id="boards_approval" value="0"> No
-                                    <input type="radio" class="validate[required]" name="boards_approval" id="boards_approval" value="1"> Yes
-                                    <?php echo form_error('boards_approval'); ?>
-                                </div>
-                            </div>  
+
+                             
                         </div>
 
                          
@@ -579,44 +574,54 @@
 
 <script type="text/javascript">
 
-    function getServiceLength() {
-        
-        startDate = new Date($('#doa').val());
-        endDate = new Date($('#dor').val());
+    $('#bank_type_id').on('change', function() {
+        var base_url = "<?php echo base_url(); ?>";
+        var bank_type_id = $('#bank_type_id').val(); 
+        if(tbl_emp_info_id) {
+            $.ajax({
+                url: base_url +'banks/get_branches/'+bank_type_id, 
+                type: "post",
+                dataType: "json",
+                success:function(data) { 
+                    $('#tbl_list_bank_branches_id').html(data); 
+                }
+            });
+        }else{
+            $('#tbl_list_bank_branches_id').html(data); 
+        }
+    });
 
-        var diff_date =  endDate - startDate;
-        
+    function getServiceLength() {  
+        startDate = new Date($('#doa').val());
+        endDate = new Date($('#dor').val()); 
+        var diff_date =  endDate - startDate;   
         var years = Math.floor(diff_date/31536000000);
         var months = Math.floor((diff_date % 31536000000)/2628000000);
-        var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000);
-      
-        result = years+" year(s) "+months+" month(s) "+days+" and day(s)";
-
+        var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000); 
+        result = years+" year(s) "+months+" month(s) "+days+" and day(s)"; 
         if(result == 'NaN year(s) NaN month(s) NaN and day(s)'){
             $('#los').val(''); 
         } else {
             $('#los').val(result); 
-        }
-
-        
+        }  
     }
 
     $(function() {
-        // $('#doa').datetimepicker({
-        //     useCurrent: false,
-        //     format: "DD-MM-YYYY",
-        //     showTodayButton: true,
-        //     ignoreReadonly: true
-        // });
-        // $('#dor').datetimepicker({
-        //     useCurrent: false,
-        //     format: "DD-MM-YYYY",
-        //     showTodayButton: true,
-        //     ignoreReadonly: true
-        // });
+        $('#doa').datetimepicker({
+            useCurrent: false,
+            format: "YYYY-MM-DD",
+            showTodayButton: true,
+            ignoreReadonly: true
+        });
+        $('#dor').datetimepicker({
+            useCurrent: false,
+            format: "YYYY-MM-DD",
+            showTodayButton: true,
+            ignoreReadonly: true
+        });
         $('#dept_letter_no_date').datetimepicker({
             useCurrent: false,
-            format: "DD-MM-YYYY",
+            format: "YYYY-MM-DD",
             showTodayButton: true,
             ignoreReadonly: true
         });
@@ -699,54 +704,29 @@
             }
         });
         
-        $('#doa, #dor, #tbl_loan_type_id').on('change', function() {
-        
-            //alert('i m here');
-            
+        $('#doa, #dor, #tbl_loan_type_id').on('focusout', function() {
+         
             var base_url = "<?php echo base_url(); ?>";
             var dateOfAppointment = $('#doa').val(); 
             var dateOfRetirement = $('#dor').val(); 
             var empScale = $('#pay_scale_id').val(); 
             var loanType  = $('#tbl_loan_type_id').val(); 
-            var emp_id = $('#tbl_emp_info_id').val(); 
- 
-            //alert('loanType = '+ loanType);
-
-            // startDate = new Date($('#doa').val());
-            // endDate = new Date($('#dor').val());
+            var emp_id = $('#tbl_emp_info_id').val();  
   
             var formData = { doa: dateOfAppointment, dor: dateOfRetirement, empID: emp_id, 
             empScaleID: empScale, loanTypeID: loanType  };
-            
-            //alert(JSON.stringify(formData)); 
-            //return false;
-            // if(emp_id == '' || empScale == ''){
-            //     alert('Please select employee to continue');
-            //     $('#dor').val('');  
-            //     return false;
-            // } else if(empScale > 15) {
-            //     alert('You are not elligible for the funeral grant.');
-            //     return false;
-            // }
-            // else 
-            
-            // alert('loanType = '+ loanType);
-            // alert('doa = '+ dateOfAppointment);
-            // alert('dor = '+ dateOfRetirement);
-            // alert('emp_id = '+ emp_id);
-            
-
+             
 
             if(loanType != '' && dateOfAppointment != '' && dateOfRetirement != '' && emp_id != ''){
                 
+                getServiceLength();
+
                 $.ajax({ 
                     url: base_url +'interest_free_loan/getAmountData/',  
                     type: "post",
                     data : formData,
                     dataType: "json",
-                    success:function(response) {  
-                        alert(JSON.stringify(response));
-                        //alert('Status = '+response.status + ' Amount = ' + response.data.amount);
+                    success:function(response) {   
                         if(response.status == 'success')
                         { 
                             $('#grant_amount').val(response.data.amount);

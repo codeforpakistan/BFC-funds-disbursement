@@ -12,7 +12,8 @@ class Banks extends MY_Controller {
 		// 	$this->session->sess_destroy();
 		// 	redirect('admin', 'refresh');
 		// }
-	}
+    }
+    
 	public function add_banks() {
 
 		$json = array();
@@ -45,6 +46,12 @@ class Banks extends MY_Controller {
 		// echo json_encode($json);
 
 	}
+
+    public function get_branches($id){
+        $data = $this->banks_model->getBranchesById($id);
+        //echo $data;
+        echo json_encode($data);
+    }
 
 	public function getData($id) {
 		$data = $this->banks_model->getRecordById($id);
