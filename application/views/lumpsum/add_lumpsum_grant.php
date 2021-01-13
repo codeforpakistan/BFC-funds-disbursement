@@ -580,23 +580,7 @@
 
 <script type="text/javascript">
 
-    $('#bank_type_id').on('change', function() {
-        var base_url = "<?php echo base_url(); ?>";
-        var bank_type_id = $('#bank_type_id').val(); 
-        if(tbl_emp_info_id) {
-            $.ajax({
-                url: base_url +'banks/get_branches/'+bank_type_id, 
-                type: "post",
-                dataType: "json",
-                success:function(data) { 
-                    $('#tbl_list_bank_branches_id').html(data); 
-                }
-            });
-        }else{
-            $('#tbl_list_bank_branches_id').html(data); 
-        }
-    });
-
+    
     function getServiceLength() {
         startDate = new Date($('#doa').val());
         endDate = new Date($('#dor').val()); 
@@ -708,6 +692,24 @@
             }
         });
 
+        $('#bank_type_id').on('change', function() {
+            var base_url = "<?php echo base_url(); ?>";
+            var bank_type_id = $('#bank_type_id').val(); 
+            if(bank_type_id) {
+                $.ajax({
+                    url: base_url +'banks/get_branches/'+bank_type_id, 
+                    type: "post",
+                    dataType: "json",
+                    success:function(data) { 
+                        $('#tbl_list_bank_branches_id').html(data); 
+                    }
+                });
+            }else{
+                $('#tbl_list_bank_branches_id').html(data); 
+            }
+        });
+
+        
         $('#doa').datetimepicker({
             useCurrent: false,
             format: "YYYY-MM-DD",

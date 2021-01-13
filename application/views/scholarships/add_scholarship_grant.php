@@ -551,7 +551,7 @@
         $('#tbl_banks_id').on('change', function() {
             var base_url = "<?php echo base_url(); ?>";
             var bank_type_id = $('#tbl_banks_id').val(); 
-            if(tbl_emp_info_id) {
+            if(bank_type_id) {
                 $.ajax({
                     url: base_url +'banks/get_branches/'+bank_type_id, 
                     type: "post",
