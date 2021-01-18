@@ -113,6 +113,23 @@
 
                     </div>
 
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_type')); ?>:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-bank"></i>
+                                </div>
+                                <select name="bank_type_id" id="bank_type_id" class="form-control select2 validate[required]">
+                                    <option value="">Select Bank Type</option> 
+                                    <?php foreach ($bank_types as $bank) : ?>
+                                        <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?></option>
+                                    <?php endforeach; ?>
+                                </select> 
+                            </div><?php echo form_error('bank_type_id'); ?>
+                        </div>
+                    </div>   
+                     
                     <div class="col-md-3"> 
                         <div class="form-group">
                             <label><?php echo $label = ucwords('Banks'); ?>:</label>
@@ -121,14 +138,14 @@
                                     <i class="fa fa-building"></i>
                                 </div>
                                 <select name="tbl_bank_id" id="tbl_bank_id" class="form-control select2">
-                                    <option value="">Select Banks</option>
-                                    <?php foreach ($banks as $bank) : ?>
+                                    <option value="">Select Branch</option>
+                                    <?php /* foreach ($banks as $bank) : ?>
                                         <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']. ' ('. $bank['branch_code']. ')'; ?></option>
-                                    <?php endforeach; ?>
+                                    <?php endforeach; */ ?>
                                 </select>
                             </div><?php echo form_error('tbl_bank_id'); ?>
                         </div> 
-                    </div>
+                    </div>  
                     <div class="col-md-3"> 
                         <div class="form-group">
                             <label><?php echo $label = ucwords('District'); ?>:</label>
@@ -136,13 +153,13 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-user"></i>
                                 </div>  
-                                <select name="district" id="district" class="form-control select2">
+                                <select name="district_id" id="district_id" class="form-control select2">
                                     <option value="">Select District</option>
                                     <?php foreach($districts as $district) { ?>
                                         <option value="<?=$district['id'];?>"><?=$district['name'];?></option>
                                     <?php } ?>
                                 </select>
-                            </div><?php echo form_error('district'); ?>
+                            </div><?php echo form_error('district_id'); ?>
                         </div> 
                     </div>
                      
@@ -157,80 +174,7 @@
         </div>
     </section>
 
-
-    <?php /* ?>
-    <section class="content">
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title pull-left"><?php echo ucwords(str_replace('_', ' ', 'Generated Report')); ?></h3>
-                <input type="button" class="btn btn-sm btn-primary pull-right" value="Create Batch" name="create_batch">
-            </div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive">
-                <table class="table no-margin">
-                    <thead>
-                        <tr>
-                            <th><input type="checkbox" name="checkall" id="checkall" value="1"></th>
-                            <th>Application No</th>
-                            <th>Applicant Name</th>
-                            <th>Grant Type</th>
-                            <th>Status</th>
-                            <th>Entry Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
-                        foreach ($applications as $application) {
-
-                            $tbl_grants_id = $application['tbl_grants_id'];
-                            $tbl_emp_info_id = $application['tbl_emp_info_id'];
-                            $application_no = $application['application_no'];
-
-                            $getTblName = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $tbl_grants_id);
-                            $grant_tbl_name = $getTblName['tbl_name'];
-                            $grant_type = $getTblName['name'];
-
-                            $getGrant  = $this->common_model->getRecordByColoumn($grant_tbl_name, 'application_no', $application_no);
-                            $applicant_name = $getGrant['grantee_name'];
-                            $entry_date = $getGrant['record_add_date'];
-                            $tbl_case_status = $getGrant['tbl_case_status'];
-
-                            $getStatus  = $this->common_model->getRecordByColoumn('tbl_case_status', 'id', $tbl_case_status);
-                            $statusName = $getStatus['name'];
-                            $statusLabel = $getStatus['label'];
-                            $status = '<span class="' . $statusLabel . '">' . $statusName . '</span>';
-
-                            //$applicant = $this->common_model->getRecordById($id, $tbl_name);
-                        ?>
-                            <tr>
-                                <th><input type="checkbox" id="application_no" name="application_no[]" value="1" id="example-select-all"></th>
-                                <td><a href="#"><?= $application['application_no']; ?></a></td>
-                                <td><?= $applicant_name; ?></td>
-                                <td><?= $grant_type; ?></td>
-                                <td><?= $status; ?></td>
-                                <td><?= $entry_date; ?></td>
-                                <td>
-                                    <div class="sparkbar" data-color="#00a65a" data-height="20"><canvas width="34" height="20" style="display: inline-block; width: 34px; height: 20px; vertical-align: top;"></canvas></div>
-                                </td>
-                            </tr>
-                        <?php } ?>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    
-    <?php */ ?>
-
-
-
-
-
-
-
-
-
+ 
 
     
     <!-- Main content -->
@@ -353,6 +297,12 @@
                     data.status = $('#status').val();
                     data.from_app_no = $('#from_app_no').val();
                     data.to_app_no = $('#to_app_no').val();
+
+
+                    data.bank_type_id = $('#bank_type_id').val();
+                    data.tbl_bank_id = $('#tbl_bank_id').val();
+                    data.district_id = $('#district_id').val();
+
                     //data.batch_status = $('#batch_status').val();
 
                     //data.tbl_bank_id = $('#tbl_bank_id').val();
@@ -395,7 +345,7 @@
         });
 
 
-        $('#tbl_grants_id, #status').change(function() {
+        $('#tbl_grants_id, #status, #district_id, #tbl_bank_id').change(function() {
             sspDataTable.draw();
         });
 
@@ -416,6 +366,25 @@
         });
 
 
+        $('#bank_type_id').on('change', function() {
+            var base_url = "<?php echo base_url(); ?>";
+            var bank_type_id = $('#bank_type_id').val(); 
+            if(bank_type_id) {
+                $.ajax({
+                    url: base_url +'banks/get_branches/'+bank_type_id, 
+                    type: "post",
+                    dataType: "json",
+                    success:function(data) { 
+                        $('#tbl_bank_id').html(data); 
+                    }
+                });
+            }else{
+                $('#tbl_bank_id').html(data); 
+            }
+
+            sspDataTable.draw();
+        });
+        
     });
 
     function reload_table() {

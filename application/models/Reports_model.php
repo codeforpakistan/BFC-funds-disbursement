@@ -35,7 +35,10 @@ class Reports_model extends CI_Model {
 		$status = $postData['status'];
         $from_app_no = $postData['from_app_no'];
         $to_app_no = $postData['to_app_no'];
-        $batch_status = $postData['batch_status'];
+        $bank_type_id = $postData['bank_type_id'];
+        $tbl_bank_id = $postData['tbl_bank_id'];
+        $district_id = $postData['district_id'];
+
 
         //$tbl_bank_id = $postData['tbl_bank_id'];
         //$keyword = $postData['keyword'];
@@ -67,11 +70,22 @@ class Reports_model extends CI_Model {
         }
         if($from_app_no != '' && $to_app_no != '') {
             $search_arr[] = " application_no BETWEEN '" . $from_app_no . "' and '" . $to_app_no . "' ";
+        } 
+          
+        if ($bank_type_id != '') {
+			$search_arr[] = " tbl_banks_id = '" . $bank_type_id . "' ";
+        }
+        if ($tbl_bank_id != '') {
+			$search_arr[] = " tbl_list_bank_branches_id = '" . $tbl_bank_id . "' ";
+        }
+        if ($district_id != '') {
+			$search_arr[] = " tbl_district_id = '" . $district_id . "' ";
         }
 
-        if ($batch_status != '') {
-			$search_arr[] = " batch_status = '" . $batch_status . "' ";
-		}
+
+        // if ($batch_status != '') {
+		// 	$search_arr[] = " batch_status = '" . $batch_status . "' ";
+		// }
 
 		if (count($search_arr) > 0) {
 			$searchQuery = implode(" and ", $search_arr);

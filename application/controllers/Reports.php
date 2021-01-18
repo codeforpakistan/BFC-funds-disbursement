@@ -17,6 +17,7 @@ class Reports extends MY_Controller {
 	 
 	public function view_reports() { 
         
+        $data['bank_types'] = $this->common_model->getAllRecordByArray('tbl_banks', array('status' => '1'));        
         $data['grants'] = $this->common_model->getAllRecords('tbl_grants');
         $data['statuses'] = $this->common_model->getAllRecords('tbl_case_status');
         $data['banks'] = $this->common_model->getAllRecords('tbl_list_bank_branches');

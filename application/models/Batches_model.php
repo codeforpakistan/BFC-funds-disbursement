@@ -101,6 +101,7 @@ class Batches_model extends CI_Model {
 		$status = $postData['status'];
         $from_app_no = $postData['from_app_no'];
         $to_app_no = $postData['to_app_no'];
+        $bank_type_id = $postData['bank_type_id'];
         $tbl_bank_id = $postData['tbl_bank_id'];
         $district_id = $postData['district_id'];
         $admin_id = $postData['admin_id'];
@@ -137,7 +138,15 @@ class Batches_model extends CI_Model {
         }
         if($from_app_no != '' && $to_app_no != '') {
             $search_arr[] = " application_no BETWEEN '" . $from_app_no . "' and '" . $to_app_no . "' ";
+        } 
+        if ($bank_type_id != '') {
+			$search_arr[] = " tbl_banks_id = '" . $bank_type_id . "' ";
         }
+        if ($tbl_bank_id != '') {
+			$search_arr[] = " tbl_list_bank_branches_id = '" . $tbl_bank_id . "' ";
+        }
+
+        $search_arr[] = " status = '2' ";
 
 		if (count($search_arr) > 0) {
 			$searchQuery = implode(" and ", $search_arr);
@@ -149,6 +158,7 @@ class Batches_model extends CI_Model {
 		## Total number of records without filtering
 		$this->db->select('count(*) as allcount');
         $this->db->where('batch_status','0');
+        $this->db->where('status','2');
 		$records = $this->db->get('tbl_grants_has_tbl_emp_info_gerund')->result();
 		$totalRecords = $records[0]->allcount;
 

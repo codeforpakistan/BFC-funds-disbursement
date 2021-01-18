@@ -112,7 +112,24 @@
                         </div>
 
                     </div>
-
+  
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_type')); ?>:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-bank"></i>
+                                </div>
+                                <select name="bank_type_id" id="bank_type_id" class="form-control select2">
+                                    <option value="">Select Bank Type</option> 
+                                    <?php foreach ($bank_types as $bank) : ?>
+                                        <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?></option>
+                                    <?php endforeach; ?>
+                                </select> 
+                            </div><?php echo form_error('bank_type_id'); ?>
+                        </div>
+                    </div>   
+                     
                     <div class="col-md-3"> 
                         <div class="form-group">
                             <label><?php echo $label = ucwords('Banks'); ?>:</label>
@@ -121,14 +138,12 @@
                                     <i class="fa fa-building"></i>
                                 </div>
                                 <select name="tbl_bank_id" id="tbl_bank_id" class="form-control select2">
-                                    <option value="">Select Banks</option>
-                                    <?php foreach ($banks as $bank) : ?>
-                                        <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']. ' ('. $bank['branch_code']. ')'; ?></option>
-                                    <?php endforeach; ?>
+                                    <option value="">Select Branch</option> 
                                 </select>
                             </div><?php echo form_error('tbl_bank_id'); ?>
                         </div> 
-                    </div>
+                    </div>  
+
 
                     <div class="col-md-3"> 
                         <div class="form-group">
@@ -146,10 +161,7 @@
                             </div><?php echo form_error('district_id'); ?>
                         </div> 
                     </div>
-
-                </div>
  
-                <div class="row">
                     <!-- /.col -->
                     <div class="col-md-3">
                         <div class="form-group">
@@ -277,6 +289,7 @@
                     data.status = $('#status').val();
                     data.from_app_no = $('#from_app_no').val();
                     data.to_app_no = $('#to_app_no').val();
+                    data.bank_type_id = $('#bank_type_id').val();
                     data.tbl_bank_id = $('#tbl_bank_id').val();
                     data.district_id = $('#district_id').val();
                     data.admin_id = $('#admin_id').val();
@@ -338,8 +351,9 @@
                 //$('select[id="pay_scale"]').empty();
             }
         });
+ 
 
-        $('#tbl_grants_id, #district_id, #admin_id, #tbl_bank_id').change(function() {
+        $('#tbl_grants_id, #district_id, #admin_id, #bank_type_id, #tbl_bank_id').change(function() {
             sspDataTable.draw();
         });
 
@@ -359,6 +373,25 @@
             sspDataTable.draw();
         });
 
+        $('#bank_type_id').on('change', function() {
+            var base_url = "<?php echo base_url(); ?>";
+            var bank_type_id = $('#bank_type_id').val(); 
+            if(bank_type_id) {
+                $.ajax({
+                    url: base_url +'banks/get_branches/'+bank_type_id, 
+                    type: "post",
+                    dataType: "json",
+                    success:function(data) { 
+                        $('#tbl_bank_id').html(data); 
+                    }
+                });
+            }else{
+                $('#tbl_bank_id').html(data); 
+            }
+
+            sspDataTable.draw();
+        });
+        
 
     });
 
