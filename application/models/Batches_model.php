@@ -151,9 +151,7 @@ class Batches_model extends CI_Model {
 		if (count($search_arr) > 0) {
 			$searchQuery = implode(" and ", $search_arr);
         }
-        
-        
-
+         
 
 		## Total number of records without filtering
 		$this->db->select('count(*) as allcount');
