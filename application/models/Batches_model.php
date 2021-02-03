@@ -243,42 +243,126 @@ class Batches_model extends CI_Model {
         //echo '<pre>'; print_r($this->input->post()); exit();
         $apps = $this->input->post('app_no');
         $btnSubmit = $this->input->post('btnSubmit');
-        $batch_no = $this->input->post('batch_no');
+        //$batch_no = $this->input->post('batch_no');
 
-        if($btnSubmit == 'approve') {
-            $status = '4';
-        } else if($btnSubmit == 'reject') {
-            $status = '5';
-        } else if($btnSubmit == 'cancel') {
-            $status = '6';
-        } 
+        if($btnSubmit == 'Approved By Secretary') {
+            $status = '5'; 
+        } else if($btnSubmit == 'Rejected By Secretary') {
+            $status = '6'; 
+        } else if($btnSubmit == 'Sent to Bank') {
+            $status = '7';
+        } else if($btnSubmit == 'Approved By Bank') {
+            $status = '8';
+        } else if($btnSubmit == 'Rejected By Bank') {
+            $status = '9';
+        }
         
         foreach ($apps as $key => $application_no) {
-            $data = array( 
-                'status' => $status,
-            );
+
+            $getApplication = $this->common_model->getRecordByColoumn('tbl_grants_has_tbl_emp_info_gerund', 'application_no', $application_no);
+            $grantID = $getApplication['tbl_grants_id'];
+            $app_role_id = $getApplication['role_id'];
+            $app_added_by = $getApplication['added_by'];
+
+
+            $data = array( 'status' => $status );
             //XSS prevention
             $data = $this->security->xss_clean($data);
-            //updation in db
+            //updation in tbl_grants_has_tbl_emp_info_gerund 
             $this->db->where('application_no', $application_no);
-            $this->db->where('batch_no', $batch_no);
-            $result = $this->db->update('tbl_batches', $data);
-            if ($result == true) { 
-                return true;
-            } else {
-                return false;
-            }
+            $result = $this->db->update('tbl_grants_has_tbl_emp_info_gerund', $data);
+            
+            //XSS prevention
+            $self_tbl_status = array( 'tbl_case_status_id' =>  $status ); 
+            $self_tbl_status = $this->security->xss_clean($self_tbl_status);
+            //finding table name
+            $get_tbl = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $grantID);
+            $tbl_name = $get_tbl['tbl_name'];
+            //updating in self table
+            $this->db->where('application_no', $application_no); 
+            $result = $this->db->update($tbl_name, $self_tbl_status); 
+ 
+
+            $get_rec_id = $this->common_model->getRecordByColoumn($tbl_name, 'application_no', $application_no);
+            $application_id = $get_rec_id['id'];
+
+            $this->logger
+            ->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
+            ->tbl_name($tbl_name) //Entry table name
+            ->tbl_name_id($application_id) //Entry table ID
+            ->action_type('update') //action type identify Action like add or update
+            ->detail( 
+                '<tr>' .
+                '<td><strong>' . 'Status' . '</strong></td><td> '.$btnSubmit.' </td>'  .
+                '</tr>'  
+            ) //detail
+            ->log(); //Add Database Entry
+
+
+            
+
+
+            //call to add notification...
+            // $array  = array(
+            //     'from_role_id'         =>      $_SESSION['tbl_admin_role_id'], 
+            //     'to_role_id'           =>      $to_role_id, 
+            //     'tbl_grants_id'     =>      $tbl_grants_id, 
+            //     'application_no'    =>      $application_no, 
+            //     'record_add_by'     =>      $record_add_by, 
+            //     'record_url'        =>      $record_url, 
+            // );
+            // $notify = $this->add_notification($array);
+      
         } 
-        
+       
+        if ($result == true) { 
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    function add_notification($array=null) {
+
+        $from_user          =   $array['from_user'];
+        $to_user            =   $array['to_user'];
+        $tbl_grants_id      =   $array['tbl_grants_id'];
+        $application_no     =   $array['application_no']; 
+        $record_add_by      =   $array['record_add_by'];
+        $record_url         =   $array['record_url']; 
+
+
+        //add notification
+        $notifications = array(
+            'from_user' => $from_user,
+            'to_user' => $to_user,
+            'tbl_grants_id' => $tbl_grants_id,
+            'application_no' => $application_no,
+            'record_add_by' => $record_add_by, 
+            'record_add_date' => date('Y-m-d'), 
+            'status_view' => '0',
+            'record_url' => $record_url
+        );
+
+        //XSS prevention
+        $notifications = $this->security->xss_clean($notifications);
+
+        //insertion in db
+        $this->db->insert('tbl_notifications', $notifications);
+        $last_insert_id = $this->db->insert_id();
     }
 
     //Create Batch
     function add_batch($postData = null) { 
 
+        //echo '<pre>'; print_r($this->input->post()); exit();
+
         $batch_no = $this->common_model->getBatchNo();   
         //$batch_no = date('Ymd');
        
         foreach ($postData as $key => $value) { 
+
             $getApplication = $this->common_model->getRecordByColoumn('tbl_grants_has_tbl_emp_info_gerund', 'application_no', $value);
             $districtID = $getApplication['tbl_district_id'];
             $grantID = $getApplication['tbl_grants_id'];
@@ -299,10 +383,40 @@ class Batches_model extends CI_Model {
             if ($this->db->affected_rows() > 0) {
                 $data = array(  
                     'batch_status' => '1',
+                    'status' => '4',
                 );
+
                 $this->db->where('application_no', $value);
-		        $result = $this->db->update('tbl_grants_has_tbl_emp_info_gerund', $data);
+                $result = $this->db->update('tbl_grants_has_tbl_emp_info_gerund', $data);
+                 
+                $self_tbl_status = array( 'tbl_case_status_id' => '4' ); 
+                $self_tbl_status = $this->security->xss_clean($self_tbl_status);
+
+                $get_tbl = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $grantID);
+                $tbl_name = $get_tbl['tbl_name'];
+
+                $this->db->where('application_no', $value); 
+                $result = $this->db->update($tbl_name, $self_tbl_status); 
+
             }
+
+            $get_rec_id = $this->common_model->getRecordByColoumn($tbl_name, 'application_no', $value);
+            $application_id = $get_rec_id['id'];
+
+            $this->logger
+            ->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
+            ->tbl_name($tbl_name) //Entry table name
+            ->tbl_name_id($application_id) //Entry table ID
+            ->action_type('update') //action type identify Action like add or update
+            ->detail( 
+                '<tr>' .
+                '<td><strong>' . 'Status' . '</strong></td><td> Batched </td>'  .
+                '</tr>'  
+            ) //detail
+            ->log(); //Add Database Entry
+            
+
+
         }
 
         return true; 

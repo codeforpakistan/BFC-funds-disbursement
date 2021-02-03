@@ -46,29 +46,20 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                         </div>
                     </div>
                     <p></p>
-                <?php } 
-                if ($_SESSION['tbl_admin_role_id'] == '3') { ?> 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <input type="submit" name="btnSubmit" class="btn btn-sm btn-primary" value="Sent to Bank"> 
-                            <input type="submit" name="btnSubmit" class="btn btn-sm btn-success" value="Approved By Bank"> 
-                            <input type="submit" name="btnSubmit" class="btn btn-sm btn-danger" value="Rejected By Bank"> 
-                        </div>
-                    </div>
-                    <p></p>
                 <?php } ?>
 
                     <table id="ssp_datatable" class="table table-bordered table-striped table-hover table-condensed">
-                        <thead> 
+                        <thead>
                             <tr>
-                                <th width="1%"><input type="checkbox" name="selectall" id="selectall"></th>
-                                <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>                        
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Application No')); ?></th>
-                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Grantee Name')); ?></th>
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Grant Type')); ?></th> 
-                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'District')); ?></th>
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Date Added')); ?></th>
-                                <th width="8%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'Status')); ?></th> 
+                                <th width="2%"><input type="checkbox" name="selectall" id="selectall"></th>
+                                <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'Application No')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'Total Amount')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'Paid Amount')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'Remaining Amount')); ?></th>
+                                <th width="15%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
+                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th>
+                                <!-- <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th> -->
                             </tr>
                         </thead>
                         <tbody>
@@ -79,25 +70,67 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             foreach ($applications as $key => $value) {
                                 $i++;
 
-                                $application_no = $value['application_no'];
-                                $tbl_grants_id = $value['tbl_grants_id'];
-                                $tbl_district_id = $value['tbl_district_id'];
-                                
-                                $tbl_grants = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $tbl_grants_id);
-                                $grant_name = $tbl_grants['name']; 
 
-                                $tbl_district = $this->common_model->getRecordByColoumn('tbl_district', 'id', $tbl_district_id);
-                                $district_name = $tbl_district['name']; 
-
-
-                                //$getRole = $this->admin->getRecordById($value['record_add_by'], $tbl_name = 'tbl_admin');
-                                //echo '<pre>'; print_r($getRole);
+                                $getRole = $this->admin->getRecordById($value['record_add_by'], $tbl_name = 'tbl_admin');
                                 $recordAddDate = $value['record_add_date'];
                                 $recordAddDate = date("d-M-Y", strtotime($recordAddDate));
-                                //$add_by_date = 'Add by '.$getRole['name'].' on '.$recordAddDate;
+                                $application_no = $value['application_no'];
 
                                 $app_gerund = $this->common_model->getRecordByColoumn('tbl_grants_has_tbl_emp_info_gerund', 'application_no', $application_no);
-                                $status_id = $app_gerund['status']; 
+                                $tbl_grants_id = $app_gerund['tbl_grants_id'];
+                                $status_id = $app_gerund['status'];
+
+                                //echo 'grant_id = '. $tbl_grants_id;
+
+                                //Scholarship Grants
+                                if ($tbl_grants_id == '1') {
+                                    $app_detail = $this->common_model->getRecordByColoumn('tbl_scholaarship_grant', 'application_no', $application_no);
+                                }
+
+                                //Funeral Grants
+                                else if ($tbl_grants_id == '2') {
+                                    $app_detail = $this->common_model->getRecordByColoumn('tbl_funeral_grant', 'application_no', $application_no);
+                                }
+
+                                //Retirement Grants
+                                else if ($tbl_grants_id == '3') {
+                                    $app_detail = $this->common_model->getRecordByColoumn('tbl_retirement_grant', 'application_no', $application_no);
+                                }
+
+                                //Monthly Grants
+                                else if ($tbl_grants_id == '4') {
+                                    $app_detail = $this->common_model->getRecordByColoumn('tbl_monthly_grant', 'application_no', $application_no);
+                                }
+
+                                //Interest Free Loan Grants
+                                else if ($tbl_grants_id == '5') {
+                                    $app_detail = $this->common_model->getRecordByColoumn('tbl_interest_free_loan', 'application_no', $application_no);
+                                }
+
+                                //Lumpsum Grants
+                                else if ($tbl_grants_id == '6') {
+                                    $app_detail = $this->common_model->getRecordByColoumn('tbl_lump_sum_grant', 'application_no', $application_no);
+                                }
+
+                                //echo '<pre>'; print_r($app_detail); 
+                                $net_amount = $app_detail['net_amount'];
+                                $add_by_date = '<i>Add by <strong>' . $getRole['name'] . '</strong> on <strong>' . $recordAddDate . '</strong></i>';
+                                $app_transactions = $this->common_model->getRecordByColoumn('tbl_transactions', 'application_no', $application_no);
+                                $amount_paid = $this->common_model->getSumByColoumn('tbl_transactions', 'amount', 'paid_amount', 'application_no', $application_no);
+
+                                // if($paid_amount['paid_amount'] == '') {
+                                //     $amount_paid = '0.00';
+                                // } else {
+                                //     $amount_paid = $paid_amount['paid_amount'];
+                                // }
+
+                                //echo '<br>net_amount = '. $net_amount;
+                                //echo '<br>amount_paid = '. $amount_paid;
+
+                                $remaining_amount  = $net_amount - $amount_paid;
+
+                                //echo '<br>remaining_amount = '. $remaining_amount; 
+
                                 $status = $this->common_model->getRecordByColoumn('tbl_case_status', 'id', $status_id);
 
                                 ?>
@@ -105,11 +138,12 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                                     <td><input type="checkbox" name="app_no[]" id="app_no" value="<?= $application_no; ?>"></td>
                                     <td><?= $i; ?></td>
                                     <td><?= $application_no; ?></td>
-                                    <td><?= $grantee_name; ?></td>
-                                    <td><?= $grant_name; ?></td> 
-                                    <td><?= $district_name; ?></td> 
-                                    <td><?= $recordAddDate; ?></td>
-                                    <td><label for="" class="<?= $status['label'] ?> label-sm"><?= $status['name'] ?></label></td> 
+                                    <td>Rs. <?= $net_amount; ?></td>
+                                    <td>Rs. <?= $amount_paid; ?></td>
+                                    <td>Rs. <?= $remaining_amount; ?></td>
+                                    <td><?= $add_by_date; ?></td>
+                                    <td><label for="" class="<?= $status['label'] ?> label-sm"><?= $status['name'] ?></label></td>
+                                    <!-- <td><a href="javascript:" onclick="get_transactions(<?= $application_no ?>)"><img src="<?= site_url('assets/site/images/transactions.png'); ?>" height="32"></a></td> -->
                                 </tr>
                                 <?php
                             }

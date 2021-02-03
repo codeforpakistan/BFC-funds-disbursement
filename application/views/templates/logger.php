@@ -28,23 +28,29 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
 
           <?php if ($allInfo['action_type'] == 'add') {?>
 
-                  <span class="bg-blue">
+                  <span class="bg-green">
                     <?php echo date("d-m-Y", strtotime($allInfo['record_add_date'])); ?>
                   </span>
 
           <?php } else if ($allInfo['action_type'] == 'update') {?>
 
-                  <span class="bg-red">
+                  <span class="bg-blue">
                     <?php echo date("d-m-Y", strtotime($allInfo['record_add_date'])); ?>
                   </span>
 
-          <?php }?>
+          <?php } else if ($allInfo['action_type'] == 'delete') {?>
+
+            <span class="bg-red">
+            <?php echo date("d-m-Y", strtotime($allInfo['record_add_date'])); ?>
+            </span>
+
+            <?php }?>
 
             </li>
             <!-- /.timeline-label -->
             <!-- timeline item -->
             <li>
-              <?php if ($allInfo['action_type'] == 'add') {echo '<i class="fa fa-plus bg-blue"></i>';} else if ($allInfo['action_type'] == 'update') {echo '<i class="fa fa-refresh bg-red"></i>';}?>
+              <?php if ($allInfo['action_type'] == 'add') {echo '<i class="fa fa-plus bg-green"></i>';} else if ($allInfo['action_type'] == 'update') {echo '<i class="fa fa-refresh bg-blue"></i>';}?>
 
               <div class="timeline-item">
                 <span class="time"><i class="fa fa-clock-o"></i> <?php echo date("d-m-Y h:i:s a", strtotime($allInfo['record_add_date'])); ?></span>
@@ -58,13 +64,13 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                   <?php if ($allInfo['action_type'] == 'add') {?>
 
                   <span class="bg-green">
-                    <a class="btn btn-primary btn-xs"><?php echo ucwords($allInfo['action_type']) . ' : Detail of Record'; ?></a>
+                    <a class="btn btn-success btn-xs"><?php echo ucwords($allInfo['action_type']) . ' : Detail of Record'; ?></a>
                   </span>
 
                   <?php } else if ($allInfo['action_type'] == 'update') {?>
 
                   <span class="bg-green">
-                    <a class="btn btn-danger btn-xs"><?php echo ucwords($allInfo['action_type']) . ' : Detail of Record'; ?></a>
+                    <a class="btn btn-primary btn-xs"><?php echo ucwords($allInfo['action_type']) . ' : Detail of Record'; ?></a>
                   </span>
 
                   <?php }?>

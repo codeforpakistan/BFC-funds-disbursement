@@ -211,7 +211,7 @@ class Batches extends MY_Controller {
 
     public function batch_app_status() {
         $postData = $this->input->post(); 
-
+        //echo '<pre>'; print_r($postData); exit;
         if(isset($postData['btnSubmit'])){
             
 
@@ -359,7 +359,7 @@ class Batches extends MY_Controller {
         if($postData['action'] == 'btnCreateBatch'){
             
             $countSelected = count($this->input->post('selectall'));
-            //echo 'countSelected = '. $countSelected;
+            //echo 'countSelected = '. $countSelected; exit;
             if($countSelected > 0) {
 
                 $this->batches_model->add_batch($this->input->post('selectall'));

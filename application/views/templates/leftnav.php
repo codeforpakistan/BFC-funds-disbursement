@@ -64,9 +64,28 @@ if ($_SESSION['admin_id']) {
                         </li>  
                     </ul>
                 </li> 
+                <li>
+                    <a href="<?php echo base_url('transactions'); ?>"><i class="fa fa-money"></i> <span>Transactions</span></a>
+                </li> 
+            <?php } ?>
+             
+            <?php if($_SESSION['tbl_admin_role_id'] == '2') { ?>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-file"></i> <span>Batches</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                    <ul class="treeview-menu">
+                        <li class="">
+                            <a href="<?php echo base_url('create-batch'); ?>"><i class="fa fa-file"></i> <span>Create Batch</span></a>
+                        </li> 
+                        <li>
+                            <a href="<?php echo base_url('batches'); ?>"><i class="fa fa-file"></i> <span>View Batches</span></a>
+                        </li>  
+                    </ul>
+                </li>
+                
             <?php } ?>
             
-            
+
             <?php if ($_SESSION['tbl_admin_role_id'] == 1) { ?> 
                 <li class="treeview">
                     <a href="#"><i class="fa fa-info-circle"></i> <span>Reports</span>

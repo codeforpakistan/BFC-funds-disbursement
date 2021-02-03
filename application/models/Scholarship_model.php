@@ -518,6 +518,24 @@ class Scholarship_model extends CI_Model {
                 $get_status = $this->common_model->getRecordByColoumn('tbl_scholaarship_grant', 'application_no',  $application_no);
                 $id = $get_status['id'];
 
+
+                if($action == 'Approved By Board') {
+                    //id			tbl_grants_id	application_no	record_add_by	record_add_date	status_view	record_url
+                    $app_data = array(
+                        'from_user' => '1',
+                        'to_user' => $this->input->post('tbl_emp_info_id'),
+                        'application_no' => $application_no,
+                        'tbl_district_id' => $this->input->post('tbl_district_id'),
+                        'tbl_banks_id' => $this->input->post('tbl_banks_id'),
+                        'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
+                        'gazette' => $gazette,
+                        'role_id' => $_SESSION['tbl_admin_role_id'],
+                        'added_by' => $_SESSION['admin_id'],
+                        'status' => '1'
+                    );
+                    $this->db->insert('tbl_grants_has_tbl_emp_info_gerund', $app_data); 
+                }
+
                 $this->logger
 				->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
 				->tbl_name($this->table) //Entry table name

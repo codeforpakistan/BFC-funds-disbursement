@@ -106,6 +106,14 @@ class Common_model extends CI_Model {
         $count = $this->db->count_all_results();
         return $count; 
     }
+    public function getAllRecordsByCond($tbl_name, $your_conditions)
+    {
+        $this->db->select("*");
+        $this->db->from($tbl_name);
+        $this->db->where($your_conditions);
+        $query = $this->db->get();
+        return $query->result_array();
+    }
     public function countRecordsByCondGroupBy($tbl_name, $your_conditions, $group_by) {
         $this->db->select('id');
         $this->db->from($tbl_name);

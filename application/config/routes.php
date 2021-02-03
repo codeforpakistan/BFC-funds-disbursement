@@ -65,6 +65,7 @@ $route['batches'] = 'batches/view_batches/';
 $route['batch_details/(:any)'] = 'batches/batch_details/$1';
 $route['batch_app_status'] = 'batches/batch_app_status/';
 
+$route['transactions'] = 'transactions/view_list/';
 
 $route['setting'] = 'common/setting';
 
