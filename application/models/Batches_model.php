@@ -116,7 +116,7 @@ class Batches_model extends CI_Model {
 		if ($from_date != '' && $to_date != '') {
 			$from_date = date('Y-m-d', strtotime($postData['from_date']));
 			$to_date = date('Y-m-d', strtotime($postData['to_date']));
-			$search_arr[] = " date_added BETWEEN '" . $from_date . "' and '" . $to_date . "' ";
+			$search_arr[] = " DATE_FORMAT(date_added, '%Y-%m-%d') BETWEEN '" . $from_date . "' and '" . $to_date . "' ";
 		}
 		if ($status != '') {
 			$search_arr[] = " status = '" . $status . "' ";

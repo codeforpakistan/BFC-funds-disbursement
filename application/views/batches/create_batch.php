@@ -62,7 +62,23 @@
                             </div><?php echo form_error('tbl_grants_id'); ?>
                         </div> 
                     </div>
-
+                    <div class="col-md-3"> 
+                        <div class="form-group">
+                            <label><?php echo $label = ucwords('District'); ?>:</label>
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-user"></i>
+                                </div>  
+                                <select name="district_id" id="district_id" class="form-control select2">
+                                    <option value="">Select District</option>
+                                    <?php foreach($districts as $district) { ?>
+                                        <option value="<?=$district['id'];?>"><?=$district['name'];?></option>
+                                    <?php } ?>
+                                </select>
+                            </div><?php echo form_error('district_id'); ?>
+                        </div> 
+                    </div>
+                    <?php /* ?>
                     <div class="col-md-3"> 
                         <div class="form-group">
                             <label><?php echo $label = ucwords('status'); ?>:</label>
@@ -80,7 +96,7 @@
                             </div><?php echo form_error('status'); ?>
                         </div> 
                     </div>
-
+                    <? */ ?>
                 </div>
 
                 <div class="row">
@@ -109,8 +125,7 @@
 
                                 <input type="text" autocomplete="off" value="" name="to_app_no" id="to_app_no" class="form-control" placeholder="Enter <?php echo $label; ?>" />
                             </div><?php echo form_error('to_app_no'); ?>
-                        </div>
-
+                        </div> 
                     </div>
   
                     <div class="col-md-3">
@@ -145,22 +160,7 @@
                     </div>  
 
 
-                    <div class="col-md-3"> 
-                        <div class="form-group">
-                            <label><?php echo $label = ucwords('District'); ?>:</label>
-                            <div class="input-group">
-                                <div class="input-group-addon">
-                                    <i class="fa fa-user"></i>
-                                </div>  
-                                <select name="district_id" id="district_id" class="form-control select2">
-                                    <option value="">Select District</option>
-                                    <?php foreach($districts as $district) { ?>
-                                        <option value="<?=$district['id'];?>"><?=$district['name'];?></option>
-                                    <?php } ?>
-                                </select>
-                            </div><?php echo form_error('district_id'); ?>
-                        </div> 
-                    </div>
+                    
  
                     <!-- /.col -->
                     <div class="col-md-3">
@@ -286,7 +286,7 @@
                     data.from_date = $('#from_date').val();
                     data.to_date = $('#to_date').val();
                     data.tbl_grants_id = $('#tbl_grants_id').val();
-                    data.status = $('#status').val();
+                    //data.status = $('#status').val();
                     data.from_app_no = $('#from_app_no').val();
                     data.to_app_no = $('#to_app_no').val();
                     data.bank_type_id = $('#bank_type_id').val();
