@@ -75,7 +75,7 @@
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'record_no')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
-                                            <i class="fa fa-industry"></i>
+                                        <i class="fa fa-industry"></i>
                                         </div>
 
                                         <input type="text" autocomplete="off" value="<?php echo set_value('record_no'); ?>" name="record_no" id="record_no" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
@@ -424,7 +424,7 @@
         var years = Math.floor(diff_date/31536000000);
         var months = Math.floor((diff_date % 31536000000)/2628000000);
         var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000); 
-        result = years+" year(s) "+months+" month(s) "+days+" and day(s)"; 
+        result = years+" year(s) "+months+" month(s) and "+days+" day(s)"; 
         if(result == 'NaN year(s) NaN month(s) NaN and day(s)'){
             $('#los').val(''); 
         } else {

@@ -209,6 +209,24 @@ class Batches_model extends CI_Model {
             $empID = $record->tbl_emp_info_id;   
             $getGrant  = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id', $empID);
             $applicant_name = $getGrant['grantee_name'];
+            $applicant_cnic = $getGrant['cnic_no'];
+
+            //District Information
+            $districtID = $record->tbl_district_id;   
+            $getDistrict  = $this->common_model->getRecordByColoumn('tbl_district', 'id', $districtID);
+            $district_name = $getDistrict['name'];
+
+            //Bank Information
+            $bankID = $record->tbl_banks_id;   
+            $getBankName  = $this->common_model->getRecordByColoumn('tbl_banks', 'id', $bankID);
+            $bank_name = $getBankName['name'];
+            //Bank Branch Information
+            $bankBranchesID = $record->tbl_list_bank_branches_id;   
+            $getBankBranchName  = $this->common_model->getRecordByColoumn('tbl_list_bank_branches', 'id', $bankBranchesID);
+            $branch_name = $getBankBranchName['name'];
+            $branch_code = $getBankBranchName['branch_code'];
+
+            $bankName = $bank_name.' ('.$branch_name.' - '.$branch_code.')';
 
             
             $recordAddDate = date("d-M-Y", strtotime($record->date_added)); 
@@ -220,7 +238,10 @@ class Batches_model extends CI_Model {
                 "no" => $i, 
 				"applicationNo" => $applicationNo,
 				"GrantType" => $grant_type,
-				"GranteeName" => $applicant_name, 
+                "GranteeName" => $applicant_name, 
+                "cnicNo" => $applicant_cnic, 
+                "bankName" => $bankName,
+                "districtName" => $district_name,
 				"DateAdded" => $recordAddDate, 
 				"status" => $status
 			);

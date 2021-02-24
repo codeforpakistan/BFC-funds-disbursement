@@ -84,6 +84,15 @@ scratch. This page gets rid of all links and provides the needed markup only.
     gtag('config', 'G-J4ZT0HD3H1');
     </script>
 
+    <style type="text/css">
+        @media print { 
+            .no-print, .no-print *
+            {
+                display: none !important;
+                visibility: hidden;
+            }
+        }  
+    </style>
 </head>
 <!--
 BODY TAG OPTIONS:

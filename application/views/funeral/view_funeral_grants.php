@@ -56,7 +56,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'record_no_year')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'name_deceased')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of appointment')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of retirement')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of death')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'length of service')); ?></th> 
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
@@ -89,6 +89,8 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     var sspDataTable;
     $(document).ready(function() {
         sspDataTable = $('#ssp_datatable').DataTable({
+            "paging": true,
+            "pageLength": 100,
             // Processing indicator
             "processing": true,
             // DataTables server-side processing mode
@@ -104,7 +106,46 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
             "columnDefs": [{
                 "targets": [0],
                 "orderable": false
-            }]
+            }],
+
+
+
+            //dom: 'lfrtipB',
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'print',
+                //className: 'btn btn-success btn-sm bg-green',
+                text:'<i class="fa fa-print"> </i> Print',
+                // autoPrint:false,
+                // footer: true,
+                messageTop: '<img width="120px" height="120px" src="<?php echo base_url('assets/upload/images/bfc.png'); ?>" class="img-circle" />',
+                // messageBottom: '',
+                title:'',
+                customize: function ( win ) {
+
+                $(win.document.body)
+                                .prepend('<div>Benevolanet Fund Cell KP<br>FUNERAL GRANTS</div>')
+                                .css( 'font-size', '13pt' )
+                                .css( 'font-weight', 'bold' )
+                                .css( 'text-align', 'center' );
+
+                // $(win.document.body).find('h1')
+                //               .css( 'font-size', '12pt' )
+                //               .css( 'font-weight', 'bold' )
+                //               .css( 'text-align', 'center' );
+
+                $(win.document.body).find( 'table' )
+                                .addClass( 'compact' )
+                                .css( 'font-size', '10pt' );
+                }, // customize end
+            }, // print end
+            'copy',
+            'excel',
+            'csv',
+            'pdf',
+            ],
+
+
         });
 
         // for form error validation

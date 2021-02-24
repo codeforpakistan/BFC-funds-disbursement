@@ -598,7 +598,7 @@
         var years = Math.floor(diff_date/31536000000);
         var months = Math.floor((diff_date % 31536000000)/2628000000);
         var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000); 
-        result = years+" year(s) "+months+" month(s) "+days+" and day(s)"; 
+        result = years+" year(s) "+months+" month(s) and "+days+" day(s)"; 
         if(result == 'NaN year(s) NaN month(s) NaN and day(s)'){
             $('#los').val(''); 
         } else {

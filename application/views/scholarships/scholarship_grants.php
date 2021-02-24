@@ -50,7 +50,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                     <table id="ssp_datatable" class="table table-bordered table-striped table-hover table-condensed">
                         <thead>
                             <tr>
-                                <th width="2%"><input type="checkbox" name="checkbox" id="selectall"></th>
+                                <th width="2%" class="no-print"><input type="checkbox" name="checkbox" id="selectall"></th>
                                 <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
                                 <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'app no')); ?></th>
                                 <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'std name')); ?></th>
@@ -75,7 +75,8 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     <!-- /.content -->
 
 </div>
- 
+
+
  
 <!-- /.content-wrapper -->
 
@@ -89,6 +90,8 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     var sspDataTable;
     $(document).ready(function() {
         sspDataTable = $('#ssp_datatable').DataTable({
+            "paging": true,
+            "pageLength": 100,
             // Processing indicator
             "processing": true,
             // DataTables server-side processing mode
@@ -105,6 +108,44 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                 "targets": [0],
                 "orderable": false
             }],
+
+            //dom: 'lfrtipB',
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'print',
+                //className: 'btn btn-success btn-sm bg-green',
+                text:'<i class="fa fa-print"> </i> Print',
+                // autoPrint:false,
+                // footer: true,
+                messageTop: '<img width="120px" height="120px" src="<?php echo base_url('assets/upload/images/bfc.png'); ?>" class="img-circle" />',
+                // messageBottom: '',
+                title:'',
+                customize: function ( win ) {
+
+                $(win.document.body)
+                                .prepend('<div>Benevolanet Fund Cell KP<br>SCHOLARSHIP GRANTS</div>')
+                                .css( 'font-size', '13pt' )
+                                .css( 'font-weight', 'bold' ) 
+                                .css( 'text-align', 'center' );
+
+                // $(win.document.body).find('h1')
+                //               .css( 'font-size', '12pt' )
+                //               .css( 'font-weight', 'bold' )
+                //               .css( 'text-align', 'center' );
+
+                $(win.document.body).find( 'table' )
+                                .addClass( 'compact' )
+                                .css( 'font-size', '10pt' );
+                }, // customize end
+            }, // print end
+            
+            'copy',
+            'excel',
+            'csv',
+            'pdf',  
+            ],
+
+
             
         });
 

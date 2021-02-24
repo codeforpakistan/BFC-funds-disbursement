@@ -74,20 +74,32 @@ class Retirement extends MY_Controller {
             // $this->form_validation->set_rules('feedback_website', ucwords(str_replace('_', ' ', 'feedback_website')), 'required|xss_clean|trim'); 
 
   
+            $tbl_emp_info_ID = $this->input->post('tbl_emp_info_id'); 
+            $your_conditions = array('tbl_emp_info_id' => $tbl_emp_info_ID, 'tbl_grants_id' => '3');
+            $countExists = $this->common_model->countAllRecordsByCond('tbl_grants_has_tbl_emp_info_gerund', $your_conditions);
+            //echo 'count = '. $countExists;
+            if($countExists > 0) {
+                //$data['post'] = $this->input->post();
+                $this->session->set_flashdata('error_custom', 'This record already exists!');
+                $this->load->view('templates/header', $data);
+                $this->load->view('retirement/add_retirement_grant', $data);
+                $this->load->view('templates/footer');
+            } else { 
 
-			$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
-			if ($this->form_validation->run() === FALSE) {
-				$this->load->view('templates/header', $data);
-				$this->load->view('retirement/add_retirement_grant', $data);
-				$this->load->view('templates/footer');
-			} else {
-                //echo 'i m here'; exit;
-				// to model
-				$this->retirement_model->add_retirement_grant();
-				// set session message
-				$this->session->set_flashdata('add', '!');
-				redirect(base_url('view_retirement_grants'));
-			}
+                $this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
+                if ($this->form_validation->run() === FALSE) {
+                    $this->load->view('templates/header', $data);
+                    $this->load->view('retirement/add_retirement_grant', $data);
+                    $this->load->view('templates/footer');
+                } else {
+                    //echo 'i m here'; exit;
+                    // to model
+                    $this->retirement_model->add_retirement_grant();
+                    // set session message
+                    $this->session->set_flashdata('add', '!');
+                    redirect(base_url('view_retirement_grants'));
+                }
+            }
 		} else {
 			$this->load->view('templates/header', $data);
 			$this->load->view('retirement/add_retirement_grant');
@@ -260,6 +272,25 @@ class Retirement extends MY_Controller {
 		foreach ($retirementData as $retirementInfo) {
 			$i++;
 			 
+            $emp_info_id = $retirementInfo->tbl_emp_info_id;
+            $emp_info = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id',  $emp_info_id);
+            $emp_name = $emp_info['grantee_name'];
+            $tbl_department_id = $emp_info['tbl_department_id'];
+            $tbl_post_id = $emp_info['tbl_post_id'];
+            $pay_scale = $emp_info['pay_scale'];
+            $personnel_no = $emp_info['personnel_no'];
+            $dob = $emp_info['dob'];
+            $cnic_no = $emp_info['cnic_no'];
+
+            $get_dept = $this->common_model->getRecordByColoumn('tbl_department', 'id',  $tbl_department_id);
+            $dept_name = $get_dept['name'];
+            $dept_name_scale = $dept_name. ' ('.$pay_scale.')';
+
+            $grant_amount = $retirementInfo->grant_amount;
+            $deduction_amount = $retirementInfo->deduction;
+            $net_amount = $retirementInfo->net_amount;
+
+
             $case_status_id = $retirementInfo->tbl_case_status_id;
             $getstatus = $this->common_model->getRecordByColoumn('tbl_case_status', 'id',  $case_status_id);
             $status = '<span class="'.$getstatus['label'].'">'.$getstatus['name'].'</span>';
@@ -285,10 +316,13 @@ class Retirement extends MY_Controller {
             
             $input = '<input type="checkbox" name="application_no[]" id="application_no" value="'.$retirementInfo->application_no.'">';
             //$getDept = $this->common_model->getRecordById($retirementInfo->parent_dept, $tbl_name = 'tbl_department');
-            
-            
-            $data[] = array($input, $i, $retirementInfo->application_no, $retirementInfo->record_no, $retirementInfo->record_no_year, $retirementInfo->doa, $retirementInfo->dor, $retirementInfo->los, $status, $add_by_date, $actionBtn);
+   
+            $data[] = array($input, $i, $retirementInfo->application_no, $emp_name, $dept_name_scale, 
+            $cnic_no, $personnel_no, $dob, $retirementInfo->doa, $retirementInfo->dor, $retirementInfo->los,
+            $net_amount, $status, $add_by_date, $actionBtn);
 		}
+
+        //echo '<pre>'; print_r($data); exit;
 
 		$output = array(
 			"draw" => $_POST['draw'],

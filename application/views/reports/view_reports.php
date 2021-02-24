@@ -191,10 +191,12 @@
                             <tr> 
                                 <!-- <th width="1%"><input type="checkbox" name="checkbox" id="selectall"></th> -->
                                 <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>                        
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'applicationNo')); ?></th>
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'GrantType')); ?></th>
-                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'granteeName')); ?></th>
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'dateAdded')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Application No')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'GrantType')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Grantee Name')); ?></th>
+                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Bank Name')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'District')); ?></th>
+                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Date Added')); ?></th>
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th> 
                             </tr>
                         </thead>
@@ -209,6 +211,8 @@
     <!-- /.content -->
     
 </div>
+
+
 
 
 
@@ -229,7 +233,7 @@
         sspDataTable = $('#ssp_datatable').DataTable({
 
             "paging": true,
-            "pageLength": 10,
+            "pageLength": 100,
             //"pagingType": "simple",
             "lengthChange": true,
             "searching": true,
@@ -237,8 +241,8 @@
             "info": true,
             "autoWidth": true,
  
-            dom: 'lfrtipB',
-            //dom: 'Bfrtip',
+            //dom: 'lfrtipB',
+            dom: 'Bfrtip',
             buttons: [{
                 extend: 'print',
                 //className: 'btn btn-success btn-sm bg-green',
@@ -266,7 +270,11 @@
                                 .css( 'font-size', '10pt' );
                 }, // customize end
             }, // print end
-
+            
+            'copy',
+            'excel',
+            'csv',
+            'pdf',  
             ],
 
 
@@ -329,6 +337,12 @@
                 },
                 {
                     data: 'GranteeName'
+                },
+                {
+                    data: 'bankName'
+                },
+                {
+                    data: 'districtName'
                 },
                 {
                     data: 'DateAdded'

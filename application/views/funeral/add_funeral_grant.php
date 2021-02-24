@@ -152,7 +152,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Date Of Retirement')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Date Of Death')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
@@ -490,7 +490,7 @@
         var years = Math.floor(diff_date/31536000000);
         var months = Math.floor((diff_date % 31536000000)/2628000000);
         var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000); 
-        result = years+" year(s) "+months+" month(s) "+days+" and day(s)"; 
+        result = years+" year(s) "+months+" month(s)  and "+days+" day(s)"; 
         if(result == 'NaN year(s) NaN month(s) NaN and day(s)'){
             $('#los').val(''); 
         } else {

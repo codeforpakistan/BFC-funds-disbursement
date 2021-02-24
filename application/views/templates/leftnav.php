@@ -12,10 +12,10 @@ if ($_SESSION['admin_id']) {
         font-weight: bold;
     }
 </style>
-<aside class="main-sidebar">
+<aside class="main-sidebar" >
 
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+    <section class="sidebar slim-scroll" style="height: auto;">
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
             <div class="pull-left image">
@@ -27,7 +27,7 @@ if ($_SESSION['admin_id']) {
             </div>
         </div>
         <!-- Sidebar Menu -->
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu" id="sidebarMenu">
             <li class="header">Main Menu</li>
             <?php if (!empty($_SESSION['tbl_admin_role_id'])) { ?>
                 <li class="treeview">
@@ -51,7 +51,25 @@ if ($_SESSION['admin_id']) {
             <?php } ?>
             <? //echo '<pre>'; print_r($_SESSION); ?>
             
-            <?php if($_SESSION['tbl_admin_role_id'] == '3') { ?>
+             
+            <?php 
+            // Account Section
+            if($_SESSION['tbl_admin_role_id'] == '3') { ?>
+                <li class="treeview">
+                    <a href="#"><i class="fa fa-info-circle"></i> <span>Reports</span>
+                    <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+                    <ul class="treeview-menu">
+                        <li class="">
+                            <a href="<?php echo base_url('reports'); ?>"><i class="fa fa-file"></i> <span>Generate Reports</span></a>
+                        </li> 
+                        <li class="">
+                            <a href="<?php echo base_url('disbursement'); ?>"><i class="fa fa-money"></i> <span>Total Disbursement</span></a>
+                        </li>  
+                        <li>
+                            <a href="<?php echo base_url('grants-released'); ?>"><i class="fa fa-money"></i> <span>Grant Released</span></a>
+                        </li>
+                    </ul>
+                </li> 
                 <li class="treeview">
                     <a href="#"><i class="fa fa-file"></i> <span>Batches</span>
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
@@ -69,7 +87,9 @@ if ($_SESSION['admin_id']) {
                 </li> 
             <?php } ?>
              
-            <?php if($_SESSION['tbl_admin_role_id'] == '2') { ?>
+            <?php 
+            // BFC Secretary Office
+            if($_SESSION['tbl_admin_role_id'] == '2') { ?>
                 <li class="treeview">
                     <a href="#"><i class="fa fa-file"></i> <span>Batches</span>
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
@@ -86,7 +106,9 @@ if ($_SESSION['admin_id']) {
             <?php } ?>
             
 
-            <?php if ($_SESSION['tbl_admin_role_id'] == 1) { ?> 
+            <?php 
+            // Super Admin
+            if ($_SESSION['tbl_admin_role_id'] == 1) { ?> 
                 <li class="treeview">
                     <a href="#"><i class="fa fa-info-circle"></i> <span>Reports</span>
                     <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
@@ -117,7 +139,9 @@ if ($_SESSION['admin_id']) {
                 </li> 
                 <? } ?>     
 
-            <?php if ($_SESSION['tbl_admin_role_id'] == 4 ) {  ?>  
+            <?php 
+            // Gazetted Officer
+            if ($_SESSION['tbl_admin_role_id'] == 4 ) {  ?>  
                 <li class="">
                     <a href="<?php echo base_url('view_emp_info'); ?>"><i class="fa fa-user"></i> <span>Emp Info Manag.</span></a>
                 </li>
@@ -162,7 +186,9 @@ if ($_SESSION['admin_id']) {
             </li>
 
             <?php if ($_SESSION['tbl_admin_role_id'] == 1) { ?>
-                 
+                <li>
+                    <a href="<?php echo base_url('transactions'); ?>"><i class="fa fa-money"></i> <span>Transactions</span></a>
+                </li>  
                 <li class="treeview">
                     <a href="#"><i class="fa fa-info-circle"></i> <span>Reports</span>
                         <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>

@@ -1,6 +1,11 @@
 <?php
 $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = 'tbl_admin');
 ?>
+
+<style media="print">
+  .no-print{ display: none; } 
+</style>
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -49,14 +54,18 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                         <tr>
                             <th width="2%" class="no-print"><input type="checkbox" name="checkbox" id="selectall"></th>
                             <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'app_no')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'record_no')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'record_no_year')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'application_no')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Name Of Applicant')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Department')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'CNIC No.')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Personnel No')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Date Of Birth')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of appointment')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of retirement')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'length of service')); ?></th> 
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Status')); ?></th> 
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'length of service')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Amount')); ?></th> 
+                            <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'Status')); ?></th> 
+                            <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
                             <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th>
                         </tr>
                     </thead>
@@ -85,6 +94,8 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     var sspDataTable;
     $(document).ready(function() {
         sspDataTable = $('#ssp_datatable').DataTable({
+            "paging": true,
+            "pageLength": 100,
             // Processing indicator
             "processing": true,
             // DataTables server-side processing mode
@@ -100,7 +111,43 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
             "columnDefs": [{
                 "targets": [0],
                 "orderable": false
-            }]
+            }],
+
+            //dom: 'lfrtipB',
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'print',
+                //className: 'btn btn-success btn-sm bg-green',
+                text:'<i class="fa fa-print"> </i> Print',
+                // autoPrint:false,
+                // footer: true,
+                messageTop: '<img width="120px" height="120px" src="<?php echo base_url('assets/upload/images/bfc.png'); ?>" class="img-circle" />',
+                // messageBottom: '',
+                title:'',
+                customize: function ( win ) {
+
+                $(win.document.body)
+                                .prepend('<div>Benevolanet Fund Cell KP<br>RETIREMENT GRANTS</div>')
+                                .css( 'font-size', '13pt' )
+                                .css( 'font-weight', 'bold' )
+                                .css( 'text-align', 'center' );
+
+                // $(win.document.body).find('h1')
+                //               .css( 'font-size', '12pt' )
+                //               .css( 'font-weight', 'bold' )
+                //               .css( 'text-align', 'center' );
+
+                $(win.document.body).find( 'table' )
+                                .addClass( 'compact' )
+                                .css( 'font-size', '10pt' );
+                }, // customize end
+            }, // print end
+            'copy',
+            'excel',
+            'csv',
+            'pdf',  
+            ],
+
         });
 
         // for form error validation
@@ -110,7 +157,9 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
             $(this).removeClass('is-invalid').addClass('is-valid');
             $(this).parents('.form-group').find('#error').html(" ");
         });
-    });
+   
+         
+    } );
 
     function reload_table() {
         ssp_datatable.ajax.reload(null, false); //reload datatable ajax
@@ -136,3 +185,4 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     });
 
 </script>
+

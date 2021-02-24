@@ -14,7 +14,7 @@ class Transactions extends MY_Controller {
          
         //$data['applications'] = $this->common_model->getAllRecordByArray('tbl_grants_has_tbl_emp_info_gerund', array('status' => '8'));
         $data['applications'] = $this->common_model->getAllRecordsByCond('tbl_grants_has_tbl_emp_info_gerund', "status IN('8','10','11') ");
-		$data['page_title'] = 'Approved From Bank';
+		$data['page_title'] = 'Transactions';
         $data['description'] = '...'; 
 
 		$this->load->view('templates/header', $data);

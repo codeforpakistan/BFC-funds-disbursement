@@ -79,9 +79,17 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             foreach ($applications as $key => $value) {
                                 $i++;
 
+                                
+                                
                                 $application_no = $value['application_no'];
                                 $tbl_grants_id = $value['tbl_grants_id'];
                                 $tbl_district_id = $value['tbl_district_id'];
+
+                                $grant_info = $this->common_model->getRecordByColoumn('tbl_grants_has_tbl_emp_info_gerund', 'application_no',  $application_no);
+                                $emp_info_id = $grant_info['tbl_emp_info_id'];
+                                $emp_info = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id',  $emp_info_id);
+                                $grantee_name = $emp_info['grantee_name'];
+
                                 
                                 $tbl_grants = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $tbl_grants_id);
                                 $grant_name = $tbl_grants['name']; 
@@ -210,7 +218,43 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
 
     $(document).ready(function() {
         sspDataTable = $('#ssp_datatable').DataTable({
+            "paging": true,
+            "pageLength": 100,
 
+            //dom: 'lfrtipB',
+            dom: 'Bfrtip',
+            buttons: [{
+                extend: 'print',
+                //className: 'btn btn-success btn-sm bg-green',
+                text:'<i class="fa fa-print"> </i> Print',
+                // autoPrint:false,
+                // footer: true,
+                messageTop: '<img width="120px" height="120px" src="<?php echo base_url('assets/upload/images/bfc.png'); ?>" class="img-circle" />',
+                // messageBottom: '',
+                title:'',
+                customize: function ( win ) {
+
+                $(win.document.body)
+                                .prepend('<div>Benevolanet Fund Cell KP<br> <?=$page_title;?> </div>')
+                                .css( 'font-size', '13pt' )
+                                .css( 'font-weight', 'bold' )
+                                .css( 'text-align', 'center' );
+
+                // $(win.document.body).find('h1')
+                //               .css( 'font-size', '12pt' )
+                //               .css( 'font-weight', 'bold' )
+                //               .css( 'text-align', 'center' );
+
+                $(win.document.body).find( 'table' )
+                                .addClass( 'compact' )
+                                .css( 'font-size', '10pt' );
+                }, // customize end
+            }, // print end
+            'copy',
+            'excel',
+            'csv',
+            'pdf',  
+            ],
         });
     });
 

@@ -99,20 +99,33 @@ class Lumpsum extends MY_Controller {
             // $this->form_validation->set_rules('sent_to_bank', ucwords(str_replace('_', ' ', 'sent_to_bank')), 'required|xss_clean|trim');
             // $this->form_validation->set_rules('feedback_website', ucwords(str_replace('_', ' ', 'feedback_website')), 'required|xss_clean|trim'); 
 
-  
+            $tbl_emp_info_ID = $this->input->post('tbl_emp_info_id'); 
+            $your_conditions = array('tbl_emp_info_id' => $tbl_emp_info_ID, 'tbl_grants_id' => '6');
+            $countExists = $this->common_model->countAllRecordsByCond('tbl_grants_has_tbl_emp_info_gerund', $your_conditions);
+            //echo 'count = '. $countExists;
+            if($countExists > 0) {
+                //$data['post'] = $this->input->post();
+                $this->session->set_flashdata('duplication', '!');
+                $this->load->view('templates/header', $data);
+                $this->load->view('lumpsum/add_lumpsum_grant', $data);
+                $this->load->view('templates/footer');
+            } else { 
 
-			$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
-			if ($this->form_validation->run() === FALSE) {
-				$this->load->view('templates/header', $data);
-				$this->load->view('lumpsum/add_lumpsum_grant', $data);
-				$this->load->view('templates/footer');
-			} else { 
-				// to model
-				$this->lumpsum_model->add_lumpsum_grant();
-				// set session message
-				$this->session->set_flashdata('add', '!');
-				redirect(base_url('view_lumpsum_grants'));
-			}
+
+                $this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
+                if ($this->form_validation->run() === FALSE) {
+                    $this->load->view('templates/header', $data);
+                    $this->load->view('lumpsum/add_lumpsum_grant', $data);
+                    $this->load->view('templates/footer');
+                } else { 
+                    // to model
+                    $this->lumpsum_model->add_lumpsum_grant();
+                    // set session message
+                    $this->session->set_flashdata('add', '!');
+                    redirect(base_url('view_lumpsum_grants'));
+                }
+            }
+            
 		} else {
 			$this->load->view('templates/header', $data);
 			$this->load->view('lumpsum/add_lumpsum_grant');
