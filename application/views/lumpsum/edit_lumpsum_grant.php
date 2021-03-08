@@ -133,7 +133,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('grantee_name'); ?>" name="grantee_name" id="grantee_name" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
+                                        <input type="text" autocomplete="off" value="<?php echo $all['grantee_name']; ?>" name="grantee_name" id="grantee_name" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
                                     </div><?php echo form_error('grantee_name'); ?>
                                 </div>
                             </div> 
@@ -147,7 +147,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('cnic_grantee'); ?>" maxlength="13" name="cnic_grantee" id="cnic_grantee" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
+                                        <input type="text" autocomplete="off" value="<?php echo $all['cnic_grantee']; ?>" maxlength="13" name="cnic_grantee" id="cnic_grantee" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
                                     </div><?php echo form_error('cnic_grantee'); ?>
                                 </div>
                             </div>
@@ -158,7 +158,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('grantee_contact_no'); ?>" name="grantee_contact_no" id="grantee_contact_no" maxlength="11" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
+                                        <input type="text" autocomplete="off" value="<?php echo $all['grantee_contact_no']; ?>" name="grantee_contact_no" id="grantee_contact_no" maxlength="11" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
                                     </div><?php echo form_error('grantee_contact_no'); ?>
                                 </div>
                             </div>
@@ -536,6 +536,7 @@
             <!-- /.col -->
             <div class="col-xs-6">
                 <input type="hidden" name="id" id="id" value="<?php echo $all['id']; ?>">
+                <input type="hidden" name="app_no" id="app_no" value="<?php echo $all['application_no']; ?>">
                 <button type="submit" value="submit" name="submit" class="btn btn-primary  btn-sm"><i class="fa fa-edit"> </i> Update Record</button>
                 <a href="<?php echo base_url('dashboard'); ?>" class="btn btn-info  btn-sm" type="button"> <i class="fa fa-chevron-left"> </i> Cancel/Back</a>
             </div>

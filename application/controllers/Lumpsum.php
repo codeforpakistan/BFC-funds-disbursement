@@ -49,15 +49,15 @@ class Lumpsum extends MY_Controller {
             $this->form_validation->set_rules('son', ucwords(str_replace('_', ' ', 'son')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('daughter', ucwords(str_replace('_', ' ', 'daughter')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_grantee_type_id', ucwords(str_replace('_', ' ', 'tbl_grantee_type_id')), 'required|xss_clean|trim');
-            $this->form_validation->set_rules('cnic_grantee', ucwords(str_replace('_', ' ', 'cnic_grantee')), 'required|xss_clean|trim|min_length[13]|max_length[12]|numeric');
+            $this->form_validation->set_rules('cnic_grantee', ucwords(str_replace('_', ' ', 'cnic_grantee')), 'required|xss_clean|trim|min_length[13]|max_length[13]|numeric');
             $this->form_validation->set_rules('grantee_contact_no', ucwords(str_replace('_', ' ', 'grantee_contact_no')), 'required|xss_clean|trim|min_length[11]|max_length[11]');
 
             $this->form_validation->set_rules('doa', ucwords(str_replace('_', ' ', 'doa')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('dor', ucwords(str_replace('_', ' ', 'dor')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('los', ucwords(str_replace('_', ' ', 'los')), 'required|xss_clean|trim');
             
-            //$this->form_validation->set_rules('dept_letter_no', ucwords(str_replace('_', ' ', 'dept_letter_no')), 'required|xss_clean|trim');
-            //$this->form_validation->set_rules('dept_letter_no_date', ucwords(str_replace('_', ' ', 'dept_letter_no_date')), 'required|xss_clean|trim');
+            $this->form_validation->set_rules('dept_letter_no', ucwords(str_replace('_', ' ', 'dept_letter_no')), 'required|xss_clean|trim');
+            $this->form_validation->set_rules('dept_letter_no_date', ucwords(str_replace('_', ' ', 'dept_letter_no_date')), 'required|xss_clean|trim');
 
             $this->form_validation->set_rules('grant_amount', ucwords(str_replace('_', ' ', 'grant_amount')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('deduction', ucwords(str_replace('_', ' ', 'deduction')), 'required|xss_clean|trim');
@@ -132,24 +132,7 @@ class Lumpsum extends MY_Controller {
 			$this->load->view('templates/footer');
 		}
 
-	}
-
-
-    public function change_status() {
-        $postData = $this->input->post();  
-        //echo '<pre>'; print_r($postData); exit;
-        if(isset($postData['btnSubmit'])){ 
-            $countSelected = count($postData['application_no']); 
-            if($countSelected > 0) {
-                $this->lumpsum_model->update_application_status(); 
-				$this->session->set_flashdata('custom', 'Application(s) status updated successfully!');
-				redirect(base_url('view_lumpsum_grants'));
-            } else {
-                $this->session->set_flashdata('error_custom', 'Please select some applications to proceed!');
-				redirect(base_url('view_lumpsum_grants'));
-            }
-        } 
-    }
+	} 
 
 
     public function edit_lumpsum_grant($id=null) {
@@ -182,7 +165,7 @@ class Lumpsum extends MY_Controller {
 		if ($this->input->post('submit')) {
             
             $this->form_validation->set_rules('tbl_emp_info_id', ucwords(str_replace('_', ' ', 'tbl_emp_info_id')), 'required|xss_clean|trim');
-            $this->form_validation->set_rules('gov_emp_name', ucwords(str_replace('_', ' ', 'gov_emp_name')), 'required|xss_clean|trim');
+            //$this->form_validation->set_rules('gov_emp_name', ucwords(str_replace('_', ' ', 'gov_emp_name')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('wife', ucwords(str_replace('_', ' ', 'wife')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('son', ucwords(str_replace('_', ' ', 'son')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('daughter', ucwords(str_replace('_', ' ', 'daughter')), 'required|xss_clean|trim');
@@ -201,9 +184,9 @@ class Lumpsum extends MY_Controller {
             $this->form_validation->set_rules('deduction', ucwords(str_replace('_', ' ', 'deduction')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('net_amount', ucwords(str_replace('_', ' ', 'net_amount')), 'required|xss_clean|trim');
 
-            $this->form_validation->set_rules('succession', ucwords(str_replace('_', ' ', 'succession')), 'required|xss_clean|trim');
+            //$this->form_validation->set_rules('succession', ucwords(str_replace('_', ' ', 'succession')), 'required|xss_clean|trim');
       
-            $this->form_validation->set_rules('tbl_case_status_id', ucwords(str_replace('_', ' ', 'tbl_case_status_id')), 'required|xss_clean|trim');
+            //$this->form_validation->set_rules('tbl_case_status_id', ucwords(str_replace('_', ' ', 'tbl_case_status_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_payment_mode_id', ucwords(str_replace('_', ' ', 'tbl_payment_mode_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_list_bank_branches_id', ucwords(str_replace('_', ' ', 'tbl_list_bank_branches_id')), 'required|xss_clean|trim');
            
@@ -259,6 +242,25 @@ class Lumpsum extends MY_Controller {
 		}
 
 	}
+
+
+
+
+    public function change_status() {
+        $postData = $this->input->post();  
+        //echo '<pre>'; print_r($postData); exit;
+        if(isset($postData['btnSubmit'])){ 
+            $countSelected = count($postData['application_no']); 
+            if($countSelected > 0) {
+                $this->lumpsum_model->update_application_status(); 
+				$this->session->set_flashdata('custom', 'Application(s) status updated successfully!');
+				redirect(base_url('view_lumpsum_grants'));
+            } else {
+                $this->session->set_flashdata('error_custom', 'Please select some applications to proceed!');
+				redirect(base_url('view_lumpsum_grants'));
+            }
+        } 
+    }
 
 
 	public function getData($id) {
