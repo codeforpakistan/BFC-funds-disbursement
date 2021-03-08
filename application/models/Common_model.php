@@ -6,8 +6,7 @@ class Common_model extends CI_Model {
 	}
 	public function getAllRecordByArray($tbl_name, $array) {
 		$this->db->order_by('id', 'desc');
-        $query = $this->db->get_where($tbl_name, $array);
-        
+        $query = $this->db->get_where($tbl_name, $array); 
 		return $query->result_array();
 	}
 	public function getAllRecordByArrayGroupBy($tbl_name, $group_by, $array) {
@@ -211,6 +210,42 @@ class Common_model extends CI_Model {
         // $query=$this->db->get();
         // return $query->result_array();
 
+    }
+
+
+    public function sendSMS($smsArray){
+        //echo '<pre>'; print_r($smsArray); exit;
+        $applicantMobNo = $smsArray['applicantMobNo'];
+        $smsContent = $smsArray['smsContent'];
+
+        $curl = curl_init();
+
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => "https://smscms.famzsolutions.com/sms/api/send?username=BFKP&password=BFKP@Nazim123&mask=BFKP&mobile=".$applicantMobNo."&message=".$smsContent,
+        //CURLOPT_URL => "https://smscms.famzsolutions.com/sms/api/send",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => false,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        //CURLOPT_POSTFIELDS =>"{\n\t\"username\":\"BFKP\",\n\t\"password\":\"BFKP@Nazim123\",\n\t\"mask\":\"BFKP\", \n\t\"mobile\":\"$applicantMobNo\", \n\t\"message\":\"$smsContent\",  }",
+        CURLOPT_HTTPHEADER => array(
+            "Content-Type: application/json"
+        ),
+        ));
+
+        $response = curl_exec($curl);
+        $err = curl_error($curl);
+
+        curl_close($curl);
+
+        if ($err) {
+        return $err;
+        } else {
+        return $response;
+        }
     }
     
 

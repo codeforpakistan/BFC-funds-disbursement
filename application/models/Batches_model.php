@@ -204,12 +204,23 @@ class Batches_model extends CI_Model {
             $getGrantDetails = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $grantID);
             $grant_type = $getGrantDetails['name'];
             //$grant_tbl_name = $getGrantDetails['tbl_name'];
-            
+            //$tbl_grants = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $tbl_grants_id);
+            //$grant_name = $tbl_grants['name']; 
+            $grant_tbl_name = $getGrantDetails['tbl_name']; 
+            $tbl_app_details = $this->common_model->getRecordByColoumn($grant_tbl_name, 'application_no', $applicationNo);
+            $account_no = $tbl_app_details['account_no']; 
+            $net_amount = $tbl_app_details['net_amount']; 
 
             $empID = $record->tbl_emp_info_id;   
             $getGrant  = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id', $empID);
             $applicant_name = $getGrant['grantee_name'];
+            $father_name = $getGrant['father_name'];
             $applicant_cnic = $getGrant['cnic_no'];
+            $tbl_post_id = $getGrant['tbl_post_id'];
+
+            $tbl_post = $this->common_model->getRecordByColoumn('tbl_post', 'id', $tbl_post_id);
+            $designation = $tbl_post['name']; 
+
 
             //District Information
             $districtID = $record->tbl_district_id;   
@@ -229,25 +240,45 @@ class Batches_model extends CI_Model {
             $bankName = $bank_name.' ('.$branch_name.' - '.$branch_code.')';
 
             
+            
             $recordAddDate = date("d-M-Y", strtotime($record->date_added)); 
  
             $input = '<input type="checkbox" name="selectall[]" id="selectall" value="'.$applicationNo.'">';
-            
+             
+            // data: 'checkbox' 
+            // data: 'no' 
+            // data: 'applicationNo'  
+            // data: 'GrantType' 
+            // data: 'districtName' 
+            // data: 'GranteeName' 
+            // data: 'FatherName' 
+            // data: 'Designation'  
+            // data: 'cnicNo' 
+            // data: 'bankName' 
+            // data: 'AccountNo' 
+            // data: 'Amount' 
+            // data: 'DateAdded' 
+            // data: 'status' 
+
 			$data[] = array(
                 "checkbox" => $input, 
                 "no" => $i, 
 				"applicationNo" => $applicationNo,
 				"GrantType" => $grant_type,
+                "districtName" => $district_name,
                 "GranteeName" => $applicant_name, 
+                "FatherName" => $father_name, 
+                "Designation" => $designation, 
                 "cnicNo" => $applicant_cnic, 
                 "bankName" => $bankName,
-                "districtName" => $district_name,
+                "AccountNo" => $account_no,
+                "Amount" => $net_amount, 
 				"DateAdded" => $recordAddDate, 
 				"status" => $status
 			);
 			$i++;
 		}
-
+        //echo '<pre>'; print_r($data); exit;
 		## Response
 		$response = array(
 			"draw" => intval($draw),
@@ -375,7 +406,7 @@ class Batches_model extends CI_Model {
     }
 
     //Create Batch
-    function add_batch($postData = null) { 
+    function add_batch($postData = null,$bfc_bank) { 
 
         //echo '<pre>'; print_r($this->input->post()); exit();
 
@@ -393,6 +424,7 @@ class Batches_model extends CI_Model {
                 'application_no' => $value,  
                 'tbl_grants_id' => $grantID,
                 'tbl_district_id' => $districtID,  
+                'bfc_bank' => $bfc_bank, 
                 'record_add_date' => date('Y-m-d H:i:s'),
                 'record_add_by' => $_SESSION['admin_id'],
                 'status' => '1',
@@ -444,7 +476,35 @@ class Batches_model extends CI_Model {
 
     }
       
-    
+    public function get_total_grant_batch($batchNo){
+
+
+        $this->db->select("application_no, tbl_grants_id");
+        $this->db->from($this->table);
+        $this->db->where('batch_no', $batchNo);
+        $query = $this->db->get();
+        $batch_apps = $query->result_array();
+        $total_sum = 0;
+        foreach ($batch_apps as $key => $value) {
+            $application_no = $value['application_no'];
+            $tbl_grants_id = $value['tbl_grants_id'];
+
+            //echo '<br><br>app_no = '. $application_no;
+            //echo '<br>tbl_grants_id = '. $tbl_grants_id;
+
+            $get_tbl = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $tbl_grants_id);
+            $tbl_name = $get_tbl['tbl_name'];
+            
+            //getSumByColoumn($tbl_name, $field, $alias, $tbl_col, $value)
+            $total = $this->common_model->getSumByColoumn($tbl_name, 'grant_amount', 'grant_amount', 'application_no', $application_no);
+            //echo '<br>total = '. $total;
+            $totalSum = $total_sum += $total;
+            //echo '<br>totalSum = '. $totalSum;
+        }
+
+        return $totalSum; 
+
+    }
 
 
 

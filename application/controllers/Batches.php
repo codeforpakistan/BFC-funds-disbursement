@@ -232,6 +232,25 @@ class Batches extends MY_Controller {
             }
         } 
     }
+    
+    
+    function PrintBatch($id)
+    {
+         $data['applications'] = $this->common_model->getAllRecordByArray('tbl_batches', array('batch_no' => $id));
+         //echo '<pre>'; print_r($data);die();
+         $page     = 'batches/print_batch.php';
+        
+    		$this->load->view($page,$data);
+    		
+    		$html = $this->load->view($page,$data,TRUE);
+		
+		//$pdfFilePath = $code.'.pdf';
+        $m = '';
+		$this->load->library('m_pdf');
+		$this->m_pdf->pdf->WriteHTML($html);
+		$this->m_pdf->pdf->Output($pdfFilePath, "I");	
+		
+    }
 
     public function batch_details($id = null) { 
          
@@ -295,6 +314,14 @@ class Batches extends MY_Controller {
 
     }
     
+    public function get_batch_sum($batchID = null){
+        if($batchID != '') {
+            $result = $this->batches_model->get_total_grant_batch($batchID); 
+            return $result;
+        } else {
+            return '0.00';
+        }
+    }
 
 
     public function get_batch() {
@@ -354,6 +381,7 @@ class Batches extends MY_Controller {
     
     public function add_batch() {  
         $postData = $this->input->post();
+        $bfc_bank = $this->input->post('bfc_bank');
         //echo '<pre>'; print_r($postData); //exit;
 
         if($postData['action'] == 'btnCreateBatch'){
@@ -362,7 +390,7 @@ class Batches extends MY_Controller {
             //echo 'countSelected = '. $countSelected; exit;
             if($countSelected > 0) {
 
-                $this->batches_model->add_batch($this->input->post('selectall'));
+                $this->batches_model->add_batch($this->input->post('selectall'),$bfc_bank);
 				// set session message
 				$this->session->set_flashdata('custom', 'Batch created successfully!');
 				redirect(base_url('batches'));

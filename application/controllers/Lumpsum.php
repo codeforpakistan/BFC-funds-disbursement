@@ -49,15 +49,15 @@ class Lumpsum extends MY_Controller {
             $this->form_validation->set_rules('son', ucwords(str_replace('_', ' ', 'son')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('daughter', ucwords(str_replace('_', ' ', 'daughter')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_grantee_type_id', ucwords(str_replace('_', ' ', 'tbl_grantee_type_id')), 'required|xss_clean|trim');
-            $this->form_validation->set_rules('record_no', ucwords(str_replace('_', ' ', 'record_no')), 'required|xss_clean|trim');
-            $this->form_validation->set_rules('record_no_year', ucwords(str_replace('_', ' ', 'record_no_year')), 'required|xss_clean|trim');
+            $this->form_validation->set_rules('cnic_grantee', ucwords(str_replace('_', ' ', 'cnic_grantee')), 'required|xss_clean|trim|min_length[13]|max_length[12]|numeric');
+            $this->form_validation->set_rules('grantee_contact_no', ucwords(str_replace('_', ' ', 'grantee_contact_no')), 'required|xss_clean|trim|min_length[11]|max_length[11]');
 
             $this->form_validation->set_rules('doa', ucwords(str_replace('_', ' ', 'doa')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('dor', ucwords(str_replace('_', ' ', 'dor')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('los', ucwords(str_replace('_', ' ', 'los')), 'required|xss_clean|trim');
             
-            $this->form_validation->set_rules('dept_letter_no', ucwords(str_replace('_', ' ', 'dept_letter_no')), 'required|xss_clean|trim');
-            $this->form_validation->set_rules('dept_letter_no_date', ucwords(str_replace('_', ' ', 'dept_letter_no_date')), 'required|xss_clean|trim');
+            //$this->form_validation->set_rules('dept_letter_no', ucwords(str_replace('_', ' ', 'dept_letter_no')), 'required|xss_clean|trim');
+            //$this->form_validation->set_rules('dept_letter_no_date', ucwords(str_replace('_', ' ', 'dept_letter_no_date')), 'required|xss_clean|trim');
 
             $this->form_validation->set_rules('grant_amount', ucwords(str_replace('_', ' ', 'grant_amount')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('deduction', ucwords(str_replace('_', ' ', 'deduction')), 'required|xss_clean|trim');
@@ -163,15 +163,21 @@ class Lumpsum extends MY_Controller {
             $emp_array = array('status'=> '1', 'record_add_by'=> $_SESSION['admin_id']);
         }
 
+        $data['id'] = $id;
         $data['all'] = $this->common_model->getRecordById($id, 'tbl_lump_sum_grant');
         $data['grantees'] = $this->common_model->getAllRecordByArray('tbl_grantee_type', array('status' => '1'));
-        $data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
+        //$data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['payment_modes'] = $this->common_model->getAllRecordByArray('tbl_payment_mode', array('status' => '1'));
+        //$data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
+        //$data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array );
+        //$data['emp_info'] = $this->emp_info_model->getRecordById($data['all']['tbl_emp_info_id']);
+        
+        
+        $data['bank_types'] = $this->common_model->getAllRecordByArray('tbl_banks', array('status' => '1'));
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
-        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array );
-         
+        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array);
         $data['emp_info'] = $this->emp_info_model->getRecordById($data['all']['tbl_emp_info_id']);
-         
+
         
 		if ($this->input->post('submit')) {
             
@@ -222,7 +228,7 @@ class Lumpsum extends MY_Controller {
             $this->form_validation->set_rules('disc_attach', ucwords(str_replace('_', ' ', 'disc_attach')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('undertaking', ucwords(str_replace('_', ' ', 'undertaking')), 'required|xss_clean|trim');
              
-            $this->form_validation->set_rules('boards_approval', ucwords(str_replace('_', ' ', 'boards_approval')), 'required|xss_clean|trim');
+            // $this->form_validation->set_rules('boards_approval', ucwords(str_replace('_', ' ', 'boards_approval')), 'required|xss_clean|trim');
             // $this->form_validation->set_rules('ac_edit', ucwords(str_replace('_', ' ', 'ac_edit')), 'required|xss_clean|trim');
             // $this->form_validation->set_rules('sent_to_secretary', ucwords(str_replace('_', ' ', 'sent_to_secretary')), 'required|xss_clean|trim');
             // $this->form_validation->set_rules('approve_secretary', ucwords(str_replace('_', ' ', 'approve_secretary')), 'required|xss_clean|trim');
@@ -318,6 +324,25 @@ class Lumpsum extends MY_Controller {
 			$i++;
 			//$status = ($lumpsumInfo->status == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Inactive</span>';
 
+
+            $emp_info_id = $lumpsumInfo->tbl_emp_info_id;
+            $emp_info = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id',  $emp_info_id);
+            $emp_name = $emp_info['grantee_name'];
+            $tbl_department_id = $emp_info['tbl_department_id'];
+            $tbl_post_id = $emp_info['tbl_post_id'];
+            $pay_scale = $emp_info['pay_scale'];
+            $personnel_no = $emp_info['personnel_no'];
+            $dob = $emp_info['dob'];
+            $cnic_no = $emp_info['cnic_no'];
+
+            $get_dept = $this->common_model->getRecordByColoumn('tbl_department', 'id',  $tbl_department_id);
+            $dept_name = $get_dept['name'];
+            $dept_name_scale = $dept_name. ' ('.$pay_scale.')';
+
+            $grant_amount = $lumpsumInfo->grant_amount;
+            $deduction_amount = $lumpsumInfo->deduction;
+            $net_amount = $lumpsumInfo->net_amount;
+
             $case_status_id = $lumpsumInfo->tbl_case_status_id;
             $getstatus = $this->common_model->getRecordByColoumn('tbl_case_status', 'id',  $case_status_id);
             $status = '<span class="'.$getstatus['label'].'">'.$getstatus['name'].'</span>';
@@ -343,8 +368,13 @@ class Lumpsum extends MY_Controller {
             }
             //$getDept = $this->common_model->getRecordById($lumpsumInfo->parent_dept, $tbl_name = 'tbl_department');
             $input = '<input type="checkbox" name="application_no[]" id="application_no" value="'.$lumpsumInfo->application_no.'">';
-            $data[] = array($input, $i, $lumpsumInfo->application_no, $lumpsumInfo->record_no, $lumpsumInfo->record_no_year, $lumpsumInfo->doa, $lumpsumInfo->dor, $lumpsumInfo->los, $status, $add_by_date, $actionBtn);
-		}
+            //$data[] = array($input, $i, $lumpsumInfo->application_no, $lumpsumInfo->record_no, $lumpsumInfo->record_no_year, $lumpsumInfo->doa, $lumpsumInfo->dor, $lumpsumInfo->los, $status, $add_by_date, $actionBtn);
+		
+            $data[] = array($input, $i, $lumpsumInfo->application_no, $emp_name, $dept_name_scale, 
+            $cnic_no, $personnel_no, $dob, $lumpsumInfo->doa, $lumpsumInfo->dor, $lumpsumInfo->los,
+            $net_amount, $status, $add_by_date, $actionBtn);
+        
+        }
 
 		$output = array(
 			"draw" => $_POST['draw'],

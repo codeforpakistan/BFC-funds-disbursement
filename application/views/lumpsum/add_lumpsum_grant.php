@@ -38,7 +38,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'employee')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Name of Government Servant')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
@@ -63,27 +63,12 @@
                                          
                                         <input type="text" name="pay_scale" id="pay_scale" value="<?php echo $emp_info->pay_scale;?>" class="form-control" readonly>
                                         <input type="hidden" id="pay_scale_id" name="pay_scale_id" value="<?php echo $emp_info->pay_scale_id;?>">
-                                        <input type="hidden" name="tbl_district_id" id="tbl_district_id" value="">
+                                        <input type="hidden" name="tbl_district_id" id="tbl_district_id" value="<?php echo $emp_info->tbl_district_id;?>">
                                     </div><?php echo form_error('pay_scale'); ?>
                                 </div>
                             </div> 
                         </div>
-                        <div class="row">
-                            <!-- <div class="col-md-6">
-                                <div class="form-group">
-                                    <label><?php //echo $label = ucwords(str_replace('_', ' ', 'govt_employee_name')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-user"></i>
-                                        </div>
-
-                                        <input type="text" autocomplete="off" value="<?php //echo set_value('gov_emp_name'); ?>" name="gov_emp_name" id="gov_emp_name" class="form-control validate[required,minSize[1]" placeholder="Enter <?php //echo $label; ?>" />
-                                    </div><?php //echo form_error('gov_emp_name'); ?>
-                                </div>
-                            </div> -->
-
-                            
-
+                        <div class="row">  
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'wife / husband')); ?>:</label>
@@ -145,7 +130,7 @@
                             </div> 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'grantee_name')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Name of Widow / Grantee / Applicant')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
@@ -164,7 +149,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('cnic_grantee'); ?>" name="cnic_grantee" id="cnic_grantee" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('cnic_grantee'); ?>" maxlength="13" name="cnic_grantee" id="cnic_grantee" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
                                     </div><?php echo form_error('cnic_grantee'); ?>
                                 </div>
                             </div>
@@ -175,7 +160,7 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('grantee_contact_no'); ?>" name="grantee_contact_no" id="grantee_contact_no" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('grantee_contact_no'); ?>" name="grantee_contact_no" id="grantee_contact_no" maxlength="11" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
                                     </div><?php echo form_error('grantee_contact_no'); ?>
                                 </div>
                             </div>
@@ -314,20 +299,7 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label><?php //echo $label = ucwords(str_replace('_', ' ', 'succession')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-file"></i>
-                                        </div>
-
-                                        <input type="text" autocomplete="off" value="<?php //echo set_value('succession'); ?>" name="succession" id="succession" class="form-control validate[required]" placeholder="Enter <?php //echo $label; ?>" />
-                                    </div><?php //echo form_error('succession'); ?>
-                                </div>
-                            </div>
-                        </div> -->
+                         
 
                         <div class="row"> 
                             <div class="col-md-6">
@@ -535,7 +507,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'undertaking')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Undertaking')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="undertaking" id="undertaking" value="No"> No
                                     <input type="radio" class="validate[required]" name="undertaking" id="undertaking" value="Yes"> Yes

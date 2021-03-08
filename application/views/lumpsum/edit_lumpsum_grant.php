@@ -13,7 +13,7 @@
 
     <!-- Main content -->
     <?php validation_errors(); ?>
-    <?php echo form_open_multipart('lumpsum/edit_lumpsum_grant/', 'id="formID"'); ?>
+    <?php echo form_open_multipart('lumpsum/edit_lumpsum_grant/'.$id, 'id="formID"'); ?>
 
     <!--      <form id="formID" method="POST" action="" enctype="multipart/form-data"> -->
     <!-- Main content -->
@@ -38,7 +38,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'employee')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Name of Government Servant')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
@@ -68,22 +68,10 @@
                                 </div>
                             </div> 
                         </div>
-                        <div class="row">
+                        <div class="row"> 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'govt_employee_name')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-user"></i>
-                                        </div>
-
-                                        <input type="text" autocomplete="off" value="<?php echo $all['gov_emp_name']; ?>" name="gov_emp_name" id="gov_emp_name" class="form-control validate[required,minSize[1]" placeholder="Enter <?php echo $label; ?>" />
-                                    </div><?php echo form_error('gov_emp_name'); ?>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'wife')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'wife / husband')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-industry"></i>
@@ -92,10 +80,7 @@
                                         <input type="number" autocomplete="off" value="<?php echo $all['wife']; ?>" name="wife" id="wife" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('wife'); ?>
                                 </div>
-                            </div>
-                        </div>
-
-                        <div class="row">
+                            </div> 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'son')); ?>:</label>
@@ -108,6 +93,8 @@
                                     </div><?php echo form_error('son'); ?>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'daughter')); ?>:</label>
@@ -140,10 +127,42 @@
                                 </div>
                             </div>
                             <div class="col-md-6">
-
-                            </div>
+                                <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Name of Widow / Grantee / Applicant')); ?>:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('grantee_name'); ?>" name="grantee_name" id="grantee_name" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
+                                    </div><?php echo form_error('grantee_name'); ?>
+                                </div>
+                            </div> 
                         </div>
 
+                        <div class="row">
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'CNIC No. of Widow / Grantee')); ?>:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('cnic_grantee'); ?>" maxlength="13" name="cnic_grantee" id="cnic_grantee" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
+                                    </div><?php echo form_error('cnic_grantee'); ?>
+                                </div>
+                            </div>
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Grantee Contact Number')); ?>:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-user"></i>
+                                        </div>
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('grantee_contact_no'); ?>" name="grantee_contact_no" id="grantee_contact_no" maxlength="11" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" /> 
+                                    </div><?php echo form_error('grantee_contact_no'); ?>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="row">
                             <div class="col-md-6">
@@ -180,20 +199,20 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
-
-                                        <input type="date" onchange="getServiceLength()" autocomplete="off" value="<?php echo $all['doa']; ?>" name="doa" id="doa" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
+                                        
+                                        <input type="text" autocomplete="off" value="<?php echo $all['doa']; ?>" name="doa" id="doa" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('doa'); ?>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Date of retirement')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Date of Death')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
                                             <i class="fa fa-calendar"></i>
                                         </div>
 
-                                        <input type="date"  onchange="getServiceLength()" autocomplete="off" value="<?php echo $all['dor']; ?>" name="dor" id="dor" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
+                                        <input type="text" autocomplete="off" value="<?php echo $all['dor']; ?>" name="dor" id="dor" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('dor'); ?>
                                 </div>
                             </div>
@@ -279,39 +298,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'succession')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-file"></i>
-                                        </div>
-
-                                        <input type="text" autocomplete="off" value="<?php echo $all['succession']; ?>" name="succession" id="succession" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
-                                    </div><?php echo form_error('succession'); ?>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'case_status')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-eye"></i>
-                                        </div>
-
-                                        <select name="tbl_case_status_id" id="tbl_case_status_id" class="form-control select2 validate[required]">
-                                            <option value="">Select Case Status</option>
-                                            <?php foreach ($cases as $case) : ?>
-                                                <option value="<?php echo $case['id']; ?>" <?php if($all['tbl_case_status_id'] == $case['id']) { echo 'selected'; } ?>><?php echo $case['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-
-                                    </div><?php echo form_error('tbl_case_status_id'); ?>
-                                </div>
-                            </div>
+                         
+                        <div class="row"> 
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'payment_mode')); ?>:</label>
@@ -330,6 +318,22 @@
                                     </div><?php echo form_error('tbl_payment_mode_id'); ?>
                                 </div>
                             </div>
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_type')); ?>:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-bank"></i>
+                                        </div>
+                                        <select name="bank_type_id" id="bank_type_id" class="form-control select2 validate[required]">
+                                            <option value="">Select Bank Type</option> 
+                                            <?php foreach ($bank_types as $bank) : ?>
+                                                <option value="<?php echo $bank['id']; ?>" <?php if($all['tbl_banks_id'] == $bank['id']) { echo 'selected'; } ?>><?php echo $bank['name']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select> 
+                                    </div><?php echo form_error('bank_type_id'); ?>
+                                </div>
+                            </div> 
                         </div>
 
 
@@ -390,7 +394,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 's_n_office_dept_seal')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature & Name Of The Head Of Department With Official Seal')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]"  <?php if($all['s_n_office_dept_seal'] == 'No') { echo 'checked'; } ?> name="s_n_office_dept_seal" id="s_n_office_dept_seal" value="No"> No
                                     <input type="radio" class="validate[required]"  <?php if($all['s_n_office_dept_seal'] == 'Yes') { echo 'checked'; } ?> name="s_n_office_dept_seal" id="s_n_office_dept_seal" value="Yes"> Yes
@@ -399,7 +403,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 's_n_dept_admin_seal')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature & Name of the Head of Administrative Department with Official Seal')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['s_n_dept_admin_seal'] == 'No') { echo 'checked'; } ?> name="s_n_dept_admin_seal" id="s_n_dept_admin_seal" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['s_n_dept_admin_seal'] == 'Yes') { echo 'checked'; } ?> name="s_n_dept_admin_seal" id="s_n_dept_admin_seal" value="Yes"> Yes
@@ -412,7 +416,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'cnic_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'CNIC Of Govt: Servant')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['cnic_attach'] == 'No') { echo 'checked'; } ?>  name="cnic_attach" id="cnic_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['cnic_attach'] == 'Yes') { echo 'checked'; } ?>  name="cnic_attach" id="cnic_attach" value="Yes"> Yes
@@ -421,7 +425,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'cnic_widow_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'CNIC of Widow / Grantee')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['cnic_widow_attach'] == 'No') { echo 'checked'; } ?> name="cnic_widow_attach" id="cnic_widow_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['cnic_widow_attach'] == 'Yes') { echo 'checked'; } ?> name="cnic_widow_attach" id="cnic_widow_attach" value="Yes"> Yes
@@ -433,7 +437,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'dc_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Death Certificate')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['dc_attach'] == 'No') { echo 'checked'; } ?>  name="dc_attach" id="dc_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['dc_attach'] == 'Yes') { echo 'checked'; } ?> name="dc_attach" id="dc_attach" value="Yes"> Yes
@@ -442,7 +446,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'family_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'List of Family Members')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['family_attach'] == 'No') { echo 'checked'; } ?> name="family_attach" id="family_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['family_attach'] == 'Yes') { echo 'checked'; } ?> name="family_attach" id="family_attach" value="Yes"> Yes
@@ -454,7 +458,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'payroll_lpc_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Pay Roll / LPC')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]"  <?php if($all['payroll_lpc_attach'] == 'No') { echo 'checked'; } ?> name="payroll_lpc_attach" id="payroll_lpc_attach" value="No"> No
                                     <input type="radio" class="validate[required]"  <?php if($all['payroll_lpc_attach'] == 'Yes') { echo 'checked'; } ?> name="payroll_lpc_attach" id="payroll_lpc_attach" value="Yes"> Yes
@@ -463,7 +467,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'dob_ac_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Details of Bank A/C')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['dob_ac_attach'] == 'No') { echo 'checked'; } ?> name="dob_ac_attach" id="dob_ac_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['dob_ac_attach'] == 'Yes') { echo 'checked'; } ?> name="dob_ac_attach" id="dob_ac_attach" value="Yes"> Yes
@@ -475,7 +479,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'single_widow_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Single Widow Certificate')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['single_widow_attach'] == 'No') { echo 'checked'; } ?> name="single_widow_attach" id="single_widow_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['single_widow_attach'] == 'Yes') { echo 'checked'; } ?> name="single_widow_attach" id="single_widow_attach" value="Yes"> Yes
@@ -484,7 +488,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'no_marriage_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'No Marriage & Non-Separation Certificate')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['no_marriage_attach'] == 'No') { echo 'checked'; } ?> name="no_marriage_attach" id="no_marriage_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['no_marriage_attach'] == 'Yes') { echo 'checked'; } ?> name="no_marriage_attach" id="no_marriage_attach" value="Yes"> Yes
@@ -496,7 +500,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'disc_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Death in Service Certificate')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['disc_attach'] == 'No') { echo 'checked'; } ?>  name="disc_attach" id="disc_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['disc_attach'] == 'Yes') { echo 'checked'; } ?>  name="disc_attach" id="disc_attach" value="Yes"> Yes
@@ -505,29 +509,14 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'undertaking')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Undertaking')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['undertaking'] == 'No') { echo 'checked'; } ?> name="undertaking" id="undertaking" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['undertaking'] == 'Yes') { echo 'checked'; } ?> name="undertaking" id="undertaking" value="Yes"> Yes
                                     <?php echo form_error('undertaking'); ?>
                                 </div>
                             </div>
-                        </div>
- 
-                        <div class="row">
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'boards_approval')); ?>:</label>
-                                    <br>
-                                    <input type="radio" class="validate[required]" <?php if($all['boards_approval'] == 'No') { echo 'checked'; } ?> name="boards_approval" id="boards_approval" value="No"> No
-                                    <input type="radio" class="validate[required]" <?php if($all['boards_approval'] == 'Yes') { echo 'checked'; } ?> name="boards_approval" id="boards_approval" value="Yes"> Yes
-                                    <?php echo form_error('boards_approval'); ?>
-                                </div>
-                            </div>
-                             
-
-                        </div>
+                        </div> 
  
                         <!-- /.row -->
                     </div>
@@ -617,11 +606,12 @@
             }
         });
 
-        $('#dor').on('change', function() {
+        $('#doa, #dor ').on('focusout', function() {
             var base_url = "<?php echo base_url(); ?>"; 
             dateOfRetirement = $('#dor').val(); 
             empScale_ID = $('#pay_scale_id').val();
             var formData = { dor: dateOfRetirement, empScaleID: empScale_ID };
+            //alert(formData);
             if(empScale_ID == ''){
                 alert('Please select employee to continue');
              
@@ -633,6 +623,8 @@
             }
             else {
                 if(dateOfRetirement) { 
+                    getServiceLength();
+
                     $.ajax({
                         //+dateOfRetirement
                         url: base_url +'lumpsum/getAmountData/',  
@@ -641,7 +633,7 @@
                         dataType: "json",
                         success:function(data) { 
                             //alert('data = ' + JSON.stringify(data));
-                            //alert(JSON.stringify(data));
+                            //console.log(JSON.stringify(data));
                             //deduction net_amount
                             //alert(data.amount);
                             $('#grant_amount').val(data.amount);
@@ -650,15 +642,59 @@
                         }
                     });
 
-                } else { 
-                    $('#doa').val('');
-                    $('#dor').val('');   
-                    $('#grant_amount').val('');
-                    $('#deduction').val('');
-                    $('#net_amount').val(''); 
-                }
+                } 
+                // else { 
+                //     $('#doa').val('');
+                //     $('#dor').val('');   
+                //     $('#grant_amount').val('');
+                //     $('#deduction').val('');
+                //     $('#net_amount').val(''); 
+                // }
             }
         });
+
+        // $('#dor').on('change', function() {
+        //     var base_url = "<?php echo base_url(); ?>"; 
+        //     dateOfRetirement = $('#dor').val(); 
+        //     empScale_ID = $('#pay_scale_id').val();
+        //     var formData = { dor: dateOfRetirement, empScaleID: empScale_ID };
+        //     if(empScale_ID == ''){
+        //         alert('Please select employee to continue');
+             
+        //         $('#doa').val('');
+        //         $('#dor').val('');   
+        //         $('#grant_amount').val('');
+        //         $('#deduction').val('');
+        //         $('#net_amount').val(''); 
+        //     }
+        //     else {
+        //         if(dateOfRetirement) { 
+        //             $.ajax({
+        //                 //+dateOfRetirement
+        //                 url: base_url +'lumpsum/getAmountData/',  
+        //                 type: "post",
+        //                 data: formData,
+        //                 dataType: "json",
+        //                 success:function(data) { 
+        //                     //alert('data = ' + JSON.stringify(data));
+        //                     //alert(JSON.stringify(data));
+        //                     //deduction net_amount
+        //                     //alert(data.amount);
+        //                     $('#grant_amount').val(data.amount);
+        //                     $('#deduction').val(0);
+        //                     $('#net_amount').val(data.amount);   
+        //                 }
+        //             });
+
+        //         } else { 
+        //             $('#doa').val('');
+        //             $('#dor').val('');   
+        //             $('#grant_amount').val('');
+        //             $('#deduction').val('');
+        //             $('#net_amount').val(''); 
+        //         }
+        //     }
+        // });
 
 
 
@@ -675,21 +711,21 @@
             }
         });
 
-        // $('#doa').datetimepicker({
-        //     useCurrent: false,
-        //     format: "DD-MM-YYYY",
-        //     showTodayButton: true,
-        //     ignoreReadonly: true
-        // });
-        // $('#dor').datetimepicker({
-        //     useCurrent: false,
-        //     format: "DD-MM-YYYY",
-        //     showTodayButton: true,
-        //     ignoreReadonly: true
-        // });
+        $('#doa').datetimepicker({
+            useCurrent: false,
+            format: "YYYY-MM-DD",
+            showTodayButton: true,
+            ignoreReadonly: true
+        });
+        $('#dor').datetimepicker({
+            useCurrent: false,
+            format: "YYYY-MM-DD",
+            showTodayButton: true,
+            ignoreReadonly: true
+        });
         $('#dept_letter_no_date').datetimepicker({
             useCurrent: false,
-            format: "DD-MM-YYYY",
+            format: "YYYY-MM-DD",
             showTodayButton: true,
             ignoreReadonly: true
         });

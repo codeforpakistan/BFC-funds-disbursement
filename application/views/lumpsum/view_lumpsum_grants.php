@@ -50,14 +50,18 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                         <tr>
                             <th width="2%" class="no-print"><input type="checkbox" name="checkbox" id="selectall"></th>
                             <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'app_no')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'record_no')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'record_no_year')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'doa')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'dor')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'los')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Status')); ?></th> 
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'application_no')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Name Of Applicant')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Department')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'CNIC No.')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Personnel No')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Date Of Birth')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of appointment')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of retirement')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'length of service')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Amount')); ?></th> 
+                            <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'Status')); ?></th> 
+                            <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
                             <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th>
                         </tr>
                     </thead>

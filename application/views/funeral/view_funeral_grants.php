@@ -52,8 +52,9 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             <th width="2%" class="no-print"><input type="checkbox" name="checkbox" id="selectall"></th>
                             <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'app_no')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'record_no')); ?></th>
-                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'record_no_year')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Name of Govt Servant')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Department Name')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'CNIC')); ?></th> 
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'name_deceased')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of appointment')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'date of death')); ?></th>

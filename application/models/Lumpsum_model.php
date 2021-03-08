@@ -294,66 +294,89 @@ class Lumpsum_model extends CI_Model {
 
 	public function edit_lumpsum_grant() {
 
-        //echo '<pre>'; print_r($_POST); exit();
+        echo '<pre>'; print_r($_POST); exit();
 
         $doa = date('Y-m-d', strtotime($this->input->post('doa')));
         $dor = date('Y-m-d', strtotime($this->input->post('dor')));
         $dept_letter_no_date = date('Y-m-d', strtotime($this->input->post('dept_letter_no_date')));
+        if($this->input->post('pay_scale_id') > 15) {
+            $gazette = '1';
+        } else {
+            $gazette = '0';
+        }
 
-		$data = array( 
-            'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'),
-            'gov_emp_name' => $this->input->post('gov_emp_name'),
-            'wife' => $this->input->post('wife'),
-            'son' => $this->input->post('son'),
-            'daughter' => $this->input->post('daughter'),
-            'tbl_grantee_type_id' => $this->input->post('tbl_grantee_type_id'),
-        
-            'record_no' => $this->input->post('record_no'),
-            'record_no_year' => $this->input->post('record_no_year'), 
-            'doa' => $doa,
-            'dor' => $dor,
-            'los' => $this->input->post('los'),
-            'dept_letter_no' => $this->input->post('dept_letter_no'),
-            'dept_letter_no_date' => $dept_letter_no_date,
-            'grant_amount' => $this->input->post('grant_amount'),
-            'deduction' => $this->input->post('deduction'),
-            'net_amount' => $this->input->post('net_amount'),
-            'succession' => $this->input->post('succession'),
-
-            'tbl_case_status_id' => $this->input->post('tbl_case_status_id'),
-            'tbl_payment_mode_id' => $this->input->post('tbl_payment_mode_id'),
+        //$application_no = $this->common_model->getApplicationNo();   
+        $app_data = array(  
+            'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'), 
+            'tbl_district_id' => $this->input->post('tbl_district_id'),
+            'tbl_banks_id' => $this->input->post('bank_type_id'),
             'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
-            
-            'account_no' => $this->input->post('account_no'),
-            'bank_verification' => $this->input->post('bank_verification'),
-            'sign_of_applicant' => $this->input->post('sign_of_applicant'),
-            's_n_office_dept_seal' => $this->input->post('s_n_office_dept_seal'),
-            's_n_dept_admin_seal' => $this->input->post('s_n_dept_admin_seal'),
-            
-            'cnic_attach' => $this->input->post('cnic_attach'), 
-            'cnic_widow_attach' => $this->input->post('cnic_widow_attach'), 
-            'dc_attach' => $this->input->post('dc_attach'), 
-            'family_attach' => $this->input->post('family_attach'), 
-
-            'payroll_lpc_attach' => $this->input->post('payroll_lpc_attach'), 
-            'dob_ac_attach' => $this->input->post('dob_ac_attach'), 
-
-            'single_widow_attach' => $this->input->post('single_widow_attach'), 
-            'no_marriage_attach' => $this->input->post('no_marriage_attach'), 
-            'disc_attach' => $this->input->post('disc_attach'), 
-            'undertaking' => $this->input->post('undertaking'), 
-
-            
-            'boards_approval' => $this->input->post('boards_approval'),
-            //'ac_edit' => $this->input->post('ac_edit'),
-            //'sent_to_secretary' => $this->input->post('sent_to_secretary'),
-            //'approve_secretary' => $this->input->post('approve_secretary'),
-            //'sent_to_bank' => $this->input->post('sent_to_bank'),
-            //'feedback_website' => $this->input->post('feedback_website'), 
-			'record_add_by' => $_SESSION['admin_id'],
-			'record_add_date' => date('Y-m-d H:i:s'),
+            'gazette' => $gazette,
+            'role_id' => $_SESSION['tbl_admin_role_id'],
+            'added_by' => $_SESSION['admin_id'], 
+            'status' => '1' 
         );
         
+        $this->db->where('application_no', $this->input->post('app_no'));
+        $result = $this->db->update('tbl_grants_has_tbl_emp_info_gerund', $app_data); 
+        //$last_insert_id = $this->db->insert_id(); 
+  
+		if ($result == true) {
+
+            $data = array( 
+                'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'),
+                'gov_emp_name' => $this->input->post('gov_emp_name'),
+                'wife' => $this->input->post('wife'),
+                'son' => $this->input->post('son'),
+                'daughter' => $this->input->post('daughter'),
+                'tbl_grantee_type_id' => $this->input->post('tbl_grantee_type_id'),
+            
+                'record_no' => $this->input->post('record_no'),
+                'record_no_year' => $this->input->post('record_no_year'), 
+                'doa' => $doa,
+                'dor' => $dor,
+                'los' => $this->input->post('los'),
+                'dept_letter_no' => $this->input->post('dept_letter_no'),
+                'dept_letter_no_date' => $dept_letter_no_date,
+                'grant_amount' => $this->input->post('grant_amount'),
+                'deduction' => $this->input->post('deduction'),
+                'net_amount' => $this->input->post('net_amount'),
+                'succession' => $this->input->post('succession'),
+
+                'tbl_case_status_id' => $this->input->post('tbl_case_status_id'),
+                'tbl_payment_mode_id' => $this->input->post('tbl_payment_mode_id'),
+                'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
+                
+                'account_no' => $this->input->post('account_no'),
+                'bank_verification' => $this->input->post('bank_verification'),
+                'sign_of_applicant' => $this->input->post('sign_of_applicant'),
+                's_n_office_dept_seal' => $this->input->post('s_n_office_dept_seal'),
+                's_n_dept_admin_seal' => $this->input->post('s_n_dept_admin_seal'),
+                
+                'cnic_attach' => $this->input->post('cnic_attach'), 
+                'cnic_widow_attach' => $this->input->post('cnic_widow_attach'), 
+                'dc_attach' => $this->input->post('dc_attach'), 
+                'family_attach' => $this->input->post('family_attach'), 
+
+                'payroll_lpc_attach' => $this->input->post('payroll_lpc_attach'), 
+                'dob_ac_attach' => $this->input->post('dob_ac_attach'), 
+
+                'single_widow_attach' => $this->input->post('single_widow_attach'), 
+                'no_marriage_attach' => $this->input->post('no_marriage_attach'), 
+                'disc_attach' => $this->input->post('disc_attach'), 
+                'undertaking' => $this->input->post('undertaking'), 
+
+                
+                'boards_approval' => $this->input->post('boards_approval'),
+                //'ac_edit' => $this->input->post('ac_edit'),
+                //'sent_to_secretary' => $this->input->post('sent_to_secretary'),
+                //'approve_secretary' => $this->input->post('approve_secretary'),
+                //'sent_to_bank' => $this->input->post('sent_to_bank'),
+                //'feedback_website' => $this->input->post('feedback_website'), 
+                'record_add_by' => $_SESSION['admin_id'],
+                'record_add_date' => date('Y-m-d H:i:s'),
+            );
+        }
         //echo '<pre>'; print_r($data); exit();
 
 		//XSS prevention

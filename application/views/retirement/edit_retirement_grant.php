@@ -13,7 +13,7 @@
 
     <!-- Main content -->
     <?php echo validation_errors(); ?>
-    <?php echo form_open_multipart('retirement/edit_retirement_grant/', 'id="formID"'); ?>
+    <?php echo form_open_multipart('retirement/edit_retirement_grant/'.$id, 'id="formID"'); ?>
 
     <!--      <form id="formID" method="POST" action="" enctype="multipart/form-data"> -->
     <!-- Main content -->
@@ -62,8 +62,11 @@
                                         <div class="input-group-addon">
                                             <i class="fa fa-user"></i>
                                         </div>
+                                        <input type="hidden" name="id" id="id" value="<?php echo $all['id']; ?>">
+                                        <input type="hidden" name="app_no" id="app_no" value="<?php echo $all['application_no']; ?>">
                                         <input type="text" name="pay_scale" id="pay_scale" value="<?php echo $emp_info->pay_scale;?>" class="form-control" readonly>
                                         <input type="hidden" id="pay_scale_id" name="pay_scale_id" value="<?php echo $emp_info->pay_scale_id;?>">
+                                        <input type="hidden" name="tbl_district_id" id="tbl_district_id" value="<?php echo $emp_info->tbl_district_id;?>">
                                     </div><?php echo form_error('pay_scale'); ?>
                                 </div>
                             </div> 
@@ -203,27 +206,9 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md-6">  
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'tbl_case_status_id')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-eye"></i>
-                                        </div>
-
-                                        <select name="tbl_case_status_id" id="tbl_case_status_id" class="form-control select2 validate[required]">
-                                            <option value="">Select Case Status</option> 
-                                            <?php foreach ($cases as $case) : ?>
-                                                <option value="<?php echo $case['id']; ?>" <?php if($case['id'] == $all['tbl_case_status_id']) { echo 'selected'; }?>><?php echo $case['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-                                        
-                                    </div><?php echo form_error('tbl_case_status_id'); ?>
-                                </div>
-                            </div>
+                        <div class="row"> 
                             <div class="col-md-6"> 
-                            <div class="form-group">
+                                <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'payment_mode')); ?>:</label>
                                     <div class="input-group">
                                         <div class="input-group-addon">
@@ -240,8 +225,24 @@
                                     </div><?php echo form_error('tbl_payment_mode_id'); ?>
                                 </div>
                             </div>
+                        
+                            <div class="col-md-6"> 
+                                <div class="form-group">
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_type')); ?>:</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-bank"></i>
+                                        </div>
+                                        <select name="bank_type_id" id="bank_type_id" class="form-control select2 validate[required]">
+                                            <option value="">Select Bank Type</option> 
+                                            <?php foreach ($bank_types as $bank) : ?>
+                                                <option value="<?php echo $bank['id']; ?>" <?php if($bank['id'] == $all['tbl_banks_id']) { echo 'selected'; }?>><?php echo $bank['name']; ?></option>
+                                            <?php endforeach; ?>
+                                        </select> 
+                                    </div><?php echo form_error('bank_type_id'); ?>
+                                </div>
+                            </div>
                         </div>
- 
 
                         <div class="row">
                             <div class="col-md-6"> 
@@ -253,8 +254,8 @@
                                         </div>
                                         <select name="tbl_list_bank_branches_id" id="tbl_list_bank_branches_id" class="form-control select2 validate[required]">
                                             <option value="">Select Bank</option> 
-                                            <?php foreach ($banks as $bank) : ?>
-                                                <option value="<?php echo $bank['id']; ?>" <?php if($bank['id'] == $all['tbl_list_bank_branches_id']) { echo 'selected'; }?>><?php echo $bank['name']; ?> (<?php echo $bank['branch_code']; ?>)</option>
+                                            <?php foreach ($banks as $branch) : ?>
+                                                <option value="<?php echo $branch['id']; ?>" <?php if($branch['id'] == $all['tbl_list_bank_branches_id']) { echo 'selected'; }?>><?php echo $branch['name']; ?> (<?php echo $branch['branch_code']; ?>)</option>
                                             <?php endforeach; ?>
                                         </select>
                                         
@@ -385,23 +386,7 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'boards_approval')); ?>:</label>
-                                    <br>
-                                    <input type="radio" class="validate[required]" <?php if($all['boards_approval'] == '0') { echo 'checked'; } ?> name="boards_approval" id="boards_approval" value="0"> No
-                                    <input type="radio" class="validate[required]" <?php if($all['boards_approval'] == '1') { echo 'checked'; } ?> name="boards_approval" id="boards_approval" value="1"> Yes
-                                    <?php echo form_error('boards_approval'); ?>
-                                </div>
-                            </div>  
-                            <div class="col-md-6"> 
-                                 
-                            </div>
-                            
-                        </div>
+ 
                          
                         <!-- /.row -->
                     </div>
@@ -484,6 +469,23 @@
     //     //var previous = ddl.data('previous');
     //     //ddl.data('previous', ddl.val());
     // });
+
+    $('#bank_type_id').on('change', function() {
+        var base_url = "<?php echo base_url(); ?>";
+        var bank_type_id = $('#bank_type_id').val(); 
+        if(bank_type_id) {
+            $.ajax({
+                url: base_url +'banks/get_branches/'+bank_type_id, 
+                type: "post",
+                dataType: "json",
+                success:function(data) { 
+                    $('#tbl_list_bank_branches_id').html(data); 
+                }
+            });
+        }else{
+            $('#tbl_list_bank_branches_id').html(data); 
+        }
+    });
 
 
     $("#dor, #tbl_emp_info_id").on('change', function() {

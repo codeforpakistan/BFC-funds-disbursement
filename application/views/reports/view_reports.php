@@ -192,7 +192,7 @@
                                 <!-- <th width="1%"><input type="checkbox" name="checkbox" id="selectall"></th> -->
                                 <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>                        
                                 <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Application No')); ?></th>
-                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'GrantType')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Grant Type')); ?></th>
                                 <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Grantee Name')); ?></th>
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Bank Name')); ?></th>
                                 <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'District')); ?></th>

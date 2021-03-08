@@ -8,14 +8,16 @@ class Emp_info_model extends CI_Model {
 		// Set orderable column fields
 		$this->column_order = array(null, 'grantee_name', 'status');
 		// Set searchable column fields
-		$this->column_search = array('grantee_name');
+		$this->column_search = array('grantee_name', 'father_name', 'cnic_no', 'contact_no', 'personnel_no', 'dob');
 		// Set default order
 		$this->order = array('id' => 'desc');
 		//////// ajax and ssp////////
 	}
 
 	public function fetchDataPayScale($tbl_post_id) {
-		$query = $this->db->query('SELECT tbl_pay_scale.name as pay_scale_name, tbl_pay_scale.id as payscaleid FROM tbl_pay_scale LEFT JOIN tbl_post ON tbl_pay_scale.id = tbl_post.tbl_pay_scale_id where tbl_post.id =' . $tbl_post_id . ' and tbl_pay_scale.status=1 and tbl_post.status=1');
+		$query = $this->db->query('SELECT tbl_pay_scale.name as pay_scale_name, tbl_pay_scale.id as payscaleid 
+        FROM tbl_pay_scale LEFT JOIN tbl_post ON tbl_pay_scale.id = tbl_post.tbl_pay_scale_id 
+        WHERE tbl_post.id = ' . $tbl_post_id . ' and tbl_pay_scale.status=1 and tbl_post.status=1');
 
 		return $query->row();
 	}
@@ -203,6 +205,21 @@ class Emp_info_model extends CI_Model {
 		$query = $this->db->get();
 
 		return $query->row();
+    }
+
+    public function getAllNonGazettedEmp($array){
+        // $this->db->order_by('id', 'desc');
+        // $query = $this->db->get_where($this->table, $array); 
+		// return $query->result_array(); 
+
+        $this->db->select('*');
+        $this->db->from($this->table);
+        $this->db->where($array);
+        $this->db->where("pay_scale_id < '15' ");
+        //$this->db->limit($limit);
+        $query = $this->db->get();
+        return $query->result_array();
+
     }
 
 	//////////////// below ajax and server side processing datatable ///////////

@@ -214,6 +214,14 @@
                                  
                                 <a href="<?php echo base_url(); ?>batches" type="button" class="btn btn-success pull-right btn-sm"><i class="fa fa-eye"> View all Batches </i></a>
                                  
+                                 <label>National Bank Of Pakistan</label>
+                                
+                                <input type="radio" name="bfc_bank" value="1" checked="checked" >
+                                
+                                <label>Khyber Bank </label>
+                                
+                                <input type="radio" name="bfc_bank" value="2">
+                                
                             </div>
                         </div>
                     </div>
@@ -223,12 +231,16 @@
                             <tr> 
                                 <th width="1%"><input type="checkbox" name="checkbox" id="selectall"></th>
                                 <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>                        
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'application No')); ?></th>
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Grant Type')); ?></th>
-                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'grantee Name')); ?></th>
+                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Application No')); ?></th>
+                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Grant Type')); ?></th> 
+                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'District')); ?></th> 
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Name of Govt Servant')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Father / Husband Name')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Designation')); ?></th>
                                 <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'CNIC')); ?></th>
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Bank Name')); ?></th>
-                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'District')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Name of Bank & Branch')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Account No.')); ?></th>
+                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Amount')); ?></th>  
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'date Added')); ?></th>
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th> 
                             </tr>
@@ -266,9 +278,7 @@
 <script type="text/javascript">
     var save_method; //for save method string
     var sspDataTable;
-    $(document).ready(function() { 
-
-        
+    $(document).ready(function() {  
 
         sspDataTable = $('#ssp_datatable').DataTable({
             // Processing indicator
@@ -279,8 +289,8 @@
 
             // Initial no order.
             "order": [],
-            "filter": false,
-            "searching": false,
+            // "filter": false,
+            // "searching": false,
 
             // Load data from an Ajax source
             "ajax": { 
@@ -319,18 +329,30 @@
                 },
                 {
                     data: 'GrantType'
+                }, 
+                {
+                    data: 'districtName'
                 },
                 {
                     data: 'GranteeName'
                 },
                 {
-                    data: 'cnicNo'
+                    data: 'FatherName'
                 },
+                {
+                    data: 'Designation'
+                },
+                {
+                    data: 'cnicNo'
+                }, 
                 {
                     data: 'bankName'
                 },
                 {
-                    data: 'districtName'
+                    data: 'AccountNo'
+                },
+                {
+                    data: 'Amount'
                 },
                 {
                     data: 'DateAdded'
@@ -341,7 +363,7 @@
             ],
             //Set column definition initialisation properties
             "columnDefs": [{
-                "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+                "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
                 "orderable": false
             }]
         });

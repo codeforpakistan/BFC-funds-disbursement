@@ -120,8 +120,9 @@ class Retirement extends MY_Controller {
             $emp_array = array('status'=> '1', 'record_add_by'=> $_SESSION['admin_id']);
         }
 
+        $data['id'] = $id;
         $data['all'] = $this->common_model->getRecordById($id, 'tbl_retirement_grant');
-        $data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
+        //$data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['payment_modes'] = $this->common_model->getAllRecordByArray('tbl_payment_mode', array('status' => '1'));
         $data['bank_types'] = $this->common_model->getAllRecordByArray('tbl_banks', array('status' => '1'));
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
@@ -282,13 +283,16 @@ class Retirement extends MY_Controller {
             $dob = $emp_info['dob'];
             $cnic_no = $emp_info['cnic_no'];
 
+            $get_post = $this->common_model->getRecordByColoumn('tbl_post', 'id',  $tbl_post_id);
+            $post_name = $get_post['name'];
+
             $get_dept = $this->common_model->getRecordByColoumn('tbl_department', 'id',  $tbl_department_id);
             $dept_name = $get_dept['name'];
             $dept_name_scale = $dept_name. ' ('.$pay_scale.')';
 
             $grant_amount = $retirementInfo->grant_amount;
             $deduction_amount = $retirementInfo->deduction;
-            $net_amount = $retirementInfo->net_amount;
+            $net_amount = 'Rs. '. $retirementInfo->net_amount;
 
 
             $case_status_id = $retirementInfo->tbl_case_status_id;
@@ -314,10 +318,17 @@ class Retirement extends MY_Controller {
                                </a>';
             }
             
-            $input = '<input type="checkbox" name="application_no[]" id="application_no" value="'.$retirementInfo->application_no.'">';
+            if($case_status_id > '1' &&  ($_SESSION['tbl_admin_role_id'] == '6' || $_SESSION['tbl_admin_role_id'] == '7' ) ) {
+                $disabled = 'disabled';
+            } else {
+                $disabled = '';
+            }
+            
+            $input = '<input type="checkbox" name="application_no[]" id="application_no" '.$disabled.' value="'.$retirementInfo->application_no.'">';
             //$getDept = $this->common_model->getRecordById($retirementInfo->parent_dept, $tbl_name = 'tbl_department');
    
             $data[] = array($input, $i, $retirementInfo->application_no, $emp_name, $dept_name_scale, 
+            $post_name,
             $cnic_no, $personnel_no, $dob, $retirementInfo->doa, $retirementInfo->dor, $retirementInfo->los,
             $net_amount, $status, $add_by_date, $actionBtn);
 		}

@@ -1,6 +1,24 @@
 <?php
 $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = 'tbl_admin');
 ?>
+<style type="text/css" media="print">
+@media print
+{    
+    th.no-print, th.no-print *
+    {
+        display: none !important;
+        visibility: hidden !important;
+    }
+    td.no-print, td.no-print *
+    {
+        display: none !important;
+        visibility: hidden !important;
+    }
+}
+@media screen {
+.no-print {display:none !important;} 
+}
+</style>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -61,12 +79,16 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                     <table id="ssp_datatable" class="table table-bordered table-striped table-hover table-condensed">
                         <thead> 
                             <tr>
-                                <th width="1%"><input type="checkbox" name="selectall" id="selectall"></th>
+                                <th width="1%" class="no-print"><input type="checkbox" name="selectall" id="selectall"></th>
                                 <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>                        
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Application No')); ?></th>
-                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Grantee Name')); ?></th>
-                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Grant Type')); ?></th> 
-                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'District')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Name of Govt Servant')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Father / Husband Name')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Designation')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'CNIC')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Name of Bank & Branch')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Account No.')); ?></th>
+                                <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Amount')); ?></th>  
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Date Added')); ?></th>
                                 <th width="8%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'Status')); ?></th> 
                             </tr>
@@ -76,6 +98,16 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             $i = 0;
                             //echo '<pre>'; print_r($applications); exit;
 
+                            // [id] => 12
+                            // [batch_no] => 20210202-1
+                            // [application_no] => 10000001
+                            // [tbl_grants_id] => 1
+                            // [tbl_district_id] => 3
+                            // [record_add_date] => 2021-02-02 11:15:15
+                            // [record_add_by] => 12
+                            // [status] => 1
+                            // [status_dated] => 0000-00-00
+                            
                             foreach ($applications as $key => $value) {
                                 $i++;
 
@@ -89,13 +121,41 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                                 $emp_info_id = $grant_info['tbl_emp_info_id'];
                                 $emp_info = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id',  $emp_info_id);
                                 $grantee_name = $emp_info['grantee_name'];
+                                $father_husband = $emp_info['father_name'];
+                                $cnic = $emp_info['cnic_no'];
+                                $tbl_post_id = $emp_info['tbl_post_id'];
+ 
+
+                                $app_gerund = $this->common_model->getRecordByColoumn('tbl_grants_has_tbl_emp_info_gerund', 'application_no', $application_no);
+                                $tbl_banks_id = $app_gerund['tbl_banks_id']; 
+                                $tbl_list_bank_branches_id = $app_gerund['tbl_list_bank_branches_id']; 
+
+                                //tbl_bfc_list_bank
+
+                                $tbl_bank = $this->common_model->getRecordByColoumn('tbl_banks', 'id', $tbl_banks_id);
+                                $bank = $tbl_bank['name']; 
+                                $tbl_branch = $this->common_model->getRecordByColoumn('tbl_list_bank_branches', 'id', $tbl_list_bank_branches_id);
+                                $branch = $tbl_branch['name']; 
+                                $code = $tbl_branch['branch_code']; 
+                                $bank_branch = $bank.' '.$branch .' ('. $code.')';
+
+                                $tbl_post = $this->common_model->getRecordByColoumn('tbl_post', 'id', $tbl_post_id);
+                                $designation = $tbl_post['name']; 
 
                                 
+                                 
+
                                 $tbl_grants = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $tbl_grants_id);
                                 $grant_name = $tbl_grants['name']; 
+                                $grant_tbl_name = $tbl_grants['tbl_name']; 
 
-                                $tbl_district = $this->common_model->getRecordByColoumn('tbl_district', 'id', $tbl_district_id);
-                                $district_name = $tbl_district['name']; 
+
+                                $tbl_app_details = $this->common_model->getRecordByColoumn($grant_tbl_name, 'application_no', $application_no);
+                                $account_no = $tbl_app_details['account_no']; 
+                                $net_amount = $tbl_app_details['net_amount']; 
+
+                                //$tbl_district = $this->common_model->getRecordByColoumn('tbl_district', 'id', $tbl_district_id);
+                                //$district_name = $tbl_district['name']; 
 
 
                                 //$getRole = $this->admin->getRecordById($value['record_add_by'], $tbl_name = 'tbl_admin');
@@ -110,14 +170,18 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
 
                                 ?>
                                 <tr>
-                                    <td><input type="checkbox" name="app_no[]" id="app_no" value="<?= $application_no; ?>"></td>
+                                    <td class="no-print"><input type="checkbox" name="app_no[]" id="app_no" value="<?= $application_no; ?>"></td>
                                     <td><?= $i; ?></td>
                                     <td><?= $application_no; ?></td>
                                     <td><?= $grantee_name; ?></td>
-                                    <td><?= $grant_name; ?></td> 
-                                    <td><?= $district_name; ?></td> 
+                                    <td><?= $father_husband; ?></td>
+                                    <td><?= $designation; ?></td>
+                                    <td><?= $cnic; ?></td>
+                                    <td><?= $bank_branch; ?></td>
+                                    <td><?= $account_no; ?></td>
+                                    <td><?= $net_amount; ?></td> 
                                     <td><?= $recordAddDate; ?></td>
-                                    <td><label for="" class="<?= $status['label'] ?> label-sm"><?= $status['name'] ?></label></td> 
+                                    <td class="no-print"><label for="" class="<?= $status['label'] ?> label-sm"><?= $status['name'] ?></label></td> 
                                 </tr>
                                 <?php
                             }
@@ -220,7 +284,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
         sspDataTable = $('#ssp_datatable').DataTable({
             "paging": true,
             "pageLength": 100,
-
+            searching: true,
             //dom: 'lfrtipB',
             dom: 'Bfrtip',
             buttons: [{
@@ -234,11 +298,26 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                 title:'',
                 customize: function ( win ) {
 
+                // $(win.document.body)
+                // .prepend(')
+                // .css( 'font-size', '13pt' )
+                // .css( 'font-weight', 'bold' )
+                // .css( 'text-align', 'center' );
+
                 $(win.document.body)
-                                .prepend('<div>Benevolanet Fund Cell KP<br> <?=$page_title;?> </div>')
-                                .css( 'font-size', '13pt' )
-                                .css( 'font-weight', 'bold' )
-                                .css( 'text-align', 'center' );
+                .prepend(
+                    '<div>Benevolanet Fund Cell KP<br> <?=$page_title;?> </div>',
+                    //'<p>To</p>',
+                    // '<p>The Manager,</p>',
+                    // '<p>National Bank of Pakistan</p>',
+                    // '<p>Saddar Road Branch, Peshawar</p>',
+                    // '<p>Subject: <b><u>RETIREMENT GRANT PAYMENTS</u></b></p>',
+                    // '<p>Kindly refer to the subject cited above and to state that Rs. 500000 may be transfered to the relevant account.</p>'
+                )
+                .css( 'font-size', '13pt' )
+                .css( 'font-weight', 'bold' )
+                .css( 'text-align', 'center' );
+                
 
                 // $(win.document.body).find('h1')
                 //               .css( 'font-size', '12pt' )
@@ -315,7 +394,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                     setTimeout(function() {
                         location.reload();
                     }, 1000);
-                    $('.jquery_alert').html('<p class="alert alert-success">Transaction is successfully completed.</p>').fadeIn().delay(4000).fadeOut('slow');
+                    $('.jquery_alert').html('< class="alert alert-success">Transaction is successfully completed.</>').fadeIn().delay(4000).fadeOut('slow');
 
                 } else if (data.success == false) {
                     //sspDataTable.ajax.reload(); //reload datatable ajax

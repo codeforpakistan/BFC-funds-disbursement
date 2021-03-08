@@ -19,9 +19,7 @@
     <!-- Main content -->
     <section class="content">
 
-        <div class="row">
-
-
+        <div class="row"> 
             <div class="col-md-12">
                 <? //echo '<pre>'; print_r($emp_info); exit(); ?>
  
@@ -48,7 +46,7 @@
                                         <select name="tbl_emp_info_id" id="tbl_emp_info_id" class="form-control select2 validate[required]">
                                             <option value="">Select Employee</option> 
                                             <?php foreach ($employees as $employeeInfo) : ?>
-                                                <option value="<?php echo $employeeInfo['id']; ?>" <?php if($emp_info->id == $employeeInfo['id']) { echo 'selected'; } ?>><?php echo $employeeInfo['grantee_name']; ?> - <?php echo $employeeInfo['cnic_no']; ?></option>
+                                                <option value="<?php echo $employeeInfo['id']; ?>" <?php if($emp_info->id == $employeeInfo['id']) { echo 'selected'; } else if($_POST['tbl_emp_info_id'] == $employeeInfo['id']) { echo 'selected'; } ?>><?php echo $employeeInfo['grantee_name']; ?> - <?php echo $employeeInfo['cnic_no']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                          
@@ -64,7 +62,7 @@
                                         </div>
                                         <input type="text" name="pay_scale" id="pay_scale" value="<?php echo $emp_info->pay_scale;?>" class="form-control" readonly>
                                         <input type="hidden" id="pay_scale_id" name="pay_scale_id" value="<?php echo $emp_info->pay_scale_id;?>">
-                                        <input type="hidden" name="tbl_district_id" id="tbl_district_id" value="">
+                                        <input type="hidden" name="tbl_district_id" id="tbl_district_id" value="<?php echo $emp_info->tbl_district_id;?>">
                                     </div><?php echo form_error('pay_scale'); ?>
                                 </div>
                             </div> 
@@ -78,7 +76,7 @@
                                         <i class="fa fa-industry"></i>
                                         </div>
 
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('record_no'); ?>" name="record_no" id="record_no" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
+                                        <input type="text" autocomplete="off" value="<?php echo $_POST['record_no']; ?>" name="record_no" id="record_no" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('record_no'); ?>
                                 </div>
                             </div>

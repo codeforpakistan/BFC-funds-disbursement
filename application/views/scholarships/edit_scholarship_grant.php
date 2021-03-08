@@ -12,7 +12,7 @@
 
     <!-- Main content -->
     <?php echo validation_errors(); ?>
-    <?php echo form_open_multipart('scholarship/edit_scholarship_grant/', 'id="formID"'); ?>
+    <?php echo form_open_multipart('scholarship/edit_scholarship_grant/'.$id, 'id="formID"'); ?>
 
     <!--      <form id="formID" method="POST" action="" enctype="multipart/form-data"> -->
     <!-- Main content -->
@@ -47,6 +47,8 @@
                                             <i class="fa fa-user"></i>
                                         </div>
                                         <input type="hidden" name="id" id="id" value="<?php echo $all['id']; ?>">
+                                        <input type="hidden" name="app_no" id="app_no" value="<?php echo $all['application_no']; ?>">
+                                        
                                         <select name="tbl_emp_info_id" id="tbl_emp_info_id" class="form-control select2 validate[required]">
                                             <option value="">Select Employee</option> 
                                             <?php foreach ($employees as $employeeInfo) : ?>
@@ -66,6 +68,7 @@
                                          
                                         <input type="text" name="pay_scale" id="pay_scale" value="<?php echo $emp_info->pay_scale;?>" class="form-control" readonly>
                                         <input type="hidden" id="pay_scale_id" name="pay_scale_id" value="<?php echo $emp_info->pay_scale_id;?>">
+                                        <input type="hidden" name="tbl_district_id" id="tbl_district_id" value="<?php echo $emp_info->tbl_district_id;?>">
 
                                     </div><?php echo form_error('pay_scale'); ?>
                                 </div>
@@ -271,23 +274,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6">   
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'case_status')); ?>:</label>
-                                    <div class="input-group">
-                                        <div class="input-group-addon">
-                                            <i class="fa fa-eye"></i>
-                                        </div>  
-                                        <select name="tbl_case_status_id" id="tbl_case_status_id" class="form-control select2 validate[required]">
-                                            <option value="">Select Case Status</option> 
-                                            <?php foreach ($cases as $case) : ?>
-                                                <option value="<?php echo $case['id']; ?>" <?php if($case['id'] == $all['tbl_case_status_id']) { echo 'selected'; }?>><?php echo $case['name']; ?></option>
-                                            <?php endforeach; ?>
-                                        </select>
-
-                                    </div><?php echo form_error('tbl_case_status_id'); ?>
-                                </div>
-                            </div>
+                             
                             <div class="col-md-6">   
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'payment_mode')); ?>:</label>
@@ -306,9 +293,7 @@
                                     </div><?php echo form_error('tbl_payment_mode_id'); ?>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row">
+                        
                             <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_type')); ?>:</label>
@@ -319,13 +304,15 @@
                                         <select name="bank_type_id" id="bank_type_id" class="form-control select2 validate[required]">
                                             <option value="">Select Bank Type</option> 
                                             <?php foreach ($bank_types as $bank) : ?>
-                                                <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?></option>
+                                                <option value="<?php echo $bank['id']; ?>" <?php if($bank['id'] == $all['tbl_banks_id']) { echo 'selected'; }?>><?php echo $bank['name']; ?></option>
                                             <?php endforeach; ?>
                                         </select> 
                                     </div><?php echo form_error('bank_type_id'); ?>
                                 </div>
                             </div>
+                        </div>
 
+                        <div class="row">
                             <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_branches')); ?>:</label>
@@ -335,17 +322,15 @@
                                         </div>
                                         <select name="tbl_list_bank_branches_id" id="tbl_list_bank_branches_id" class="form-control select2 validate[required]">
                                             <option value="">Select Bank</option> 
-                                            <?php foreach ($banks as $bank) : ?>
-                                                <option value="<?php echo $bank['id']; ?>" <?php if($bank['id'] == $all['tbl_list_bank_branches_id']) { echo 'selected'; }?>><?php echo $bank['name']; ?> (<?php echo $bank['branch_code']; ?>)</option>
+                                            <?php foreach ($banks as $branch) : ?>
+                                                <option value="<?php echo $branch['id']; ?>" <?php if($branch['id'] == $all['tbl_list_bank_branches_id']) { echo 'selected'; }?>><?php echo $branch['name']; ?> (<?php echo $branch['branch_code']; ?>)</option>
                                             <?php endforeach; ?>
                                         </select>
                                         
                                     </div><?php echo form_error('tbl_list_bank_branches_id'); ?>
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="row"> 
+                         
                             <div class="col-md-6"> 
                                 <div class="form-group">
                                     <label><?php echo $label = ucwords(str_replace('_', ' ', 'account_no')); ?>:</label>
@@ -363,7 +348,7 @@
                         <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'student_signature')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature of Student')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['std_signature'] == 'No') { echo 'checked'; } ?> name="std_signature" id="std_signature" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['std_signature'] == 'Yes') { echo 'checked'; } ?> name="std_signature" id="std_signature" value="Yes"> Yes
@@ -372,7 +357,7 @@
                             </div> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'gov_servent_sign')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature of the Govt. Servant')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['gov_servent_sign'] == 'No') { echo 'checked'; } ?> name="gov_servent_sign" id="gov_servent_sign" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['gov_servent_sign'] == 'Yes') { echo 'checked'; } ?> name="gov_servent_sign" id="gov_servent_sign" value="Yes"> Yes
@@ -384,7 +369,7 @@
                         <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'seal_institute')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Official Seal of Institute')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['seal_institute'] == 'No') { echo 'checked'; } ?> name="seal_institute" id="seal_institute" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['seal_institute'] == 'Yes') { echo 'checked'; } ?> name="seal_institute" id="seal_institute" value="Yes"> Yes
@@ -393,7 +378,7 @@
                             </div>  
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'head_institute')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature of Head of Institute')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['head_institute'] == 'No') { echo 'checked'; } ?> name="head_institute" id="head_institute" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['head_institute'] == 'Yes') { echo 'checked'; } ?> name="head_institute" id="head_institute" value="Yes"> Yes
@@ -406,7 +391,7 @@
                         <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'office_seal_hod')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Official Seal HOD')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['office_seal_hod'] == 'No') { echo 'checked'; } ?> name="office_seal_hod" id="office_seal_hod" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['office_seal_hod'] == 'Yes') { echo 'checked'; } ?> name="office_seal_hod" id="office_seal_hod" value="Yes"> Yes
@@ -416,7 +401,7 @@
 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'hod_sign')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature of Head of Department')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['hod_sign'] == 'No') { echo 'checked'; } ?> name="hod_sign" id="hod_sign" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['hod_sign'] == 'Yes') { echo 'checked'; } ?> name="hod_sign" id="hod_sign" value="Yes"> Yes
@@ -430,7 +415,7 @@
                         <div class="row">
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_verification')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Bank Stamp with Branch Code')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['bank_verification'] == 'No') { echo 'checked'; } ?> name="bank_verification" id="bank_verification" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['bank_verification'] == 'Yes') { echo 'checked'; } ?> name="bank_verification" id="bank_verification" value="Yes"> Yes
@@ -460,7 +445,7 @@
                             </div>
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'cnic_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'CNIC of Govt: Servant')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['cnic_attach'] == 'No') { echo 'checked'; } ?> name="cnic_attach" id="cnic_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['cnic_attach'] == 'Yes') { echo 'checked'; } ?> name="cnic_attach" id="cnic_attach" value="Yes"> Yes
@@ -472,22 +457,13 @@
                         <div class="row">
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'grade_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Grade Conversion / Equivalency / Percentage Certificate')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" <?php if($all['grade_attach'] == 'No') { echo 'checked'; } ?> name="grade_attach" id="grade_attach" value="No"> No
                                     <input type="radio" class="validate[required]" <?php if($all['grade_attach'] == 'Yes') { echo 'checked'; } ?> name="grade_attach" id="grade_attach" value="Yes"> Yes
                                     <?php echo form_error('grade_attach'); ?>
                                 </div>
-                            </div>
-                            <div class="col-md-6"> 
-                                <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'boards_approval')); ?>:</label>
-                                    <br>
-                                    <input type="radio" class="validate[required]" <?php if($all['boards_approval'] == '0') { echo 'checked'; } ?> name="boards_approval" id="boards_approval" value="0"> No
-                                    <input type="radio" class="validate[required]" <?php if($all['boards_approval'] == '1') { echo 'checked'; } ?> name="boards_approval" id="boards_approval" value="1"> Yes
-                                    <?php echo form_error('boards_approval'); ?>
-                                </div>
-                            </div>  
+                            </div> 
                         </div>
                          
   

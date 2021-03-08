@@ -52,9 +52,12 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             <tr>
                                 <th width="2%" class="no-print"><input type="checkbox" name="checkbox" id="selectall"></th>
                                 <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
-                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'app no')); ?></th>
-                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'std name')); ?></th>
-                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'parent dept')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'application no')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'name of govt servant')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'Designation with Department')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'Govt Serv Cnic')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'Personnel No')); ?></th>
+                                <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'name of student')); ?></th>
                                 <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'class_pass')); ?></th>
                                 <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'exam_pass')); ?></th>
                                 <th width="10%"><?php echo ucwords(str_replace('_', ' ', 'result_date')); ?></th>

@@ -31,24 +31,18 @@ class Emp_info extends MY_Controller {
 		$data['district'] = $this->common_model->getAllRecordByArray('tbl_district', array('status' => '1'));
 		if ($this->input->post('submit')) {
 
-			$this->form_validation->set_rules('grantee_name', ucwords(str_replace('_', ' ', 'grantee_name')), 'required|xss_clean|trim|min_length[3]|max_length[20]');
-
-			$this->form_validation->set_rules('father_name', ucwords(str_replace('_', ' ', 'father_name')), 'required|xss_clean|trim|min_length[3]|max_length[20]');
-
-			$this->form_validation->set_rules('contact_no', ucwords(str_replace('_', ' ', 'contact_no')), 'required|xss_clean|trim|min_length[3]|max_length[20]|numeric');
-
+            
+			$this->form_validation->set_rules('grantee_name', ucwords(str_replace('_', ' ', 'grantee_name')), 'required|xss_clean|trim|min_length[3]|max_length[30]');
+			$this->form_validation->set_rules('father_name', ucwords(str_replace('_', ' ', 'father_name')), 'required|xss_clean|trim|min_length[3]|max_length[30]');
+			$this->form_validation->set_rules('contact_no', ucwords(str_replace('_', ' ', 'contact_no')), 'required|xss_clean|trim|min_length[3]|max_length[11]|numeric');
 			$this->form_validation->set_rules('marital_status', 'Selection', 'required|xss_clean');
-
-			$this->form_validation->set_rules('cnic_no', ucwords(str_replace('_', ' ', 'cnic_no')), 'required|xss_clean|trim|min_length[13]|max_length[13]');
-
-			$this->form_validation->set_rules('dob', ucwords(str_replace('_', ' ', 'Date of birth')), 'required|xss_clean|trim|min_length[3]|max_length[12]|alpha_dash', array('alpha_dash' => 'The %s field may only contain Date characters.'));
-
-			$this->form_validation->set_rules('personnel_no', ucwords(str_replace('_', ' ', 'personnel_no')), 'xss_clean|trim|min_length[3]|max_length[20]');
-
-			$this->form_validation->set_rules('tbl_department_id', 'Selection', 'required|xss_clean');
-
+			//$this->form_validation->set_rules('cnic_no', ucwords(str_replace('_', ' ', 'cnic_no')), 'required|xss_clean|trim|min_length[13]|max_length[13]');
+			$this->form_validation->set_rules('cnic_no', ucwords(str_replace('_', ' ', 'cnic_no')), 'required|xss_clean|trim|min_length[3]|max_length[13]|is_unique[tbl_emp_info.cnic_no]|numeric', array('numeric' => 'The %s field may only contain 0-9 numeric characters.'));
+            $this->form_validation->set_rules('dob', ucwords(str_replace('_', ' ', 'Date of birth')), 'required|xss_clean|trim|min_length[3]|max_length[12]|alpha_dash', array('alpha_dash' => 'The %s field may only contain Date characters.'));
+			//$this->form_validation->set_rules('personnel_no', ucwords(str_replace('_', ' ', 'personnel_no')), 'xss_clean|trim|min_length[3]|max_length[20]');
+			$this->form_validation->set_rules('personnel_no', ucwords(str_replace('_', ' ', 'personnel_no')), 'required|xss_clean|trim|min_length[3]|max_length[20]|is_unique[tbl_emp_info.personnel_no]|numeric', array('numeric' => 'The %s field may only contain 0-9 numeric characters.'));
+            $this->form_validation->set_rules('tbl_department_id', 'Selection', 'required|xss_clean');
 			$this->form_validation->set_rules('tbl_post_id', 'Selection', 'required|xss_clean');
-
 			$this->form_validation->set_rules('pay_scale', ucwords(str_replace('_', ' ', 'pay_scale')), 'required|xss_clean|trim|min_length[3]|max_length[20]');
 			$this->form_validation->set_rules('tbl_district_id', 'Selection', 'required|xss_clean');
 			$this->form_validation->set_rules('office_address', ucwords(str_replace('_', ' ', 'office_address')), 'required|xss_clean|trim|min_length[3]');
@@ -60,8 +54,7 @@ class Emp_info extends MY_Controller {
 				$this->load->view('templates/header', $data);
 				$this->load->view('emp_info/add_emp_info', $data);
 				$this->load->view('templates/footer');
-			} else {
-
+			} else { 
 				// to model
 				$this->emp_info_model->add_emp_info();
 				// set session message
@@ -74,26 +67,19 @@ class Emp_info extends MY_Controller {
 			$this->load->view('templates/footer');
 		}
 	}
+    
 	public function edit_emp_info($id = null) {
 		if ($this->input->post('submit')) {
-			$this->form_validation->set_rules('grantee_name', ucwords(str_replace('_', ' ', 'grantee_name')), 'required|xss_clean|trim|min_length[3]|max_length[20]');
 
-			$this->form_validation->set_rules('father_name', ucwords(str_replace('_', ' ', 'father_name')), 'required|xss_clean|trim|min_length[3]|max_length[20]');
-
-			$this->form_validation->set_rules('contact_no', ucwords(str_replace('_', ' ', 'contact_no')), 'required|xss_clean|trim|min_length[3]|max_length[20]|numeric');
-
+			$this->form_validation->set_rules('grantee_name', ucwords(str_replace('_', ' ', 'grantee_name')), 'required|xss_clean|trim|min_length[3]|max_length[30]');
+			$this->form_validation->set_rules('father_name', ucwords(str_replace('_', ' ', 'father_name')), 'required|xss_clean|trim|min_length[3]|max_length[30]');
+			$this->form_validation->set_rules('contact_no', ucwords(str_replace('_', ' ', 'contact_no')), 'required|xss_clean|trim|min_length[3]|max_length[11]|numeric');
 			$this->form_validation->set_rules('marital_status', 'Selection', 'required|xss_clean');
-
 			$this->form_validation->set_rules('cnic_no', ucwords(str_replace('_', ' ', 'cnic_no')), 'required|xss_clean|trim|min_length[13]|max_length[13]');
-
 			$this->form_validation->set_rules('dob', ucwords(str_replace('_', ' ', 'Date of birth')), 'required|xss_clean|trim|min_length[3]|max_length[12]|alpha_dash', array('alpha_dash' => 'The %s field may only contain Date characters.'));
-
 			$this->form_validation->set_rules('personnel_no', ucwords(str_replace('_', ' ', 'personnel_no')), 'xss_clean|trim|min_length[3]|max_length[20]');
-
 			$this->form_validation->set_rules('tbl_department_id', 'Selection', 'required|xss_clean');
-
 			$this->form_validation->set_rules('tbl_post_id', 'Selection', 'required|xss_clean');
-
 			$this->form_validation->set_rules('pay_scale', ucwords(str_replace('_', ' ', 'pay_scale')), 'required|xss_clean|trim|min_length[3]|max_length[20]');
 			$this->form_validation->set_rules('tbl_district_id', 'Selection', 'required|xss_clean');
 			$this->form_validation->set_rules('office_address', ucwords(str_replace('_', ' ', 'office_address')), 'required|xss_clean|trim|min_length[3]');
@@ -150,6 +136,13 @@ class Emp_info extends MY_Controller {
     public function getGrants($id){
        $table = '';
 
+       //$emp = $this->getData($id);
+       //$emp_scale_id = $emp['emp_scale_id'];
+       //if($emp_scale_id > 15) {
+       //}
+
+        
+
        $table .= '<p>Click on the grant you want to continue with!</p>
        <input type="text" name="empID" id="empID" value="">
        <div class="row">
@@ -157,7 +150,7 @@ class Emp_info extends MY_Controller {
                <div class="text-center">
                    <a href="'.base_url('add_scholarship_grant/'.$id).'">
                        <img src="'.base_url('assets/site/').'images/scholarship-grants.jpg" alt="">
-                       <p>Scholarship Grants</p>
+                       <p>Scholarship Grants </p>
                    </a>
                </div>
            </div>
@@ -245,8 +238,8 @@ class Emp_info extends MY_Controller {
 
 			$add_by_date = 'Add by <i><strong>' . $getRole['name'] . '</strong> on <strong>' . $recordAddDate . '</strong></i>';
 
-			$getGrant = $this->admin->getRecordById($emp_infoInfo->tbl_grants_id, $tbl_name = 'tbl_grants');
-			$getPayScale = $this->admin->getRecordById($emp_infoInfo->tbl_pay_scale_id, $tbl_name = 'tbl_pay_scale');
+			//$getGrant = $this->admin->getRecordById($emp_infoInfo->tbl_grants_id, $tbl_name = 'tbl_grants');
+			//$getPayScale = $this->admin->getRecordById($emp_infoInfo->tbl_pay_scale_id, $tbl_name = 'tbl_pay_scale');
 
 			$dob = date('d-m-Y', strtotime($emp_infoInfo->dob));
 
@@ -261,7 +254,7 @@ class Emp_info extends MY_Controller {
                       </a>' . 
             '<a href="javascript:" onclick="getGrants(' . "'" . $emp_infoInfo->id . "'" . ')" class="grantPopUp btn btn-xs btn-info">Grants</a>' .
 				$status;
-			$data[] = array($i, $emp_infoInfo->grantee_name, $emp_infoInfo->contact_no, $emp_infoInfo->cnic_no, $emp_infoInfo->personnel_no, $dob, $add_by_date, $actionBtn);
+			$data[] = array($i, $emp_infoInfo->grantee_name, $emp_infoInfo->father_name, $emp_infoInfo->contact_no, $emp_infoInfo->cnic_no, $emp_infoInfo->personnel_no, $dob, $add_by_date, $actionBtn);
 		}
         //data-toggle="modal" data-id="'.$emp_infoInfo->id.'" data-target="#grantsModal"
 		$output = array(
@@ -275,4 +268,3 @@ class Emp_info extends MY_Controller {
 		echo json_encode($output);
 	}
 }
-?>

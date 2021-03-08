@@ -35,6 +35,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                         <tr>
                             <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
                             <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Grantee name')); ?></th>
+                            <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Father name')); ?></th>
                             <th width="6%"><?php echo ucwords(str_replace('_', ' ', 'contact_no')); ?></th>
                             <th width="6%"><?php echo ucwords(str_replace('_', ' ', 'CNIC_no')); ?></th>
                             <th width="6%"><?php echo ucwords(str_replace('_', ' ', 'personnel_no')); ?></th>

@@ -63,7 +63,7 @@
                                          
                                         <input type="text" name="pay_scale" id="pay_scale" value="<?php echo $emp_info->pay_scale;?>" class="form-control" readonly>
                                         <input type="hidden" id="pay_scale_id" name="pay_scale_id" value="<?php echo $emp_info->pay_scale_id;?>">
-                                        <input type="hidden" name="tbl_district_id" id="tbl_district_id" value="">
+                                        <input type="hidden" name="tbl_district_id" id="tbl_district_id" value="<?php echo $emp_info->tbl_district_id;?>">
                                     </div><?php echo form_error('pay_scale'); ?>
                                 </div>
                             </div> 
@@ -340,7 +340,7 @@
                         <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'student_signature')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature of Student')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="std_signature" id="std_signature" value="No"> No
                                     <input type="radio" class="validate[required]" name="std_signature" id="std_signature" value="Yes"> Yes
@@ -349,7 +349,7 @@
                             </div> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'gov_servent_sign')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature of the Govt. Servant')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="gov_servent_sign" id="gov_servent_sign" value="No"> No
                                     <input type="radio" class="validate[required]" name="gov_servent_sign" id="gov_servent_sign" value="Yes"> Yes
@@ -361,7 +361,7 @@
                         <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'seal_institute')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Official Seal of Institute')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="seal_institute" id="seal_institute" value="No"> No
                                     <input type="radio" class="validate[required]" name="seal_institute" id="seal_institute" value="Yes"> Yes
@@ -370,7 +370,7 @@
                             </div>  
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'head_institute')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature of Head of Institute')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="head_institute" id="head_institute" value="No"> No
                                     <input type="radio" class="validate[required]" name="head_institute" id="head_institute" value="Yes"> Yes
@@ -383,7 +383,7 @@
                         <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'office_seal_hod')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Official Seal of HOD')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="office_seal_hod" id="office_seal_hod" value="No"> No
                                     <input type="radio" class="validate[required]" name="office_seal_hod" id="office_seal_hod" value="Yes"> Yes
@@ -393,7 +393,7 @@
 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'hod_sign')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature of Head of Department')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="hod_sign" id="hod_sign" value="No"> No
                                     <input type="radio" class="validate[required]" name="hod_sign" id="hod_sign" value="Yes"> Yes
@@ -407,7 +407,7 @@
                         <div class="row">
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'bank_verification')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Bank Stamp with Branch Code')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="bank_verification" id="bank_verification" value="No"> No
                                     <input type="radio" class="validate[required]" name="bank_verification" id="bank_verification" value="Yes"> Yes
@@ -437,7 +437,7 @@
                             </div>
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'cnic_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'CNIC of Govt: Servant')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="cnic_attach" id="cnic_attach" value="No"> No
                                     <input type="radio" class="validate[required]" name="cnic_attach" id="cnic_attach" value="Yes"> Yes
@@ -449,7 +449,7 @@
                         <div class="row">
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'grade_attach')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Grade Conversion / Equivalency / Percentage Certificate')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="grade_attach" id="grade_attach" value="No"> No
                                     <input type="radio" class="validate[required]" name="grade_attach" id="grade_attach" value="Yes"> Yes

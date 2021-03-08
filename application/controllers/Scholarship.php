@@ -81,8 +81,9 @@ class Scholarship extends MY_Controller {
 			} else {
                 //echo 'i m here'; exit;
 				// to model
-				$this->scholarship_model->add_scholarship_grant();
-				// set session message
+				$this->scholarship_model->add_scholarship_grant(); 
+                
+                // set session message
 				$this->session->set_flashdata('add', '!');
 				redirect(base_url('view_scholarship_grants'));
 			}
@@ -107,6 +108,7 @@ class Scholarship extends MY_Controller {
         
 		$data['page_title'] = 'Edit Scholarship Grant';
         $data['description'] = '...';
+        $data['id'] = $id;
         $data['all'] = $this->common_model->getRecordById($id, 'tbl_scholaarship_grant');
 		$data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['department'] = $this->common_model->getAllRecordByArray('tbl_department', array('status' => '1'));
@@ -115,7 +117,7 @@ class Scholarship extends MY_Controller {
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
         $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array);
         $data['scholarship_classes'] = $this->common_model->getAllRecordByArray('tbl_scholarship_classes', array('status' => '1'));
-          
+        
         
         $data['emp_info'] = $this->emp_info_model->getRecordById($data['all']['tbl_emp_info_id']);
         //print_r($data['emp_info']); exit(); 
@@ -136,7 +138,7 @@ class Scholarship extends MY_Controller {
             $this->form_validation->set_rules('grant_amount', ucwords(str_replace('_', ' ', 'grant_amount')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('deduction', ucwords(str_replace('_', ' ', 'deduction')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('net_amount', ucwords(str_replace('_', ' ', 'net_amount')), 'required|xss_clean|trim');
-            $this->form_validation->set_rules('tbl_case_status_id', ucwords(str_replace('_', ' ', 'tbl_case_status_id')), 'required|xss_clean|trim');
+            //$this->form_validation->set_rules('tbl_case_status_id', ucwords(str_replace('_', ' ', 'tbl_case_status_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_payment_mode_id', ucwords(str_replace('_', ' ', 'tbl_payment_mode_id')), 'required|xss_clean|trim');
             
             $this->form_validation->set_rules('tbl_list_bank_branches_id', ucwords(str_replace('_', ' ', 'tbl_list_bank_branches_id')), 'required|xss_clean|trim');
@@ -163,16 +165,17 @@ class Scholarship extends MY_Controller {
   
 
 			$this->form_validation->set_error_delimiters('<div class="text-danger">', '</div>');
-			if ($this->form_validation->run() === FALSE) {
+			if ($this->form_validation->run() === FALSE) { 
 				$this->load->view('templates/header', $data);
 				$this->load->view('scholarships/edit_scholarship_grant', $data);
-				$this->load->view('templates/footer');
+				$this->load->view('templates/footer');  
 			} else { 
 				$this->scholarship_model->edit_scholarship_grant(); 
 				$this->session->set_flashdata('updated', '!');
 				redirect(base_url('view_scholarship_grants'));
 			}
 		} else {
+            //echo 'i m here'; exit;
 			$this->load->view('templates/header', $data);
 			$this->load->view('scholarships/edit_scholarship_grant');
 			$this->load->view('templates/footer');
@@ -230,6 +233,20 @@ class Scholarship extends MY_Controller {
 			$i++;
 			//$status = ($scholarshipInfo->status == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Inactive</span>';
 
+            $emp_info_id = $scholarshipInfo->tbl_emp_info_id;
+            $emp_info = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id',  $emp_info_id);
+            $emp_name = $emp_info['grantee_name'];
+            $tbl_department_id = $emp_info['tbl_department_id'];
+            //$tbl_post_id = $emp_info['tbl_post_id'];
+            $pay_scale = $emp_info['pay_scale'];
+            $personnel_no = $emp_info['personnel_no'];
+            //$dob = $emp_info['dob'];
+            $cnic_no = $emp_info['cnic_no'];
+
+            $get_dept = $this->common_model->getRecordByColoumn('tbl_department', 'id',  $tbl_department_id);
+            $dept_name = $get_dept['name'];
+            $dept_name_scale = $dept_name. ' ('.$pay_scale.')';
+
             $case_status_id = $scholarshipInfo->tbl_case_status_id;
             $getstatus = $this->common_model->getRecordByColoumn('tbl_case_status', 'id',  $case_status_id);
             $status = '<span class="'.$getstatus['label'].'">'.$getstatus['name'].'</span>';
@@ -263,8 +280,11 @@ class Scholarship extends MY_Controller {
             
             $input = '<input type="checkbox" name="application_no[]" id="application_no" value="'.$scholarshipInfo->application_no.'">';
             
-            $getDept = $this->common_model->getRecordById($scholarshipInfo->parent_dept, $tbl_name = 'tbl_department');
-			$data[] = array($input, $i, $scholarshipInfo->application_no, $scholarshipInfo->std_name, $getDept['name'], $class_pass, $exam_pass, $result_date,  $status, $add_by_date, $actionBtn);
+            //$getDept = $this->common_model->getRecordById($scholarshipInfo->parent_dept, $tbl_name = 'tbl_department');
+			$data[] = array($input, $i, $scholarshipInfo->application_no, 
+            $emp_name, $dept_name_scale, $cnic_no, $personnel_no,
+            $scholarshipInfo->std_name, 
+            $class_pass, $exam_pass, $result_date,  $status, $add_by_date, $actionBtn);
 		}
 
 		$output = array(

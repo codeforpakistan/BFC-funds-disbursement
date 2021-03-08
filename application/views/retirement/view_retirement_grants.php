@@ -44,6 +44,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             <div class="col-md-12">
                                 <input type="submit" name="btnSubmit" class="btn btn-sm btn-success" value="Approved By Board">
                                 <input type="submit" name="btnSubmit" class="btn btn-sm btn-danger" value="Rejected By Board"> 
+                                <a href="<?php //echo base_url('add_retirement_grant'); ?>http://localhost/projects/kpitb/BFC-funds-disbursement/Export/docx" class="btn btn-sm btn-success">Export</a>
                             </div>
                         </div>
                         <p></p>
@@ -57,6 +58,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'application_no')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Name Of Applicant')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Department')); ?></th>
+                            <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Designation')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'CNIC No.')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Personnel No')); ?></th>
                             <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Date Of Birth')); ?></th>
@@ -101,6 +103,8 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
             // DataTables server-side processing mode
             "serverSide": true,
             // Initial no order.
+            // "filter": false,
+            // "searching": false,
             "order": [],
             // Load data from an Ajax source
             "ajax": {

@@ -28,15 +28,15 @@ class Funeral extends MY_Controller {
 		$data['description'] = '...';
     
         if (!($_SESSION['tbl_admin_role_id'] == '1')) {
-            $emp_array = array('status'=> '1', 'record_add_by'=> $_SESSION['admin_id']);
+            $emp_array = array('status'=> '1', 'record_add_by'=> $_SESSION['admin_id'], );
         }
 
         $data['bank_types'] = $this->common_model->getAllRecordByArray('tbl_banks', array('status' => '1'));
         $data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['payment_modes'] = $this->common_model->getAllRecordByArray('tbl_payment_mode', array('status' => '1'));
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
-        $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array );
-
+        $data['employees'] = $this->emp_info_model->getAllNonGazettedEmp($emp_array );
+        //getAllNonGazettedEmp
         if($id!=''){
             $data['emp_info'] = $this->emp_info_model->getRecordById($id);
         }
@@ -48,6 +48,7 @@ class Funeral extends MY_Controller {
 			$this->form_validation->set_rules('record_no_year', ucwords(str_replace('_', ' ', 'record_no_year')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('doa', ucwords(str_replace('_', ' ', 'doa')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('name_deceased', ucwords(str_replace('_', ' ', 'name_deceased')), 'required|xss_clean|trim');
+            //$this->form_validation->set_rules('dependent_death_date', ucwords(str_replace('_', ' ', 'dependent_death_date')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('dor', ucwords(str_replace('_', ' ', 'dor')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('los', ucwords(str_replace('_', ' ', 'los')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('dept_letter_no', ucwords(str_replace('_', ' ', 'dept_letter_no')), 'required|xss_clean|trim');
@@ -57,6 +58,7 @@ class Funeral extends MY_Controller {
             $this->form_validation->set_rules('net_amount', ucwords(str_replace('_', ' ', 'net_amount')), 'required|xss_clean|trim');
             //$this->form_validation->set_rules('tbl_case_status_id', ucwords(str_replace('_', ' ', 'tbl_case_status_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_payment_mode_id', ucwords(str_replace('_', ' ', 'tbl_payment_mode_id')), 'required|xss_clean|trim');
+            $this->form_validation->set_rules('bank_type_id', ucwords(str_replace('_', ' ', 'bank_type_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_list_bank_branches_id', ucwords(str_replace('_', ' ', 'tbl_list_bank_branches_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('account_no', ucwords(str_replace('_', ' ', 'account_no')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('bank_verification', ucwords(str_replace('_', ' ', 'bank_verification')), 'required|xss_clean|trim');
@@ -109,7 +111,8 @@ class Funeral extends MY_Controller {
         }
 
         $data['all'] = $this->common_model->getRecordById($id, 'tbl_funeral_grant');
-        $data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
+        $data['bank_types'] = $this->common_model->getAllRecordByArray('tbl_banks', array('status' => '1'));
+        //$data['cases'] = $this->common_model->getAllRecordByArray('tbl_case_status', array('status' => '1'));
 		$data['payment_modes'] = $this->common_model->getAllRecordByArray('tbl_payment_mode', array('status' => '1'));
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
         $data['employees'] = $this->common_model->getAllRecordByArray('tbl_emp_info', $emp_array );
@@ -130,7 +133,7 @@ class Funeral extends MY_Controller {
             $this->form_validation->set_rules('grant_amount', ucwords(str_replace('_', ' ', 'grant_amount')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('deduction', ucwords(str_replace('_', ' ', 'deduction')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('net_amount', ucwords(str_replace('_', ' ', 'net_amount')), 'required|xss_clean|trim');
-            $this->form_validation->set_rules('tbl_case_status_id', ucwords(str_replace('_', ' ', 'tbl_case_status_id')), 'required|xss_clean|trim');
+            // $this->form_validation->set_rules('tbl_case_status_id', ucwords(str_replace('_', ' ', 'tbl_case_status_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_payment_mode_id', ucwords(str_replace('_', ' ', 'tbl_payment_mode_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('tbl_list_bank_branches_id', ucwords(str_replace('_', ' ', 'tbl_list_bank_branches_id')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('account_no', ucwords(str_replace('_', ' ', 'account_no')), 'required|xss_clean|trim');
@@ -142,7 +145,7 @@ class Funeral extends MY_Controller {
             $this->form_validation->set_rules('dc_attach', ucwords(str_replace('_', ' ', 'dc_attach')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('bf_contribution_attach', ucwords(str_replace('_', ' ', 'bf_contribution_attach')), 'required|xss_clean|trim');
             $this->form_validation->set_rules('cnic_attach', ucwords(str_replace('_', ' ', 'cnic_attach')), 'required|xss_clean|trim');
-            $this->form_validation->set_rules('boards_approval', ucwords(str_replace('_', ' ', 'boards_approval')), 'required|xss_clean|trim');
+            // $this->form_validation->set_rules('boards_approval', ucwords(str_replace('_', ' ', 'boards_approval')), 'required|xss_clean|trim');
             // $this->form_validation->set_rules('ac_edit', ucwords(str_replace('_', ' ', 'ac_edit')), 'required|xss_clean|trim');
             // $this->form_validation->set_rules('sent_to_secretary', ucwords(str_replace('_', ' ', 'sent_to_secretary')), 'required|xss_clean|trim');
             // $this->form_validation->set_rules('approve_secretary', ucwords(str_replace('_', ' ', 'approve_secretary')), 'required|xss_clean|trim');
@@ -253,6 +256,20 @@ class Funeral extends MY_Controller {
 			$i++;
 			//$status = ($funeralInfo->status == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Inactive</span>';
 
+            $emp_info_id = $funeralInfo->tbl_emp_info_id;
+            $emp_info = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id',  $emp_info_id);
+            $emp_name = $emp_info['grantee_name'];
+            $tbl_department_id = $emp_info['tbl_department_id'];
+            //$tbl_post_id = $emp_info['tbl_post_id'];
+            $pay_scale = $emp_info['pay_scale'];
+            //$personnel_no = $emp_info['personnel_no'];
+            //$dob = $emp_info['dob'];
+            $cnic_no = $emp_info['cnic_no'];
+
+            $get_dept = $this->common_model->getRecordByColoumn('tbl_department', 'id',  $tbl_department_id);
+            $dept_name = $get_dept['name'];
+            $dept_name_scale = $dept_name. ' ('.$pay_scale.')';
+
             $case_status_id = $funeralInfo->tbl_case_status_id;
             $getstatus = $this->common_model->getRecordByColoumn('tbl_case_status', 'id',  $case_status_id);
             $status = '<span class="'.$getstatus['label'].'">'.$getstatus['name'].'</span>';
@@ -274,7 +291,8 @@ class Funeral extends MY_Controller {
             }
             $input = '<input type="checkbox" name="application_no[]" id="application_no" value="'.$funeralInfo->application_no.'">';
             //$getDept = $this->common_model->getRecordById($funeralInfo->parent_dept, $tbl_name = 'tbl_department');
-			$data[] = array($input, $i, $funeralInfo->application_no, $funeralInfo->record_no, $funeralInfo->record_no_year, $funeralInfo->name_deceased, $funeralInfo->doa, $funeralInfo->dor, $funeralInfo->los,$status, $add_by_date, $actionBtn);
+			$data[] = array($input, $i, $funeralInfo->application_no, $emp_name, $dept_name_scale, $cnic_no, 
+            $funeralInfo->name_deceased, $funeralInfo->doa, $funeralInfo->dor, $funeralInfo->los , $status, $add_by_date, $actionBtn);
 		}
 
 		$output = array(

@@ -47,7 +47,7 @@
                                             <i class="fa fa-user"></i>
                                         </div>
 
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('grantee_name'); ?>" name="grantee_name" id="grantee_name" class="form-control validate[required,minSize[3]" placeholder="Enter <?php echo $label; ?>" />
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('grantee_name'); ?>" name="grantee_name" id="grantee_name" class="form-control validate[required,minSize[3]]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('grantee_name'); ?>
                                 </div>
 
@@ -69,7 +69,7 @@
                                             <i class="fa fa-mobile"></i>
                                         </div>
 
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('contact_no'); ?>" name="contact_no" id="contact_no" class="form-control validate[required,minSize[3],custom[number]" placeholder="Enter <?php echo $label; ?>" />
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('contact_no'); ?>" name="contact_no" id="contact_no" maxlength="11" class="form-control validate[required,minSize[3],custom[number]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('contact_no'); ?>
                                 </div>
 
@@ -88,7 +88,7 @@
                                             <i class="fa fa-id-card"></i>
                                         </div>
 
-                                        <input type="text" autocomplete="off" value="<?php echo set_value('cnic_no'); ?>" name="cnic_no" id="cnic_no" class="form-control validate[required,minSize[13],maxSize[13],custom[number]" placeholder="Enter <?php echo $label; ?>" />
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('cnic_no'); ?>" name="cnic_no" id="cnic_no" maxlength="13" class="form-control validate[required,minSize[13],maxSize[13],custom[number]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('cnic_no'); ?>
                                 </div>
 
@@ -143,7 +143,9 @@
                                             <option value="">Select Department</option>
 
                                             <?php foreach ($department as $departmentInfo) : ?>
-                                                <option value="<?php echo $departmentInfo['id']; ?>"><?php echo $departmentInfo['name']; ?></option>
+                                                <option value="<?php echo $departmentInfo['id']; ?>" <?php if (set_value('tbl_department_id') == $departmentInfo['id']) {
+                                                                                                            echo 'selected';
+                                                                                                        } ?>><?php echo $departmentInfo['name']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div><?php echo form_error('tbl_department_id'); ?>
@@ -160,7 +162,7 @@
                                             <option value="">Select Post</option>
 
                                             <?php foreach ($post as $postInfo) : ?>
-                                                <option value="<?php echo $postInfo['id']; ?>"><?php echo $postInfo['name']; ?></option>
+                                                <option value="<?php echo $postInfo['id']; ?>" <? if(set_value('tbl_post_id')==$postInfo['id']) { echo 'selected' ; }?>><?php echo $postInfo['name']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div><?php echo form_error('tbl_post_id'); ?>
@@ -188,7 +190,7 @@
                                             <option value="">Select District</option>
 
                                             <?php foreach ($district as $districtInfo) : ?>
-                                                <option value="<?php echo $districtInfo['id']; ?>"><?php echo $districtInfo['name']; ?></option>
+                                                <option value="<?php echo $districtInfo['id']; ?>" <? if(set_value('tbl_district_id')==$districtInfo['id']) { echo 'selected' ; }?>><?php echo $districtInfo['name']; ?></option>
                                             <?php endforeach; ?>
                                         </select>
                                     </div><?php echo form_error('tbl_district_id'); ?>
@@ -225,10 +227,6 @@
                 </div>
                 <!-- personal info end -->
 
-                <!-- contact info start-->
-
-
-                <!-- contact info end -->
 
             </div>
 
