@@ -216,13 +216,13 @@ class Common_model extends CI_Model {
     public function sendSMS($smsArray){
         //echo '<pre>'; print_r($smsArray); exit;
         $applicantMobNo = $smsArray['applicantMobNo'];
-        $smsContent = $smsArray['smsContent'];
-
+        $smsContent = urlencode($smsArray['smsContent']);
+        //$smsContent = 'this is test msg';
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://smscms.famzsolutions.com/sms/api/send?username=BFKP&password=BFKP@Nazim123&mask=BFKP&mobile=".$applicantMobNo."&message=".$smsContent,
-        //CURLOPT_URL => "https://smscms.famzsolutions.com/sms/api/send",
+        //CURLOPT_URL => "https://smscms.famzsolutions.com/sms/api/send?username=BFKP&password=BFKP@Nazim123&mask=BFKP&mobile=".$applicantMobNo."&message=".$smsContent,
+        CURLOPT_URL => "https://smscms.famzsolutions.com/sms/api/send?username=BFKP&password=BFKP@Nazim123&mask=BFKP&mobile=".$applicantMobNo."&type=Urdu&message=".$smsContent."",
         CURLOPT_RETURNTRANSFER => true,
         CURLOPT_ENCODING => "",
         CURLOPT_MAXREDIRS => 10,

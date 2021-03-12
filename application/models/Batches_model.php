@@ -297,25 +297,42 @@ class Batches_model extends CI_Model {
         $btnSubmit = $this->input->post('btnSubmit');
         //$batch_no = $this->input->post('batch_no');
 
-        if($btnSubmit == 'Approved By Secretary') {
-            $status = '5'; 
-        } else if($btnSubmit == 'Rejected By Secretary') {
-            $status = '6'; 
-        } else if($btnSubmit == 'Sent to Bank') {
-            $status = '7';
-        } else if($btnSubmit == 'Approved By Bank') {
-            $status = '8';
-        } else if($btnSubmit == 'Rejected By Bank') {
-            $status = '9';
-        }
+        
         
         foreach ($apps as $key => $application_no) {
+
+            if($btnSubmit == 'Approved By Secretary') {
+                $status = '5'; 
+                $smsContent = 'آپ کے درخواست نمبر '.$application_no.' کو سکریٹری نے منظور کرلیا ہے';
+            } else if($btnSubmit == 'Rejected By Secretary') {
+                $status = '6'; 
+                $smsContent = 'آپ کے درخواست نمبر '.$application_no.' کو سکریٹری نے مسترد کرلیا ہے';
+            } else if($btnSubmit == 'Sent to Bank') {
+                $status = '7';
+                $smsContent = 'آ پ کا کیس   '.$application_no.' بینک بھیج دیا گیا اور کچھ ہی دنو ں میں آ پ کے بینک اکا و نٹ میں رقم منتقل ہو جائے گی';
+            } else if($btnSubmit == 'Approved By Bank') {
+                $status = '8';
+                $smsContent = 'آپ کے درخواست نمبر '.$application_no.' کو بینک نے منظور کرلیا ہے';
+            } else if($btnSubmit == 'Rejected By Bank') {
+                $status = '9';
+                $smsContent = 'آپ کے درخواست نمبر '.$application_no.' کو بینک نے مسترد کرلیا ہے';
+            }
+
+
+            
 
             $getApplication = $this->common_model->getRecordByColoumn('tbl_grants_has_tbl_emp_info_gerund', 'application_no', $application_no);
             $grantID = $getApplication['tbl_grants_id'];
             $app_role_id = $getApplication['role_id'];
             $app_added_by = $getApplication['added_by'];
+            $tbl_emp_info_id = $getApplication['tbl_emp_info_id'];
 
+            $getEmp = $this->common_model->getRecordById($tbl_emp_info_id, $tbl_name = 'tbl_emp_info');
+            $contact_no = $getEmp['contact_no'];
+
+
+            $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+            $send       = $this->common_model->sendSMS($smsArray);
 
             $data = array( 'status' => $status );
             //XSS prevention
@@ -338,6 +355,8 @@ class Batches_model extends CI_Model {
             $get_rec_id = $this->common_model->getRecordByColoumn($tbl_name, 'application_no', $application_no);
             $application_id = $get_rec_id['id'];
 
+
+
             $this->logger
             ->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
             ->tbl_name($tbl_name) //Entry table name
@@ -346,6 +365,15 @@ class Batches_model extends CI_Model {
             ->detail( 
                 '<tr>' .
                 '<td><strong>' . 'Status' . '</strong></td><td> '.$btnSubmit.' </td>'  .
+                '</tr>'  .
+                '<tr>' .
+                '<td><strong>' . 'Contact no' . '</strong></td><td>' . $contact_no . '</td>'  .
+                '</tr>' .
+                '<tr>' .
+                '<td><strong>' . 'SMS Send' . '</strong></td><td>' . $send . '</td>'  .
+                '</tr>' .
+                '<tr>' .
+                '<td><strong>' . 'SMS Content' . '</strong></td><td>' . $smsContent . '</td>'  .
                 '</tr>'  
             ) //detail
             ->log(); //Add Database Entry
@@ -418,7 +446,13 @@ class Batches_model extends CI_Model {
             $getApplication = $this->common_model->getRecordByColoumn('tbl_grants_has_tbl_emp_info_gerund', 'application_no', $value);
             $districtID = $getApplication['tbl_district_id'];
             $grantID = $getApplication['tbl_grants_id'];
+            $tbl_emp_info_id = $getApplication['tbl_emp_info_id'];
 
+            $getEmp = $this->common_model->getRecordById($tbl_emp_info_id, $tbl_name = 'tbl_emp_info'); 
+            $contact_no = $getEmp['contact_no'];
+
+
+            //آ پ کا کیس منظو ری کے لئے تیار ہو گیا ہے۔ منظو ری ہو تے ہی اسے بینک بھیج دیا جائے گا
             $data = array( 
                 'batch_no'=> $batch_no, 
                 'application_no' => $value,  
@@ -451,6 +485,13 @@ class Batches_model extends CI_Model {
                 $this->db->where('application_no', $value); 
                 $result = $this->db->update($tbl_name, $self_tbl_status); 
 
+ 
+                $smsContent = 'آ پ کا کیس '.$value.' منظو ری کے لئے تیار ہو گیا ہے۔ منظو ری ہو تے ہی اسے بینک بھیج دیا جائے گا';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+                
+
+
             }
 
             $get_rec_id = $this->common_model->getRecordByColoumn($tbl_name, 'application_no', $value);
@@ -464,7 +505,17 @@ class Batches_model extends CI_Model {
             ->detail( 
                 '<tr>' .
                 '<td><strong>' . 'Status' . '</strong></td><td> Batched </td>'  .
-                '</tr>'  
+                '</tr>' .
+                '<tr>' .
+                '<td><strong>' . 'Contact no' . '</strong></td><td>' . $contact_no . '</td>'  .
+                '</tr>' .
+                '<tr>' .
+                '<td><strong>' . 'SMS Send' . '</strong></td><td>' . $send . '</td>'  .
+                '</tr>' .
+                '<tr>' .
+                '<td><strong>' . 'SMS Content' . '</strong></td><td>' . $smsContent . '</td>'  .
+                '</tr>'
+                    
             ) //detail
             ->log(); //Add Database Entry
             

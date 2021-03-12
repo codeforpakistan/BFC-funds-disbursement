@@ -63,7 +63,7 @@ $route['grants-released'] = 'reports/view_grant_released/';
 $route['create-batch'] = 'batches/create_batch/';
 $route['batches'] = 'batches/view_batches/';
 $route['batch_details/(:any)'] = 'batches/batch_details/$1';
-$route['PrintBatch/(:any)'] = 'batches/PrintBatch/$1';
+$route['PrintBatch/(:any)/(:any)'] = 'batches/PrintBatch/$1/$2';
 
 $route['batch_app_status'] = 'batches/batch_app_status/';
 

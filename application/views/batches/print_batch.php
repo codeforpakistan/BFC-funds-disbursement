@@ -27,7 +27,8 @@
 
 </style>
 </head>
-<body>
+<body style="background: url(assets/site/images/certificatebg.png);background-repeat: no-repeat;background-position: center;">
+
     <table style="width:100%">
         <tr>
             <td style="width:30%"><img src="assets/upload/images/bfc.png" style="width:150px;"></td>
@@ -35,17 +36,34 @@
             <td style="width:30%">Government of Khyber Pakhtunkhwa Administration Department Benevolent Fund Cell. Dated Peshawar the <?=date('d-m-Y')?> </td>
         </tr>
         
-    </table>
+    </table> 
     <p>To</p>
     <p>
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Manager,<br>
-	     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;National Bank of Pakistan<br>
+	     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=($applications[0]['bfc_bank'] ==1)?'National Bank of Pakistan':'Khyber Bank'?><br>
 	     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Saddar Road Branch, Peshawar.</p>
 	     
-	<p>Subject:		&nbsp;&nbsp;&nbsp;RETIRMENT GRANT PAYMENTS </p>
+	<p>Subject:		&nbsp;&nbsp;&nbsp; <?php 
+	                                        if($applications[0]['tbl_grants_id'] ==1) 
+	                                            echo 'Scholarship Payments';
+	                                       else if($applications[0]['tbl_grants_id'] ==2) 
+	                                            echo 'Funeral Payments';
+	                                       else if($applications[0]['tbl_grants_id'] ==3) 
+	                                            echo 'Retirement Payments';
+	                                       else if($applications[0]['tbl_grants_id'] ==4) 
+	                                            echo 'Monthly Payments';
+	                                       else if($applications[0]['tbl_grants_id'] ==5) 
+	                                            echo 'Interest Free Loan Payments';
+	                                       else if($applications[0]['tbl_grants_id'] ==6) 
+	                                            echo 'Lumpsum Payments';     
+	                                            
+	                                            
+	                               ?>
+	                                            
+	</p>
 	
 	<p>
-	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kindly refer to the subject cited above and to state that Rs. _____________________________________________________________ may be transferred to the relevant account of grantees of Benevolent Fund. A detailed list including Name, Father’s Name, Designation, Bank Branch Name, Code & Account Numbers mentioned against each grantee, may be debited from Benevolent Fund General Account No.900132-7 / 3086442361 held with your branch.
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kindly refer to the subject cited above and to state that Rs.<?=number_format($sum)?> may be transferred to the relevant account of grantees of Benevolent Fund. A detailed list including Name, Father’s Name, Designation, Bank Branch Name, Code & Account Numbers mentioned against each grantee, may be debited from Benevolent Fund General Account No.<?=($applications[0]['bfc_bank'] ==2)?'00945005':'900132-7/ 3086442361'?>  held with your branch.
 	</p>
 
     
@@ -65,7 +83,7 @@
             </th>
         </tr>
 	<tbody id="tbody">
-    <?php 
+    <?php //echo '<pre>'; print_r($applications);die();
      foreach ($applications as $key => $value) {
                                 $i++;
 
@@ -136,7 +154,7 @@
                                     <td><?= $bank_branch; ?></td>
                                     <td><?= $code; ?></td>
                                     <td><?= $account_no; ?></td>
-                                    <td><?= $net_amount; ?></td> 
+                                    <td><?= number_format($net_amount) ?></td> 
                                     
                                 </tr>
                                 <?php

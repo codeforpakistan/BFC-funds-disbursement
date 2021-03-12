@@ -213,15 +213,16 @@
                                 <button type="submit" class="btn btn-sm btn-success" name="action" value="btnCreateBatch">Create Batch</button>
                                  
                                 <a href="<?php echo base_url(); ?>batches" type="button" class="btn btn-success pull-right btn-sm"><i class="fa fa-eye"> View all Batches </i></a>
-                                 
-                                 <label>National Bank Of Pakistan</label>
-                                
+                               
+                                &nbsp;&nbsp;
                                 <input type="radio" name="bfc_bank" value="1" checked="checked" >
-                                
-                                <label>Khyber Bank </label>
-                                
+                                <label>National Bank Of Pakistan</label>
+                            
+                                &nbsp;&nbsp;
+                            
                                 <input type="radio" name="bfc_bank" value="2">
-                                
+                                <label>Khyber Bank </label>
+                                 
                             </div>
                         </div>
                     </div>

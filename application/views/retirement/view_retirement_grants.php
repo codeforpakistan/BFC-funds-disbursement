@@ -43,8 +43,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                         <div class="row">
                             <div class="col-md-12">
                                 <input type="submit" name="btnSubmit" class="btn btn-sm btn-success" value="Approved By Board">
-                                <input type="submit" name="btnSubmit" class="btn btn-sm btn-danger" value="Rejected By Board"> 
-                                <a href="<?php //echo base_url('add_retirement_grant'); ?>http://localhost/projects/kpitb/BFC-funds-disbursement/Export/docx" class="btn btn-sm btn-success">Export</a>
+                                <input type="submit" name="btnSubmit" class="btn btn-sm btn-danger" value="Rejected By Board">  
                             </div>
                         </div>
                         <p></p>

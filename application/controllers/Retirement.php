@@ -306,6 +306,9 @@ class Retirement extends MY_Controller {
 
 			$add_by_date = '<i>Add by <strong>' . $getRole['name'] . '</strong> on <strong>' . $recordAddDate . '</strong></i>';
 
+
+            $applicationNo = '<a href="' . site_url('common/logger/' . $retirementInfo->id . '/tbl_retirement_grant') . '">'.$retirementInfo->application_no.'</a>';
+
 			$actionBtn = '<a href="' . site_url('common/logger/' . $retirementInfo->id . '/tbl_retirement_grant') . '">
                       <button type="button"class="btn btn-sm btn-xs btn-primary"><i class="fa fa-history"></i></button>
                       </a>' ;
@@ -313,7 +316,7 @@ class Retirement extends MY_Controller {
             //           <button type="button" id="item_edit" class="item_edit btn btn-sm btn-xs btn-warning"><i class="fa fa-edit"></i></button>
             //           </a>';
             if(!($_SESSION['tbl_admin_role_id'] == '2')) { 
-			$actionBtn .= '<a href="' . site_url('retirement/edit_retirement_grant/' . $retirementInfo->id) . '">
+			    $actionBtn .= '<a href="' . site_url('retirement/edit_retirement_grant/' . $retirementInfo->id) . '">
 			                   <button type="button" class="item_edit btn btn-sm btn-xs btn-warning"><i class="fa fa-edit"></i></button>
                                </a>';
             }
@@ -327,7 +330,7 @@ class Retirement extends MY_Controller {
             $input = '<input type="checkbox" name="application_no[]" id="application_no" '.$disabled.' value="'.$retirementInfo->application_no.'">';
             //$getDept = $this->common_model->getRecordById($retirementInfo->parent_dept, $tbl_name = 'tbl_department');
    
-            $data[] = array($input, $i, $retirementInfo->application_no, $emp_name, $dept_name_scale, 
+            $data[] = array($input, $i, $applicationNo, $emp_name, $dept_name_scale, 
             $post_name,
             $cnic_no, $personnel_no, $dob, $retirementInfo->doa, $retirementInfo->dor, $retirementInfo->los,
             $net_amount, $status, $add_by_date, $actionBtn);

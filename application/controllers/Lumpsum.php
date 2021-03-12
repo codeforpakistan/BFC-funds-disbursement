@@ -364,15 +364,25 @@ class Lumpsum extends MY_Controller {
             //           <button type="button" id="item_edit" class="item_edit btn btn-sm btn-xs btn-warning"><i class="fa fa-edit"></i></button>
             //           </a>';
             if(!($_SESSION['tbl_admin_role_id'] == '2')) { 
-            $actionBtn .= '<a href="' . site_url('lumpsum/edit_lumpsum_grant/' . $lumpsumInfo->id) . '">
+                $actionBtn .= '<a href="' . site_url('lumpsum/edit_lumpsum_grant/' . $lumpsumInfo->id) . '">
 			                   <button type="button" class="item_edit btn btn-sm btn-xs btn-warning"><i class="fa fa-edit"></i></button>
                                </a>';
             }
+
+            $applicationNo = '<a href="' . site_url('common/logger/' . $lumpsumInfo->id . '/tbl_lump_sum_grant') . '">'.$lumpsumInfo->application_no.'</a>';
+ 
+            if($case_status_id > '1' &&  ($_SESSION['tbl_admin_role_id'] == '6' || $_SESSION['tbl_admin_role_id'] == '7' ) ) {
+                $disabled = 'disabled';
+            } else {
+                $disabled = '';
+            }
+
+
             //$getDept = $this->common_model->getRecordById($lumpsumInfo->parent_dept, $tbl_name = 'tbl_department');
-            $input = '<input type="checkbox" name="application_no[]" id="application_no" value="'.$lumpsumInfo->application_no.'">';
+            $input = '<input type="checkbox" name="application_no[]" id="application_no" '.$disabled.' value="'.$lumpsumInfo->application_no.'">';
             //$data[] = array($input, $i, $lumpsumInfo->application_no, $lumpsumInfo->record_no, $lumpsumInfo->record_no_year, $lumpsumInfo->doa, $lumpsumInfo->dor, $lumpsumInfo->los, $status, $add_by_date, $actionBtn);
 		
-            $data[] = array($input, $i, $lumpsumInfo->application_no, $emp_name, $dept_name_scale, 
+            $data[] = array($input, $i, $applicationNo, $emp_name, $dept_name_scale, 
             $cnic_no, $personnel_no, $dob, $lumpsumInfo->doa, $lumpsumInfo->dor, $lumpsumInfo->los,
             $net_amount, $status, $add_by_date, $actionBtn);
         

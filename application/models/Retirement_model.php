@@ -6,9 +6,9 @@ class Retirement_model extends CI_Model {
 		// Set table name
 		$this->table = 'tbl_retirement_grant';
 		// Set orderable column fields
-		$this->column_order = array(null, 'record_no');
+		$this->column_order = array(null, 'application_no');
 		// Set searchable column fields
-		$this->column_search = array('application_no', 'record_no', 'dept_letter_no', );
+		$this->column_search = array('application_no', 'record_no', 'dept_letter_no', 'tbl_emp_name', 'tbl_emp_cnic', 'tbl_emp_personnel_no');
 		// Set default order
 		$this->order = array('id' => 'desc');
 		//////// ajax and ssp////////
@@ -46,6 +46,18 @@ class Retirement_model extends CI_Model {
         $this->db->insert('tbl_grants_has_tbl_emp_info_gerund', $app_data); 
         $last_insert_id = $this->db->insert_id(); 
 
+        //get emp info   
+        $getEmp = $this->common_model->getRecordById($this->input->post('tbl_emp_info_id'), $tbl_name = 'tbl_emp_info');
+        $granteeName = $getEmp['grantee_name'];
+        $pay_scale = $getEmp['pay_scale'];
+        $department_id = $getEmp['tbl_department_id'];
+        $emp_post_id = $getEmp['tbl_post_id'];
+        $contact_no = $getEmp['contact_no'];
+        $tbl_emp_cnic = $getEmp['cnic_no'];
+        $tbl_emp_personnel_no = $getEmp['personnel_no'];
+        // echo 'contacat = '. $contact_no; exit;
+        // echo '<pre>'; print_r($getEmp); 
+        // exit;
 
         $data = array( 
             'application_no' => $application_no,
@@ -73,14 +85,11 @@ class Retirement_model extends CI_Model {
             'retirement_attach' => $this->input->post('retirement_attach'),
             'bf_contribution_attach' => $this->input->post('bf_contribution_attach'), 
             'cnic_attach' => $this->input->post('cnic_attach'),
-            'ppo_attach' => $this->input->post('ppo_attach'),
-            //'boards_approval' => $this->input->post('boards_approval'),
-            //'ac_edit' => $this->input->post('ac_edit'),
-            //'sent_to_secretary' => $this->input->post('sent_to_secretary'),
-            //'approve_secretary' => $this->input->post('approve_secretary'),
-            //'sent_to_bank' => $this->input->post('sent_to_bank'),
-            //'feedback_website' => $this->input->post('feedback_website'), 
+            'ppo_attach' => $this->input->post('ppo_attach'), 
             'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'), 
+            'tbl_emp_name' => $granteeName, 
+            'tbl_emp_cnic' => $tbl_emp_cnic, 
+            'tbl_emp_personnel_no' => $tbl_emp_personnel_no,  
             'tbl_district_id' => $this->input->post('tbl_district_id'),
             'gazette' => $gazette,
             'record_add_by' => $_SESSION['admin_id'],
@@ -95,31 +104,103 @@ class Retirement_model extends CI_Model {
         $last_insert_id = $this->db->insert_id();
         //echo '<br>insertID = '. $last_insert_id; exit;
         
-        if ($this->db->affected_rows() > 0) {
-            // this is for activity log of a record
+        if ($last_insert_id > 0) {
             
+            $smsContent = 'آپ کا درخواست نمبر '.$application_no.' ہے۔';
+            $smsContent .= 'آ پ  کے  بی  ایف  سی   فا رم  بما ئے  لف  کا  غذات  مو صول  ہو گئے  ہے۔ اب  ان  کی  چھا ن  بین کر کے      
+            پر ا سیس کیا  جا  ئے  گا';
+            $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+            $send       = $this->common_model->sendSMS($smsArray);
 
-            $get_emp = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id',  $this->input->post('tbl_emp_info_id'));
-            $contact_no = $get_emp['contactno'];
+
+            if($this->input->post('bank_verification')=='No')
+            {
+                $smsContent = 'آپ کے کا غذات میں بینک سے تصد یق شد ہ اکا و نٹ کی تفصیل مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
             
-            // // sending sms
-            // $smsContent = 'This is test message, please do not respond.';
-            // $smsArray = array('content'=>$smsContent, 'mobNo'=>$mobNo);
-            // $sendSMS = $this->common_model->sendSMS($smsArray);
-
+            // if($this->input->post('s_n_office_dept_seal')=='N')
+            // {
+            //     $smsContent = 'آپ کے کا غذات میں بینک سے تصد یق شد ہ اکا و نٹ کی تفصیل مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+            //     $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+            //     $send       = $this->common_model->sendSMS($smsArray);
+            // }
             
- 
-
-            $getEmp = $this->common_model->getRecordById($this->input->post('tbl_emp_info_id'), $tbl_name = 'tbl_emp_info');
-            $granteeName = $getEmp['grantee_name'];
-            $pay_scale = $getEmp['pay_scale'];
-            $department_id = $getEmp['tbl_department_id'];
-            $emp_post_id = $getEmp['tbl_post_id'];
+            if($this->input->post('payroll_attach')=='No')
+            {
+                $smsContent = 'آآپ کے کا غذات میں پے سلپ / LPC کی کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('retirement_attach')=='No')
+            {
+                $smsContent = 'آآپ کے کا غذات میں ریٹا ئر منٹ آ رڈر کی کا پی مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+             
+            if($this->input->post('cnic_attach')=='No')
+            {
+                $smsContent = ' آپ کے کا غذات میں قو می شنا ختی کا رڈ کی تصد یق شد ہ کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+             
+            /*if($this->input->post('sign_of_applicant')=='No')
+            {
+                $smsContent = ' آپ کے کا غذات میں قو می شنا ختی کا رڈ کی تصد یق شد ہ کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('s_n_dept_admin_seal')=='N')
+            {
+                $smsContent = ' آپ کے کا غذات میں قو می شنا ختی کا رڈ کی تصد یق شد ہ کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('dob_ac_attach')=='N')
+            {
+                $smsContent = ' آپ کے کا غذات میں قو می شنا ختی کا رڈ کی تصد یق شد ہ کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            */
+             
+            if($this->input->post('bf_contribution_attach')=='No')
+            {
+                $smsContent = ' آپ کے کا غذات میں بنو و لنٹ فنڈ Contribution سر ٹیفکیٹ مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('ppo_attach')=='No')
+            {
+                $smsContent ='آپ کے کا غذات میں پنشن پیمنٹ آ رڈر(PPO) کی کا پی مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+             
+            
+             
+            
             $getDept = $this->common_model->getRecordById($department_id, $tbl_name = 'tbl_department');
             $departmentName = $getDept['name'];
             $getPost = $this->common_model->getRecordById($emp_post_id, $tbl_name = 'tbl_post');
             $postName = $getPost['name'];
-            
+            $getPaymentMode = $this->common_model->getRecordById($this->input->post('tbl_payment_mode_id'), $tbl_name = 'tbl_payment_mode');
+            $paymentMode = $getPaymentMode['name'];
+            $getBankBranch = $this->common_model->getRecordById($this->input->post('tbl_list_bank_branches_id'), $tbl_name = 'tbl_list_bank_branches');
+            $branch_name = $getBankBranch['branch_name'];
+            $branch_code = $getBankBranch['branch_code'];
+            $bankBranch = $branch_name.' '.$branch_code;
+            $getStatus = $this->common_model->getRecordById($this->input->post('tbl_case_status_id'), $tbl_name = 'tbl_case_status');
+            $statusName = $getStatus['name'];
+
             $this->logger
                 ->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
                 ->tbl_name($this->table) //Entry table name
@@ -127,64 +208,58 @@ class Retirement_model extends CI_Model {
                 ->action_type('add') //action type identify Action like add or update
                 ->detail(
                     '<tr>' .
-                    '<td><strong>' . 'Application Number' . '</strong></td>
-                    <td colspan="5">' . $application_no . '</td>' .
+                        '<td><strong>' . 'Application Number' . '</strong></td>' .
+                        '<td colspan="5">' . $application_no . '</td>' .
                     '</tr>' .
                     '<tr>' .
                         '<td><strong>' . 'Name of Government Servant' . '</strong></td><td>' . $granteeName . '</td>' .
-                        '<td>Pay Scale</td><td>'.$pay_scale.'</td>' .
-                        '<td>Department / Post</td><td>'.$departmentName.'/ '.$postName.'</td>' .
+                        '<td><strong>' . 'Pay Scale' . '</strong></td><td>'.$pay_scale.'</td>' .
+                        '<td><strong>' . 'Department / Post' . '</strong></td><td>'.$departmentName.'/ '.$postName.'</td>' .
                     '</tr>' .
                     '<tr>' .
-                    '<td><strong>' . 'Record no' . '</strong></td><td>' . $this->input->post('record_no') . '</td>' .
-                    '<td><strong>' . 'record_no_year' . '</strong></td><td>' . $this->input->post('record_no_year') . '</td>' .
-                    '<td><strong>' . 'Date of appointment ' . '</strong></td><td>' . $doa . '</td>' .
+                        '<td><strong>' . 'Record no' . '</strong></td><td>' . $this->input->post('record_no') . '</td>' .
+                        '<td><strong>' . 'Record no year' . '</strong></td><td>' . $this->input->post('record_no_year') . '</td>' .
+                        '<td><strong>' . 'Date of appointment ' . '</strong></td><td>' . $doa . '</td>' .
                     '</tr>' .
                     '<tr>' .
-                    '<td><strong>' . 'Date of Retirement' . '</strong></td><td>' . $dor . '</td>' .
-                    '<td><strong>' . 'los' . '</strong></td><td>' . $this->input->post('los') . '</td>' .
-                    '<td><strong>' . 'dept_letter_no' . '</strong></td><td>' . $this->input->post('dept_letter_no') . '</td>' .
+                        '<td><strong>' . 'Date of Retirement' . '</strong></td><td>' . $dor . '</td>' .
+                        '<td><strong>' . 'Length of Service' . '</strong></td><td>' . $this->input->post('los') . '</td>' .
+                        '<td><strong>' . 'Dept letter no' . '</strong></td><td>' . $this->input->post('dept_letter_no') . '</td>' .
                     '</tr>' .
                     '<tr>' .
-                    '<td><strong>' . 'dept_letter_no_date' . '</strong></td><td>' . $dept_letter_no_date . '</td>' .
-                    '<td><strong>' . 'grant_amount' . '</strong></td><td>' . $this->input->post('grant_amount') . '</td>' .
-                    '<td><strong>' . 'deduction' . '</strong></td><td>' . $this->input->post('deduction') . '</td>' .
+                        '<td><strong>' . 'Dept letter no date' . '</strong></td><td>' . $dept_letter_no_date . '</td>' .
+                        '<td><strong>' . 'Grant amount' . '</strong></td><td>' . $this->input->post('grant_amount') . '</td>' .
+                        '<td><strong>' . 'Deduction' . '</strong></td><td>' . $this->input->post('deduction') . '</td>' .
                     '</tr>' .
                     '<tr>' .
-                    '<td><strong>' . 'net amount' . '</strong></td><td>' . $this->input->post('net_amount') . '</td>' .
-                    '<td><strong>' . 'tbl_case_status_id' . '</strong></td><td>' . $this->input->post('tbl_case_status_id') . '</td>' .
-                    '<td><strong>' . 'tbl_payment_mode_id' . '</strong></td><td>' . $this->input->post('tbl_payment_mode_id') . '</td>' .
+                        '<td><strong>' . 'Net amount' . '</strong></td><td>' . $this->input->post('net_amount') . '</td>' .
+                        '<td><strong>' . 'Case Status' . '</strong></td><td>' . $statusName . '</td>' .
+                        '<td><strong>' . 'Payment Mode' . '</strong></td><td>' . $paymentMode . '</td>' .
                     '</tr>' .
                     '<tr>' .
-                    '<td><strong>' . 'tbl_list_bank_branches_id' . '</strong></td><td>' . $this->input->post('tbl_list_bank_branches_id') . '</td>' .
-                    '<td><strong>' . 'account_no' . '</strong></td><td>' . $this->input->post('account_no') . '</td>' .
-                    '<td><strong>' . 'bank_verification' . '</strong></td><td>' . $this->input->post('bank_verification') . '</td>' .
+                        '<td><strong>' . 'Bank & Branch' . '</strong></td><td>' . $bankBranch . '</td>' .
+                        '<td><strong>' . 'Account No' . '</strong></td><td>' . $this->input->post('account_no') . '</td>' .
+                        '<td><strong>' . 'Bank Verification' . '</strong></td><td>' . $this->input->post('bank_verification') . '</td>' .
                     '</tr>' . 
                     '<tr>' .
-                    '<td><strong>' . 'sign_of_applicant' . '</strong></td><td>' . $this->input->post('sign_of_applicant') . '</td>' .
-                    '<td><strong>' . 's_n_office_dept_seal' . '</strong></td><td>' . $this->input->post('s_n_office_dept_seal') . '</td>' .
-                    '<td><strong>' . 's_n_dept_admin_seal' . '</strong></td><td>' . $this->input->post('s_n_dept_admin_seal') . '</td>' .
+                        '<td><strong>' . 'Sign of applicant' . '</strong></td><td>' . $this->input->post('sign_of_applicant') . '</td>' .
+                        '<td><strong>' . 'Signature & Name of the Head of Department with Official Seal' . '</strong></td><td>' . $this->input->post('s_n_office_dept_seal') . '</td>' .
+                        '<td><strong>' . 'Signature & Name of the Head of Administrative Department with Official Seal' . '</strong></td><td>' . $this->input->post('s_n_dept_admin_seal') . '</td>' .
                     '</tr>' .
                     '<tr>' .
-                    '<td><strong>' . 'payroll_attach' . '</strong></td><td>' . $this->input->post('payroll_attach') . '</td>' .
-                    '<td><strong>' . 'dob_ac_attach' . '</strong></td><td>' . $this->input->post('dob_ac_attach') . '</td>' .
-                    '<td><strong>' . 'retirement_attach' . '</strong></td><td>' . $this->input->post('retirement_attach') . '</td>' .
+                        '<td><strong>' . 'Pay Roll / LPC' . '</strong></td><td>' . $this->input->post('payroll_attach') . '</td>' .
+                        '<td><strong>' . 'Details of Bank A/C' . '</strong></td><td>' . $this->input->post('dob_ac_attach') . '</td>' .
+                        '<td><strong>' . 'Retirement Order' . '</strong></td><td>' . $this->input->post('retirement_attach') . '</td>' .
                     '</tr>' .
                     '<tr>' .
-                    '<td><strong>' . 'bf_contribution_attach' . '</strong></td><td>' . $this->input->post('bf_contribution_attach') . '</td>' .
-                    '<td><strong>' . 'cnic_attach' . '</strong></td><td>' . $this->input->post('cnic_attach') . '</td>' .
-                    '<td><strong>' . 'ppo_attach' . '</strong></td><td>' . $this->input->post('ppo_attach') . '</td>' .
+                        '<td><strong>' . 'BF Contribution Certificate' . '</strong></td><td>' . $this->input->post('bf_contribution_attach') . '</td>' .
+                        '<td><strong>' . 'CNIC of Govt: Servant' . '</strong></td><td>' . $this->input->post('cnic_attach') . '</td>' .
+                        '<td><strong>' . 'Pension Payment Order' . '</strong></td><td>' . $this->input->post('ppo_attach') . '</td>' .
                     '</tr>' .
                     '<tr>' .
-                    '<td><strong>' . 'boards_approval' . '</strong></td><td>' . $this->input->post('boards_approval') . '</td>' .
-                    '<td><strong>' . 'ac_edit' . '</strong></td><td>' . $this->input->post('ac_edit') . '</td>' .
-                    '<td><strong>' . 'sent_to_secretary' . '</strong></td><td>' . $this->input->post('sent_to_secretary') . '</td>' .
-                    '</tr>' .
-                    '<tr>' .
-                    '<td><strong>' . 'approve_secretary' . '</strong></td><td>' . $this->input->post('approve_secretary') . '</td>' .
-                    '<td><strong>' . 'sent_to_bank' . '</strong></td><td>' . $this->input->post('sent_to_bank') . '</td>' .
-                    '<td><strong>' . 'feedback_website' . '</strong></td><td>' . $this->input->post('feedback_website') . '</td>' .
-                    '</tr>' 
+                        '<td><strong>' . 'SMS SEND' . '</strong></td><td>' . $send . '</td>' .
+                        '<td><strong>' . 'SMS Content' . '</strong></td><td colspan="3">' . $smsContent . '</td>' . 
+                    '</tr>'  
                     
                 ) //detail
                 ->log(); //Add Database Entry
@@ -279,13 +354,98 @@ class Retirement_model extends CI_Model {
 
                 $getEmp = $this->common_model->getRecordById($this->input->post('tbl_emp_info_id'), $tbl_name = 'tbl_emp_info');
                 $granteeName = $getEmp['grantee_name'];
+                $contact_no = $getEmp['contact_no'];
                 $pay_scale = $getEmp['pay_scale'];
                 $department_id = $getEmp['tbl_department_id'];
                 $emp_post_id = $getEmp['tbl_post_id'];
+                // $getDept = $this->common_model->getRecordById($department_id, $tbl_name = 'tbl_department');
+                // $departmentName = $getDept['name'];
+                // $getPost = $this->common_model->getRecordById($emp_post_id, $tbl_name = 'tbl_post');
+                // $postName = $getPost['name'];
+                
+                if($this->input->post('bank_verification')=='No')
+                {
+                    $smsContent = 'آپ کے کا غذات میں بینک سے تصد یق شد ہ اکا و نٹ کی تفصیل مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+            
+                // if($this->input->post('s_n_office_dept_seal')=='N')
+                // {
+                //     $smsContent = 'آپ کے کا غذات میں بینک سے تصد یق شد ہ اکا و نٹ کی تفصیل مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                //     $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                //     $send       = $this->common_model->sendSMS($smsArray);
+                // }
+                
+                if($this->input->post('payroll_attach')=='No')
+                {
+                    $smsContent = 'آآپ کے کا غذات میں پے سلپ / LPC کی کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+                
+                if($this->input->post('retirement_attach')=='No')
+                {
+                    $smsContent = 'آآپ کے کا غذات میں ریٹا ئر منٹ آ رڈر کی کا پی مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+                
+                if($this->input->post('cnic_attach')=='No')
+                {
+                    $smsContent = ' آپ کے کا غذات میں قو می شنا ختی کا رڈ کی تصد یق شد ہ کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+                
+                /*if($this->input->post('sign_of_applicant')=='N')
+                {
+                    $smsContent = ' آپ کے کا غذات میں قو می شنا ختی کا رڈ کی تصد یق شد ہ کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+                
+                if($this->input->post('s_n_dept_admin_seal')=='N')
+                {
+                    $smsContent = ' آپ کے کا غذات میں قو می شنا ختی کا رڈ کی تصد یق شد ہ کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+                
+                if($this->input->post('dob_ac_attach')=='N')
+                {
+                    $smsContent = ' آپ کے کا غذات میں قو می شنا ختی کا رڈ کی تصد یق شد ہ کا پی مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+                */
+                
+                if($this->input->post('bf_contribution_attach')=='No')
+                {
+                    $smsContent = ' آپ کے کا غذات میں بنو و لنٹ فنڈ Contribution سر ٹیفکیٹ مو جو د نہیں ہے۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے۔';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+                
+                if($this->input->post('ppo_attach')=='No')
+                {
+                    $smsContent ='آپ کے کا غذات میں پنشن پیمنٹ آ رڈر(PPO) کی کا پی مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+                
                 $getDept = $this->common_model->getRecordById($department_id, $tbl_name = 'tbl_department');
                 $departmentName = $getDept['name'];
                 $getPost = $this->common_model->getRecordById($emp_post_id, $tbl_name = 'tbl_post');
                 $postName = $getPost['name'];
+                $getPaymentMode = $this->common_model->getRecordById($this->input->post('tbl_payment_mode_id'), $tbl_name = 'tbl_payment_mode');
+                $paymentMode = $getPaymentMode['name'];
+                $getBankBranch = $this->common_model->getRecordById($this->input->post('tbl_list_bank_branches_id'), $tbl_name = 'tbl_list_bank_branches');
+                $branch_name = $getBankBranch['branch_name'];
+                $branch_code = $getBankBranch['branch_code'];
+                $bankBranch = $branch_name.' '.$branch_code;
+                $getStatus = $this->common_model->getRecordById($this->input->post('tbl_case_status_id'), $tbl_name = 'tbl_case_status');
+                $statusName = $getStatus['name'];
                 
                 $this->logger
                     ->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
@@ -294,54 +454,54 @@ class Retirement_model extends CI_Model {
                     ->action_type('update') //action type identify Action like add or update
                     ->detail(
                         '<tr>' .
-                        '<td><strong>' . 'Application Number' . '</strong></td>
-                        <td colspan="5">' . $application_no . '</td>' .
-                        '</tr>' .
-                        '<tr>' .
-                            '<td><strong>' . 'Name of Government Servant' . '</strong></td><td>' . $granteeName . '</td>' .
-                            '<td>Pay Scale</td><td>'.$pay_scale.'</td>' .
-                            '<td>Department / Post</td><td>'.$departmentName.'/ '.$postName.'</td>' .
-                        '</tr>' .
-                        '<tr>' .
+                        '<td><strong>' . 'Application Number' . '</strong></td>' .
+                        '<td colspan="5">' . $application_no . '</td>' .
+                    '</tr>' .
+                    '<tr>' .
+                        '<td><strong>' . 'Name of Government Servant' . '</strong></td><td>' . $granteeName . '</td>' .
+                        '<td><strong>' . 'Pay Scale' . '</strong></td><td>'.$pay_scale.'</td>' .
+                        '<td><strong>' . 'Department / Post' . '</strong></td><td>'.$departmentName.'/ '.$postName.'</td>' .
+                    '</tr>' .
+                    '<tr>' .
                         '<td><strong>' . 'Record no' . '</strong></td><td>' . $this->input->post('record_no') . '</td>' .
-                        '<td><strong>' . 'record_no_year' . '</strong></td><td>' . $this->input->post('record_no_year') . '</td>' .
+                        '<td><strong>' . 'Record no year' . '</strong></td><td>' . $this->input->post('record_no_year') . '</td>' .
                         '<td><strong>' . 'Date of appointment ' . '</strong></td><td>' . $doa . '</td>' .
-                        '</tr>' .
-                        '<tr>' .
+                    '</tr>' .
+                    '<tr>' .
                         '<td><strong>' . 'Date of Retirement' . '</strong></td><td>' . $dor . '</td>' .
-                        '<td><strong>' . 'los' . '</strong></td><td>' . $this->input->post('los') . '</td>' .
-                        '<td><strong>' . 'dept_letter_no' . '</strong></td><td>' . $this->input->post('dept_letter_no') . '</td>' .
-                        '</tr>' .
-                        '<tr>' .
-                        '<td><strong>' . 'dept_letter_no_date' . '</strong></td><td>' . $dept_letter_no_date . '</td>' .
-                        '<td><strong>' . 'grant_amount' . '</strong></td><td>' . $this->input->post('grant_amount') . '</td>' .
-                        '<td><strong>' . 'deduction' . '</strong></td><td>' . $this->input->post('deduction') . '</td>' .
-                        '</tr>' .
-                        '<tr>' .
-                        '<td><strong>' . 'net amount' . '</strong></td><td>' . $this->input->post('net_amount') . '</td>' .
-                        '<td><strong>' . 'tbl_case_status_id' . '</strong></td><td>' . $this->input->post('tbl_case_status_id') . '</td>' .
-                        '<td><strong>' . 'tbl_payment_mode_id' . '</strong></td><td>' . $this->input->post('tbl_payment_mode_id') . '</td>' .
-                        '</tr>' .
-                        '<tr>' .
-                        '<td><strong>' . 'tbl_list_bank_branches_id' . '</strong></td><td>' . $this->input->post('tbl_list_bank_branches_id') . '</td>' .
-                        '<td><strong>' . 'account_no' . '</strong></td><td>' . $this->input->post('account_no') . '</td>' .
-                        '<td><strong>' . 'bank_verification' . '</strong></td><td>' . $this->input->post('bank_verification') . '</td>' .
-                        '</tr>' . 
-                        '<tr>' .
-                        '<td><strong>' . 'sign_of_applicant' . '</strong></td><td>' . $this->input->post('sign_of_applicant') . '</td>' .
-                        '<td><strong>' . 's_n_office_dept_seal' . '</strong></td><td>' . $this->input->post('s_n_office_dept_seal') . '</td>' .
-                        '<td><strong>' . 's_n_dept_admin_seal' . '</strong></td><td>' . $this->input->post('s_n_dept_admin_seal') . '</td>' .
-                        '</tr>' .
-                        '<tr>' .
-                        '<td><strong>' . 'payroll_attach' . '</strong></td><td>' . $this->input->post('payroll_attach') . '</td>' .
-                        '<td><strong>' . 'dob_ac_attach' . '</strong></td><td>' . $this->input->post('dob_ac_attach') . '</td>' .
-                        '<td><strong>' . 'retirement_attach' . '</strong></td><td>' . $this->input->post('retirement_attach') . '</td>' .
-                        '</tr>' .
-                        '<tr>' .
-                        '<td><strong>' . 'bf_contribution_attach' . '</strong></td><td>' . $this->input->post('bf_contribution_attach') . '</td>' .
-                        '<td><strong>' . 'cnic_attach' . '</strong></td><td>' . $this->input->post('cnic_attach') . '</td>' .
-                        '<td><strong>' . 'ppo_attach' . '</strong></td><td>' . $this->input->post('ppo_attach') . '</td>' .
-                        '</tr>'  
+                        '<td><strong>' . 'Length of Service' . '</strong></td><td>' . $this->input->post('los') . '</td>' .
+                        '<td><strong>' . 'Dept letter no' . '</strong></td><td>' . $this->input->post('dept_letter_no') . '</td>' .
+                    '</tr>' .
+                    '<tr>' .
+                        '<td><strong>' . 'Dept letter no date' . '</strong></td><td>' . $dept_letter_no_date . '</td>' .
+                        '<td><strong>' . 'Grant amount' . '</strong></td><td>' . $this->input->post('grant_amount') . '</td>' .
+                        '<td><strong>' . 'Deduction' . '</strong></td><td>' . $this->input->post('deduction') . '</td>' .
+                    '</tr>' .
+                    '<tr>' .
+                        '<td><strong>' . 'Net amount' . '</strong></td><td>' . $this->input->post('net_amount') . '</td>' .
+                        '<td><strong>' . 'Case Status' . '</strong></td><td>' . $statusName . '</td>' .
+                        '<td><strong>' . 'Payment Mode' . '</strong></td><td>' . $paymentMode . '</td>' .
+                    '</tr>' .
+                    '<tr>' .
+                        '<td><strong>' . 'Bank & Branch' . '</strong></td><td>' . $bankBranch . '</td>' .
+                        '<td><strong>' . 'Account No' . '</strong></td><td>' . $this->input->post('account_no') . '</td>' .
+                        '<td><strong>' . 'Bank Verification' . '</strong></td><td>' . $this->input->post('bank_verification') . '</td>' .
+                    '</tr>' . 
+                    '<tr>' .
+                        '<td><strong>' . 'Sign of applicant' . '</strong></td><td>' . $this->input->post('sign_of_applicant') . '</td>' .
+                        '<td><strong>' . 'Signature & Name of the Head of Department with Official Seal' . '</strong></td><td>' . $this->input->post('s_n_office_dept_seal') . '</td>' .
+                        '<td><strong>' . 'Signature & Name of the Head of Administrative Department with Official Seal' . '</strong></td><td>' . $this->input->post('s_n_dept_admin_seal') . '</td>' .
+                    '</tr>' .
+                    '<tr>' .
+                        '<td><strong>' . 'Pay Roll / LPC' . '</strong></td><td>' . $this->input->post('payroll_attach') . '</td>' .
+                        '<td><strong>' . 'Details of Bank A/C' . '</strong></td><td>' . $this->input->post('dob_ac_attach') . '</td>' .
+                        '<td><strong>' . 'Retirement Order' . '</strong></td><td>' . $this->input->post('retirement_attach') . '</td>' .
+                    '</tr>' .
+                    '<tr>' .
+                        '<td><strong>' . 'BF Contribution Certificate' . '</strong></td><td>' . $this->input->post('bf_contribution_attach') . '</td>' .
+                        '<td><strong>' . 'CNIC of Govt: Servant' . '</strong></td><td>' . $this->input->post('cnic_attach') . '</td>' .
+                        '<td><strong>' . 'Pension Payment Order' . '</strong></td><td>' . $this->input->post('ppo_attach') . '</td>' .
+                    '</tr>'   
                         
                     ) //detail
                     ->log(); //Add Database Entry
@@ -380,15 +540,28 @@ class Retirement_model extends CI_Model {
 
                 $get_status = $this->common_model->getRecordByColoumn('tbl_retirement_grant', 'application_no',  $application_no);
                 $id = $get_status['id'];
+                $tbl_emp_info_id = $get_status['tbl_emp_info_id'];
 
                 //send sms if approved by board...
-                if($status == '2') { 
-                    $emp_info   = $this->emp_info_model->getRecordById($this->input->post('tbl_emp_info_id'));
-                    $contact_no = $emp_info->contact_no; 
-                    $smsContent = 'Your application number '. $application_no . ' has been approved by board.';
+                if($status == '2') {   
+                    $getEmp = $this->common_model->getRecordById($tbl_emp_info_id, $tbl_name = 'tbl_emp_info');
+                    $contact_no = $getEmp['contact_no'];
+                    $smsContent = 'آپ کے درخواست نمبر '. $application_no . ' کو بورڈ کے ذریعہ منظور کرلیا گیا ہے۔'; 
+                    //$smsContent = 'Your application number '. $application_no . ' has been approved by board.';
                     $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
                     $send       = $this->common_model->sendSMS($smsArray);
                 }
+
+
+                // send sms if rejected by board
+                if($status == '3') {   
+                    $getEmp = $this->common_model->getRecordById($tbl_emp_info_id, $tbl_name = 'tbl_emp_info');
+                    $contact_no = $getEmp['contact_no'];
+                    $smsContent = 'آپ کے درخواست نمبر '. $application_no . ' کو بورڈ کے ذریعہ مسترد کرلیا گیا ہے۔'; 
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+
 
                 $this->logger
 				->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
@@ -398,6 +571,15 @@ class Retirement_model extends CI_Model {
 				->detail( 
 					'<tr>' .
 					'<td><strong>' . 'Status' . '</strong></td><td>' . $action . '</td>'  .
+					'</tr>' .
+                    '<tr>' .
+					'<td><strong>' . 'Contact no' . '</strong></td><td>' . $contact_no . '</td>'  .
+					'</tr>' .
+                    '<tr>' .
+					'<td><strong>' . 'SMS Send' . '</strong></td><td>' . $send . '</td>'  .
+					'</tr>' .
+                    '<tr>' .
+					'<td><strong>' . 'SMS Content' . '</strong></td><td>' . $smsContent . '</td>'  .
 					'</tr>'  
 				) //detail
 				->log(); //Add Database Entry

@@ -236,16 +236,11 @@ class Batches extends MY_Controller {
     
     function PrintBatch($id)
     {
-         $data['applications'] = $this->common_model->getAllRecordByArray('tbl_batches', array('batch_no' => $id));
-         //echo '<pre>'; print_r($data);die();
-         $page     = 'batches/print_batch.php';
-        
-    		$this->load->view($page,$data);
-    		
-    		$html = $this->load->view($page,$data,TRUE);
-		
-		//$pdfFilePath = $code.'.pdf';
-        $m = '';
+        $data['applications'] = $this->common_model->getAllRecordByArray('tbl_batches', array('batch_no' => $id));
+        $data['sum'] = $this->get_batch_sum($id);
+        $page     = 'batches/print_batch.php';
+        $this->load->view($page,$data);
+    	$html = $this->load->view($page,$data,TRUE);
 		$this->load->library('m_pdf');
 		$this->m_pdf->pdf->WriteHTML($html);
 		$this->m_pdf->pdf->Output($pdfFilePath, "I");	

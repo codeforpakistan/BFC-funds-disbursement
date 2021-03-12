@@ -297,7 +297,7 @@
                         <div class="row"> 
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 's_n_office_dept_seal')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature & Name Of The Head Of Department With Official Seal')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="s_n_office_dept_seal" id="s_n_office_dept_seal" value="No"> No
                                     <input type="radio" class="validate[required]" name="s_n_office_dept_seal" id="s_n_office_dept_seal" value="Yes"> Yes
@@ -306,7 +306,7 @@
                             </div>  
                             <div class="col-md-6"> 
                                 <div class="form-group">
-                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 's_n_dept_admin_seal')); ?>:</label>
+                                    <label><?php echo $label = ucwords(str_replace('_', ' ', 'Signature & Name Of The Head Of Administrative Department With Official Seal')); ?>:</label>
                                     <br>
                                     <input type="radio" class="validate[required]" checked name="s_n_dept_admin_seal" id="s_n_dept_admin_seal" value="No"> No
                                     <input type="radio" class="validate[required]" name="s_n_dept_admin_seal" id="s_n_dept_admin_seal" value="Yes"> Yes

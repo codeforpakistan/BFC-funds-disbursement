@@ -64,6 +64,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
 
                                 $app_gerund = $this->common_model->getRecordByColoumn('tbl_grants_has_tbl_emp_info_gerund', 'application_no', $application_no);
                                 $tbl_grants_id = $app_gerund['tbl_grants_id'];
+                                $tbl_grants_id = $app_gerund['tbl_grants_id'];
                                 $status_id = $app_gerund['status'];
 
                                 //echo 'grant_id = '. $tbl_grants_id;
@@ -71,31 +72,37 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                                 //Scholarship Grants
                                 if ($tbl_grants_id == '1') {
                                     $app_detail = $this->common_model->getRecordByColoumn('tbl_scholaarship_grant', 'application_no', $application_no);
+                                    $applicationNo = '<a href="' . site_url('common/logger/' . $app_detail['id'] . '/tbl_scholaarship_grant') . '">'.$application_no.'</a>';
                                 }
 
                                 //Funeral Grants
                                 else if ($tbl_grants_id == '2') {
                                     $app_detail = $this->common_model->getRecordByColoumn('tbl_funeral_grant', 'application_no', $application_no);
+                                    $applicationNo = '<a href="' . site_url('common/logger/' . $app_detail['id'] . '/tbl_funeral_grant') . '">'.$application_no.'</a>';
                                 }
 
                                 //Retirement Grants
                                 else if ($tbl_grants_id == '3') {
                                     $app_detail = $this->common_model->getRecordByColoumn('tbl_retirement_grant', 'application_no', $application_no);
+                                    $applicationNo = '<a href="' . site_url('common/logger/' . $app_detail['id'] . '/tbl_retirement_grant') . '">'.$application_no.'</a>';
                                 }
 
                                 //Monthly Grants
                                 else if ($tbl_grants_id == '4') {
                                     $app_detail = $this->common_model->getRecordByColoumn('tbl_monthly_grant', 'application_no', $application_no);
+                                    $applicationNo = '<a href="' . site_url('common/logger/' . $app_detail['id'] . '/tbl_monthly_grant') . '">'.$application_no.'</a>';
                                 }
 
                                 //Interest Free Loan Grants
                                 else if ($tbl_grants_id == '5') {
                                     $app_detail = $this->common_model->getRecordByColoumn('tbl_interest_free_loan', 'application_no', $application_no);
+                                    $applicationNo = '<a href="' . site_url('common/logger/' . $app_detail['id'] . '/tbl_interest_free_loan') . '">'.$application_no.'</a>';
                                 }
 
                                 //Lumpsum Grants
                                 else if ($tbl_grants_id == '6') {
                                     $app_detail = $this->common_model->getRecordByColoumn('tbl_lump_sum_grant', 'application_no', $application_no);
+                                    $applicationNo = '<a href="' . site_url('common/logger/' . $app_detail['id'] . '/tbl_lump_sum_grant') . '">'.$application_no.'</a>';
                                 }
 
                                 //echo '<pre>'; print_r($app_detail); 
@@ -126,10 +133,13 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                                 } else if($status['name'] == 'Installments') {
                                     $rowClass = 'warning';
                                 } 
+
+                                
+
                                 ?>
                                 <tr class="<?=$rowClass?>"> 
                                     <td><?= $i; ?></td>
-                                    <td><?= $application_no; ?></td>
+                                    <td><?= $applicationNo; ?></td>
                                     <td><label class="label label-info">Rs. <?= $net_amount; ?></label></td>
                                     <td><label class="label label-success">Rs. <?= $amount_paid; ?></label></td>
                                     <td><label class="label label-warning">Rs. <?= $remaining_amount; ?></label></td> 

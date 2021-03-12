@@ -582,6 +582,18 @@ class Scholarship_model extends CI_Model {
 
                 $get_status = $this->common_model->getRecordByColoumn('tbl_scholaarship_grant', 'application_no',  $application_no);
                 $id = $get_status['id'];
+                $tbl_emp_info_id = $get_status['tbl_emp_info_id'];
+
+                //send sms if approved by board...
+                if($status == '2') {   
+                    $getEmp = $this->common_model->getRecordById($tbl_emp_info_id, $tbl_name = 'tbl_emp_info');
+                    $contact_no = $getEmp['contact_no'];
+                    $smsContent = 'آپ کے درخواست نمبر '. $application_no . ' کو بورڈ کے ذریعہ منظور کرلیا گیا ہے۔'; 
+                    //$smsContent = 'Your application number '. $application_no . ' has been approved by board.';
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+
 
                 /* Notifications */
                 
@@ -610,6 +622,15 @@ class Scholarship_model extends CI_Model {
 				->detail( 
 					'<tr>' .
 					'<td><strong>' . 'Status' . '</strong></td><td>' . $action . '</td>'  .
+					'</tr>' .
+                    '<tr>' .
+					'<td><strong>' . 'Contact no' . '</strong></td><td>' . $contact_no . '</td>'  .
+					'</tr>' .
+                    '<tr>' .
+					'<td><strong>' . 'SMS Send' . '</strong></td><td>' . $send . '</td>'  .
+					'</tr>' .
+                    '<tr>' .
+					'<td><strong>' . 'SMS Content' . '</strong></td><td>' . $smsContent . '</td>'  .
 					'</tr>'  
 				) //detail
 				->log(); //Add Database Entry

@@ -8,7 +8,7 @@ class Lumpsum_model extends CI_Model {
 		// Set orderable column fields
 		$this->column_order = array(null, 'record_no');
 		// Set searchable column fields
-		$this->column_search = array('record_no');
+		$this->column_search = array('record_no', 'tbl_emp_name', 'application_no', 'tbl_emp_cnic', 'tbl_emp_personnel_no');
 		// Set default order
 		$this->order = array('id' => 'desc');
 		//////// ajax and ssp////////
@@ -71,14 +71,31 @@ class Lumpsum_model extends CI_Model {
             'status' => '1'
         );
         $this->db->insert('tbl_grants_has_tbl_emp_info_gerund', $app_data); 
-        //$last_insert_id = $this->db->insert_id(); 
+        $last_insert_id = $this->db->insert_id(); 
   
         //'pay_scale' => BS-16
         //'pay_scale_id' => 16
+
+         
+
+         
+        //get emp info   
+        $getEmp = $this->common_model->getRecordById($this->input->post('tbl_emp_info_id'), $tbl_name = 'tbl_emp_info');
+        $granteeName = $getEmp['grantee_name'];
+        $pay_scale = $getEmp['pay_scale'];
+        $department_id = $getEmp['tbl_department_id'];
+        $emp_post_id = $getEmp['tbl_post_id'];
+        $contact_no = $getEmp['contact_no'];
+        $tbl_emp_cnic = $getEmp['cnic_no'];
+        $tbl_emp_personnel_no = $getEmp['personnel_no'];
+
         
         $data = array(
             'application_no' => $application_no,
             'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'), 
+            'tbl_emp_name' => $granteeName, 
+            'tbl_emp_cnic' => $tbl_emp_cnic, 
+            'tbl_emp_personnel_no' => $tbl_emp_personnel_no,  
             'tbl_district_id' => $this->input->post('tbl_district_id'),
             'wife' => $this->input->post('wife'),
             'son' => $this->input->post('son'),
@@ -132,7 +149,7 @@ class Lumpsum_model extends CI_Model {
         $last_insert_id = $this->db->insert_id();
         //echo '<br>insertID = '. $last_insert_id; exit;
         
-		if ($this->db->affected_rows() > 0) {
+		if ($last_insert_id > 0) {
 			// this is for activity log of a record
             
             $getEmp = $this->common_model->getRecordById($this->input->post('tbl_emp_info_id'), $tbl_name = 'tbl_emp_info');
@@ -154,6 +171,26 @@ class Lumpsum_model extends CI_Model {
             $branch_name = $getBankBranch['branch_name'];
             $branch_code = $getBankBranch['branch_code'];
             $bankBranch = $branch_name.' '.$branch_code;
+
+
+            $smsContent = 'آپ کا درخواست نمبر '.$application_no.' ہے۔';
+            $smsContent .= 'آ پ  کے  بی  ایف  سی   فا رم  بما ئے  لف  کا  غذات  مو صول  ہو گئے  ہے۔ اب  ان  کی  چھا ن  بین کر کے      
+            پر ا سیس کیا  جا  ئے  گا';
+            $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+            $send       = $this->common_model->sendSMS($smsArray);
+
+
+            if($this->input->post('bank_verification')=='No')
+            {
+                $smsContent = 'آپ کے کا غذات میں بینک سے تصد یق شد ہ اکا و نٹ کی تفصیل مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+
+
+            // $smsContent = 'app ka application number '.$application_no.' hai, app k BFC form bama lif kaghazat mosol ho gaye hain, ab un ki chaan been kar k process kiya jayega.';
+            // $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+            // $send       = $this->common_model->sendSMS($smsArray);
 
 
             $this->logger
@@ -241,8 +278,13 @@ class Lumpsum_model extends CI_Model {
 
                     '<tr>' .
                     '<td><strong>' . 'Undertaking' . '</strong></td><td colspan="5">' . $this->input->post('undertaking') . '</td>' .
-					 
-                    '</tr>'  
+					'</tr>' .
+
+                    '<tr>' .
+                        '<td><strong>' . 'SMS SEND' . '</strong></td><td>' . $send . '</td>' .
+                        '<td><strong>' . 'SMS Content' . '</strong></td><td colspan="3">' . $smsContent . '</td>' . 
+                    '</tr>' 
+
                      
 				) //detail
 				->log(); //Add Database Entry
@@ -483,7 +525,29 @@ class Lumpsum_model extends CI_Model {
 
                 $get_status = $this->common_model->getRecordByColoumn('tbl_lump_sum_grant', 'application_no',  $application_no);
                 $id = $get_status['id'];
-                //echo '<br>id = '. $id;  
+                $tbl_emp_info_id = $get_status['tbl_emp_info_id'];
+ 
+
+                //send sms if approved by board...
+                if($status == '2') {   
+                    $getEmp = $this->common_model->getRecordById($tbl_emp_info_id, $tbl_name = 'tbl_emp_info');
+                    $contact_no = $getEmp['contact_no'];
+                    $smsContent = 'آپ کے درخواست نمبر '. $application_no . ' کو بورڈ کے ذریعہ منظور کرلیا گیا ہے۔';  
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+
+
+                // send sms if rejected by board
+                if($status == '3') {   
+                    $getEmp = $this->common_model->getRecordById($tbl_emp_info_id, $tbl_name = 'tbl_emp_info');
+                    $contact_no = $getEmp['contact_no'];
+                    $smsContent = 'آپ کے درخواست نمبر '. $application_no . ' کو بورڈ کے ذریعہ مسترد کرلیا گیا ہے۔'; 
+                    $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                    $send       = $this->common_model->sendSMS($smsArray);
+                }
+
+
 
                 $this->logger
 				->record_add_by($_SESSION['admin_id']) //Set UserID, who created this  Action
@@ -493,6 +557,15 @@ class Lumpsum_model extends CI_Model {
 				->detail( 
 					'<tr>' .
 					'<td><strong>' . 'Status' . '</strong></td><td>' . $action . '</td>'  .
+					'</tr>' . 
+                    '<tr>' .
+					'<td><strong>' . 'Contact no' . '</strong></td><td>' . $contact_no . '</td>'  .
+					'</tr>' .
+                    '<tr>' .
+					'<td><strong>' . 'SMS Send' . '</strong></td><td>' . $send . '</td>'  .
+					'</tr>' .
+                    '<tr>' .
+					'<td><strong>' . 'SMS Content' . '</strong></td><td>' . $smsContent . '</td>'  .
 					'</tr>'  
 				) //detail
 				->log(); //Add Database Entry

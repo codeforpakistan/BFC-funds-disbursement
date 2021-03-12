@@ -65,12 +65,14 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                     </div>
                     <p></p>
                 <?php } 
-                if ($_SESSION['tbl_admin_role_id'] == '3') { ?> 
+                if ($_SESSION['tbl_admin_role_id'] == '3') { $bfc_bank = $applications[0]['bfc_bank'];?> 
                     <div class="row">
                         <div class="col-md-12">
                             <input type="submit" name="btnSubmit" class="btn btn-sm btn-primary" value="Sent to Bank"> 
                             <input type="submit" name="btnSubmit" class="btn btn-sm btn-success" value="Approved By Bank"> 
                             <input type="submit" name="btnSubmit" class="btn btn-sm btn-danger" value="Rejected By Bank"> 
+                            
+                             <a target="_blank" href="<?=base_url('PrintBatch/'.$batch_number.'/'.$bfc_bank)?>" class="btn btn-sm btn-danger" >Print Batch For <?=($bfc_bank==1)?'National Bank of Pakistan':'Khyber Bank '?></a> 
                         </div>
                     </div>
                     <p></p>
