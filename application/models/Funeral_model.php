@@ -147,7 +147,14 @@ class Funeral_model extends CI_Model {
             //send sms 
             $emp_info   = $this->emp_info_model->getRecordById($this->input->post('tbl_emp_info_id'));
             $contact_no = $emp_info->contact_no; 
-            $smsContent = $application_no . ' app ka application no hai aur ap ne funeral grant k lye apply kiya hai.';
+            // $smsContent = $application_no . ' app ka application no hai aur ap ne funeral grant k lye apply kiya hai.';
+            // $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+            // $send       = $this->common_model->sendSMS($smsArray);
+
+
+            $smsContent = 'آپ کا درخواست نمبر '.$application_no.' ہے۔';
+            $smsContent .= 'آ پ  کے  بی  ایف  سی   فا رم  بما ئے  لف  کا  غذات  مو صول  ہو گئے  ہے۔ اب  ان  کی  چھا ن  بین کر کے      
+            پر ا سیس کیا  جا  ئے  گا';
             $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
             $send       = $this->common_model->sendSMS($smsArray);
 
@@ -227,7 +234,11 @@ class Funeral_model extends CI_Model {
                         '<td><strong>' . 'B/F Contribution Certificate' . '</strong></td><td>' . $this->input->post('bf_contribution_attach') . '</td>' .
                         '<td><strong>' . 'CNIC of Govt: Servant' . '</strong></td><td>' . $this->input->post('cnic_attach') . '</td>' .
                         '<td><strong>' . 'Death Certificate Attach' . '</strong></td><td>' . $this->input->post('dc_attach') . '</td>' .
-                    '</tr>'  
+                    '</tr>'  .
+                    '<tr>' .
+                        '<td><strong>' . 'SMS SEND' . '</strong></td><td>' . $send . '</td>' .
+                        '<td><strong>' . 'SMS Content' . '</strong></td><td colspan="3">' . $smsContent . '</td>' . 
+                    '</tr>' 
                      
 				) //detail
 				->log(); //Add Database Entry

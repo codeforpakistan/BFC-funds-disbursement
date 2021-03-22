@@ -13,6 +13,9 @@
 
     </section>
 
+<link href="<?=base_url()?>assets/site/assets/css/slimselect.min.css" rel="stylesheet" />
+<script src="<?=base_url()?>assets/site/assets/js/slimselect.min.js"></script>
+
     <section class="content" style="min-height: 0;">
         <div class="box box-success">
             <div class="box-body">
@@ -70,7 +73,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-user"></i>
                                 </div>  
-                                <select name="district_id" id="district_id" class="form-control select2">
+                                <select name="district_id[]" id="district_id"  multiple>
                                     <option value="">Select District</option>
                                     <?php foreach($districts as $district) { ?>
                                         <option value="<?=$district['id'];?>"><?=$district['name'];?></option>
@@ -136,7 +139,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-bank"></i>
                                 </div>
-                                <select name="bank_type_id" id="bank_type_id" class="form-control select2">
+                                <select name="bank_type_id[]" id="bank_type_id" multiple>
                                     <option value="">Select Bank Type</option> 
                                     <?php foreach ($bank_types as $bank) : ?>
                                         <option value="<?php echo $bank['id']; ?>"><?php echo $bank['name']; ?></option>
@@ -381,6 +384,8 @@
                         //alert(JSON.stringify(data));
                         //$('[name="pay_scale"]').val(data.pay_scale_name);
                         //$('[name="pay_scale_id"]').val(data.payscaleid);
+                        
+                        const slim3 = new SlimSelect({select: '#admin_id'});
                     }
                 });
             } else {
@@ -474,4 +479,25 @@
         });
     });
 
+	
+	const slim2 = new SlimSelect({
+    select: '#district_id'
+    
+});
+
+	
+	const slim1 = new SlimSelect({
+    select: '#bank_type_id'
+    
+    
+    
+    
+});
+
+	
+
+
+
+
+	
 </script>

@@ -150,5 +150,6 @@ $autoload['model'] = array('admin_model',
 'emp_info_model',
 'reports_model',
 'batches_model',
-'transactions_model'
+'transactions_model',
+'heirs_model'
 );

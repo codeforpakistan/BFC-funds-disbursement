@@ -127,7 +127,7 @@ class Admins extends MY_Controller {
         $data = $this->admin_model->getAdminByRoleId($id);
         //print_r($data);
         $dropdown = '<label for="">Select User</label>';
-        $dropdown .= '<select name="admin_id" id="admin_id" class="form-control">';
+        $dropdown .= '<select name="admin_id[]" id="admin_id" multiple>';
         $dropdown .= '<option value="">Select</option>';
         if(count($data) > 0) {
             foreach ($data as $key => $value) {

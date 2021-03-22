@@ -15,6 +15,50 @@ class Common_model extends CI_Model {
 		$query = $this->db->get_where($tbl_name, $array);
 		return $query->result_array();
 	}
+	
+	public function getuniqueBatchDetailBankWise($id)
+	{
+	    
+		$query = $this->db->query("SELECT DISTINCT(g.tbl_banks_id) as tbl_banks_id, tg.tbl_name , bk.name as bank_name 
+		                                    FROM `tbl_batches` b 
+		                                    JOIN tbl_grants_has_tbl_emp_info_gerund g on b.application_no = g.application_no 
+		                                    JOIN tbl_banks bk on bk.id = g.tbl_banks_id 
+		                                    JOIN tbl_grants tg on g.tbl_grants_id = tg.id 
+		                          WHERE b.batch_no = '$id' ORDER by g.tbl_banks_id ASC");
+    	        return $query->result_array();
+	}
+	
+	public function getBatchDetailBankWise($tbl_banks_id, $tbl_name, $id) 
+	{
+	    
+		$query = $this->db->query("SELECT sum(t.net_amount) as net_amount, COUNT(g.application_no) as totalcases
+                                    		FROM `tbl_batches` b JOIN tbl_grants_has_tbl_emp_info_gerund g on b.application_no = g.application_no 
+                                    		JOIN tbl_banks bk on bk.id = g.tbl_banks_id JOIN tbl_grants tg on g.tbl_grants_id = tg.id 
+                                    		
+                                    		JOIN $tbl_name t ON t.application_no = g.application_no 
+                                    		
+                                    		WHERE b.batch_no = '$id' and g.tbl_banks_id = $tbl_banks_id ORDER by g.tbl_banks_id ASC");
+    	  //echo $this->db->last_query(); die();
+    	  return $query->row_array();
+	}
+	
+	function BankApplicationsDetail($batch,$tbl_banks_id,$tbl_name)
+	{
+	    $query  = $this->db->query("SELECT e.grantee_name,e.father_name,post.name,e.cnic_no,bk.name as bank,br.branch_code,t.net_amount,t.account_no FROM `tbl_batches` b 
+			JOIN tbl_grants_has_tbl_emp_info_gerund g on b.application_no = g.application_no 
+			JOIN tbl_emp_info e on g.tbl_emp_info_id = e.id
+            JOIN tbl_banks bk on bk.id = g.tbl_banks_id JOIN tbl_grants tg on g.tbl_grants_id = tg.id 
+            JOIN tbl_list_bank_branches br on g.tbl_list_bank_branches_id = br.id
+            JOIN tbl_post post on e.tbl_post_id = post.id
+            JOIN $tbl_name t ON t.application_no = g.application_no 
+            JOIN tbl_district d on g.tbl_district_id =  d.id
+            WHERE b.batch_no = '$batch' and g.tbl_banks_id = $tbl_banks_id ORDER by g.tbl_banks_id ASC");
+            
+                  return $query->result_array();
+	}
+	
+	
+		
 	public function getRecordByArray($tbl_name, $array) {
 		$this->db->order_by('id', 'desc');
 		$query = $this->db->get_where($tbl_name, $array);
@@ -58,11 +102,23 @@ class Common_model extends CI_Model {
 		$query = $this->db->get_where($tbl_name, array($tbl_col => $value));
 		return $query->row_array();
 	}
+	
 	public function getAllRecordByColoumn($tbl_name, $tbl_col, $value) {
 		$this->db->order_by('id', 'desc');
 		$query = $this->db->get_where($tbl_name, array($tbl_col => $value));
 		return $query->result_array();
     }
+    
+    public function getAllRecordByColoumnin($tbl_name, $tbl_col, $value) {
+		//$this->db->order_by('id', 'desc');
+		//$query = $this->db->select($tbl_name)->where_in($tbl_col, $value);
+		//return $query->result_array();
+		 $query = $this->db->query("select * from $tbl_name where $tbl_col in ($value)");
+		 //echo $this->db->last_query();
+		return $query->result_array();
+		
+    }
+    
     public function getSumByColoumn($tbl_name, $field, $alias, $tbl_col, $value) {
         // $this->db->select('SUM('.$field.') as '.$alias);
         // $this->db->from($tbl_name);

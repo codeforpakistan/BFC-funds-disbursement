@@ -306,19 +306,15 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
         $('#error').html(" ");
         $('div[id=error]').html(" "); 
     };
-
-
-
-
-function openNewApptoBatch(batchNo)
-{ 
-    form_reset();
-    $('#batchNo').val(batchNo);
-    $('#addNewApptoBatch').modal('show');  
-    $('.modal-title').text('<?php echo ucwords(str_replace('_', ' ', 'Add New Application To Batch# ')); ?>'+ batchNo); 
-}
-
- 
+  
+    function openNewApptoBatch(batchNo)
+    { 
+        form_reset();
+        $('#batchNo').val(batchNo);
+        $('#addNewApptoBatch').modal('show');  
+        $('.modal-title').text('<?php echo ucwords(str_replace('_', ' ', 'Add New Application To Batch# ')); ?>'+ batchNo); 
+    }
+  
 </script>
 
 

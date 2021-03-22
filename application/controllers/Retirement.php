@@ -321,6 +321,10 @@ class Retirement extends MY_Controller {
                                </a>';
             }
             
+            $actionBtn .= '<a href="' . site_url('heirs/retirement/' . $retirementInfo->application_no) . '">
+			                   <button type="button" class="btn btn-sm btn-xs btn-primary">Legal Heirs</button>
+                               </a>';
+
             if($case_status_id > '1' &&  ($_SESSION['tbl_admin_role_id'] == '6' || $_SESSION['tbl_admin_role_id'] == '7' ) ) {
                 $disabled = 'disabled';
             } else {
@@ -330,8 +334,7 @@ class Retirement extends MY_Controller {
             $input = '<input type="checkbox" name="application_no[]" id="application_no" '.$disabled.' value="'.$retirementInfo->application_no.'">';
             //$getDept = $this->common_model->getRecordById($retirementInfo->parent_dept, $tbl_name = 'tbl_department');
    
-            $data[] = array($input, $i, $applicationNo, $emp_name, $dept_name_scale, 
-            $post_name,
+            $data[] = array($input, $i, $applicationNo, $emp_name, $dept_name_scale, $post_name,
             $cnic_no, $personnel_no, $dob, $retirementInfo->doa, $retirementInfo->dor, $retirementInfo->los,
             $net_amount, $status, $add_by_date, $actionBtn);
 		}

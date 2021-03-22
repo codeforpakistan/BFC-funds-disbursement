@@ -65,6 +65,8 @@ $route['batches'] = 'batches/view_batches/';
 $route['batch_details/(:any)'] = 'batches/batch_details/$1';
 $route['PrintBatch/(:any)/(:any)'] = 'batches/PrintBatch/$1/$2';
 
+$route['heirs/(:any)/(:any)'] = 'heirs/view_heirs/$1/$2';
+
 $route['batch_app_status'] = 'batches/batch_app_status/';
 
 $route['transactions'] = 'transactions/view_list/';

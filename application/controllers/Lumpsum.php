@@ -369,6 +369,10 @@ class Lumpsum extends MY_Controller {
                                </a>';
             }
 
+            $actionBtn .= '<a href="' . site_url('heirs/lumpsum/' . $lumpsumInfo->application_no) . '">
+			                   <button type="button" class="btn btn-sm btn-xs btn-primary">Legal Heirs</button>
+                               </a>';
+
             $applicationNo = '<a href="' . site_url('common/logger/' . $lumpsumInfo->id . '/tbl_lump_sum_grant') . '">'.$lumpsumInfo->application_no.'</a>';
  
             if($case_status_id > '1' &&  ($_SESSION['tbl_admin_role_id'] == '6' || $_SESSION['tbl_admin_role_id'] == '7' ) ) {

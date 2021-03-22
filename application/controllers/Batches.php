@@ -236,8 +236,10 @@ class Batches extends MY_Controller {
     
     function PrintBatch($id)
     {
-        $data['applications'] = $this->common_model->getAllRecordByArray('tbl_batches', array('batch_no' => $id));
+        $data['uniquebanks'] = $this->common_model->getuniqueBatchDetailBankWise($id);
+        //echo '<pre>'; print_r($data); die();
         $data['sum'] = $this->get_batch_sum($id);
+        $data['batch_no'] = $id;
         $page     = 'batches/print_batch.php';
         $this->load->view($page,$data);
     	$html = $this->load->view($page,$data,TRUE);
@@ -337,6 +339,8 @@ class Batches extends MY_Controller {
 			$getRole = $this->admin->getRecordById($batch->record_add_by, $tbl_name = 'tbl_admin');
 			$recordAddDate = $batch->record_add_date;
 			$recordAddDate = date("d-M-Y", strtotime($recordAddDate));
+			
+			$bfc_bank = ($batch->bfc_bank==1)?'National Bank':'Khyber Bank';
 
 			$add_by_date = 'Add by <i><strong>' . $getRole['name'] . '</strong> on <strong>' . $recordAddDate . '</strong></i>';
 
@@ -351,7 +355,7 @@ class Batches extends MY_Controller {
 			// $actionBtn = '<a href="' . site_url('district/edit_district/' . $districtInfo->id) . '">
 			//                    <button type="button" class="item_edit btn btn-sm btn-xs btn-warning"><i class="fa fa-edit"></i></button>
 			//                    </a>';
-			$data[] = array($i, $batch->batch_no, $batch->applications, $add_by_date, $actionBtn);
+			$data[] = array($i, $batch->batch_no, $batch->applications, $bfc_bank, $add_by_date, $actionBtn);
 		}
 
 		$output = array(

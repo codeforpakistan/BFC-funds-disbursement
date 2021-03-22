@@ -29,6 +29,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                   <th width="2%"><?php echo ucwords(str_replace('_', ' ', 'Sr.')); ?></th>
                   <th width="15%"><?php echo ucwords(str_replace('_', ' ', 'Batch Number')); ?></th>
                   <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'applications')); ?></th>
+                  <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'bfc bank')); ?></th>
                   <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'add by/date')); ?></th>
                   <th width="5%" class="no-print"><?php echo ucwords(str_replace('_', ' ', 'action')); ?></th>
                 </tr>

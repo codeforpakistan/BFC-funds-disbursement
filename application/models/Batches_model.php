@@ -14,7 +14,7 @@ class Batches_model extends CI_Model {
 
     public function get_batches($postData = null) {
         //echo 'i m here'; exit;
-        $this->db->select('COUNT(id) AS applications, batch_no, application_no, record_add_date, record_add_by, status');
+        $this->db->select('COUNT(id) AS applications, batch_no, application_no, record_add_date, record_add_by, status,bfc_bank');
         $this->db->from('tbl_batches');  
         $this->db->group_by('batch_no'); 
         $this->db->order_by("id", "desc");
@@ -101,11 +101,12 @@ class Batches_model extends CI_Model {
 		$status = $postData['status'];
         $from_app_no = $postData['from_app_no'];
         $to_app_no = $postData['to_app_no'];
-        $bank_type_id = $postData['bank_type_id'];
+        $bank_type_id = implode(',',$postData['bank_type_id']);
         $tbl_bank_id = $postData['tbl_bank_id'];
-        $district_id = $postData['district_id'];
-        $admin_id = $postData['admin_id'];
-
+        $district_id = implode(',',$postData['district_id']);
+        $admin_id = implode(',',$postData['admin_id']);
+    
+    //echo '<pre>'; print_r($district_id); die();
 
 		## Search
 		$search_arr = array();
@@ -122,13 +123,13 @@ class Batches_model extends CI_Model {
 			$search_arr[] = " status = '" . $status . "' ";
 		}
         if ($admin_id != '') {
-			$search_arr[] = " added_by = '" . $admin_id . "' ";
+			$search_arr[] = " added_by in ($admin_id  )";
         }
 		if ($tbl_grants_id != '') {
 			$search_arr[] = " tbl_grants_id = '" . $tbl_grants_id . "' ";
         }
         if ($district_id != '') {
-			$search_arr[] = " tbl_district_id = '" . $district_id . "' ";
+			$search_arr[] = " tbl_district_id in (   $district_id ) ";
         }
         if($from_app_no != '' && $to_app_no == '') {
             $search_arr[] = " application_no >= '" . $from_app_no . "'";
@@ -140,7 +141,7 @@ class Batches_model extends CI_Model {
             $search_arr[] = " application_no BETWEEN '" . $from_app_no . "' and '" . $to_app_no . "' ";
         } 
         if ($bank_type_id != '') {
-			$search_arr[] = " tbl_banks_id = '" . $bank_type_id . "' ";
+			$search_arr[] = " tbl_banks_id in ( $bank_type_id ) ";
         }
         if ($tbl_bank_id != '') {
 			$search_arr[] = " tbl_list_bank_branches_id = '" . $tbl_bank_id . "' ";
@@ -158,7 +159,8 @@ class Batches_model extends CI_Model {
         $this->db->where('batch_status','0');
         $this->db->where('status','2');
 		$records = $this->db->get('tbl_grants_has_tbl_emp_info_gerund')->result();
-		$totalRecords = $records[0]->allcount;
+           
+ 		$totalRecords = $records[0]->allcount;
 
 		## Total number of record with filtering
 		$this->db->select('count(*) as allcount');
@@ -178,9 +180,8 @@ class Batches_model extends CI_Model {
 		$this->db->limit($rowperpage, $start);
 		$this->db->order_by('id', 'desc');
 		$records = $this->db->get('tbl_grants_has_tbl_emp_info_gerund')->result();
-
-        //echo '<pre>'; print_r($records); exit;
-
+        
+        //echo $this->db->last_query();die();
 		$data = array();
 		$i = 1;
 		foreach ($records as $record) {
@@ -224,6 +225,7 @@ class Batches_model extends CI_Model {
 
             //District Information
             $districtID = $record->tbl_district_id;   
+            
             $getDistrict  = $this->common_model->getRecordByColoumn('tbl_district', 'id', $districtID);
             $district_name = $getDistrict['name'];
 
