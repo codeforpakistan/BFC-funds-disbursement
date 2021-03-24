@@ -43,7 +43,62 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                         </tr>
                     </thead>
                     <tbody>
-                    </tbody>
+                    <?php
+                        /*$i = 0;
+                        //echo '<pre>'; print_r($heirs);
+                        $count = count($heirs); 
+                        if($count>0)
+                        {
+                            foreach ($heirs as $key => $heirsInfo) {
+                                $i++;
+                                
+                                $application_no = $heirsInfo['application_no'];
+                                $tbl_list_bank_branches_id = $heirsInfo['tbl_list_bank_branches_id'];
+                                //$getBank = $this->admin->getRecordById($tbl_list_bank_branches_id, $tbl_name = 'tbl_list_bank_branches');
+                                $getBank = $this->common_model->getRecordByColoumn('tbl_list_bank_branches', 'id',  $tbl_list_bank_branches_id);
+
+                                $heirsInfo['bank_details'] = '';
+                                $status = ($heirsInfo['status'] == 1) ? '<span class="label label-success">Active</span>' : '<span class="label label-danger">Inactive</span>';
+
+                                $getRole = $this->admin->getRecordById($heirsInfo['record_add_by'], $tbl_name = 'tbl_admin');
+                                $recordAddDate = $heirsInfo['record_add_date'];
+                                $recordAddDate = date("d-M-Y", strtotime($recordAddDate));
+
+                                $add_by_date = 'Add by <i><strong>' . $getRole['name'] . '</strong> on <strong>' . $recordAddDate . '</strong></i>';
+
+                                $actionBtn = '<a href="' . site_url('common/logger/' . $heirsInfo['id'] . '/tbl_legal_heirs') . '">
+                                        <button type="button"class="btn btn-sm btn-xs btn-primary"><i class="fa fa-history"></i></button>
+                                        </a>' .
+                                '<a href="javascript:void(0)" onclick="getData(' . "'" . $heirsInfo['id'] . "'" . ')">
+                                        <button type="button" id="item_edit" class="item_edit btn btn-sm btn-xs btn-warning"><i class="fa fa-edit"></i></button>
+                                        </a>';
+			 
+                                //$data[] = array($i, $heirsInfo->name, $heirsInfo->percentage, $heirsInfo->tbl_list_bank_branches_id, 
+                                //$heirsInfo->account_no, $heirsInfo->amount,  $status, $add_by_date, $actionBtn);
+                                                
+                    ?>
+                        <tr>
+                            <td><?=$i;?></td>
+                            <td><?=$heirsInfo['name'];?></td>
+                            <td><?=$heirsInfo['percentage'];?>%</td>
+                            <td><?=$getBank['name'].' ('.$getBank['branch_code'].')';?></td>
+                            <td><?=$heirsInfo['account_no'];?></td>
+                            <td>Rs. <?=$heirsInfo['amount'];?></td>
+                            <td><?=$status;?></td>
+                            <td><?=$add_by_date;?></td>
+                            <td><?=$actionBtn;?></td>
+                        </tr>
+                    <?php
+                            }
+                        } else {
+                    ?>
+                        <tr>
+                            <td colspan="9">No records found!</td>
+                        </tr>
+                    <?php        
+                        }*/
+                    ?>    
+                    </tbody> 
                 </table>
             </div>
             <!-- /.box-body -->
@@ -137,7 +192,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
                             </div>
                             <select name="tbl_list_bank_branches_id" id="tbl_list_bank_branches_id" class="form-control select2 validate[required]">
                                 <option value="">Select Branch</option>  
-                            </select> 
+                            </select>
                         </div>
                         <div id="error"></div>
                     </div>
@@ -203,6 +258,9 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     var save_method; //for save method string
     var sspDataTable;
     $(document).ready(function() {
+        // $('#ssp_datatable').DataTable({
+
+        // });
         sspDataTable = $('#ssp_datatable').DataTable({
             // Processing indicator
             "processing": true,
@@ -212,7 +270,7 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
             "order": [],
             // Load data from an Ajax source
             "ajax": {
-                "url": "<?php echo base_url('heirs/get_heirs/'); ?>",
+                "url": "<?php echo base_url('heirs/get_heirs/'.$tbl_grants_id.'/'.$application_no); ?>",
                 "type": "POST"
             },
             //Set column definition initialisation properties
@@ -316,26 +374,46 @@ $admin_detail = $this->admin->getRecordById($_SESSION['admin_id'], $tbl_name = '
     };
 
     // getData function for get data for editment and updating
-    function getData(id) {
+    function getData(id)
+    { 
         save_method = 'update';
-        form_reset();
-
+        form_reset(); 
         //Ajax Load data from ajax
         $.ajax({
-            url: "<?php echo site_url('heirs/getData/') ?>/" + id,
+            url : "<?php echo site_url('heirs/getData/') ?>"+id,
             type: "post",
             dataType: "JSON",
-            success: function(data) {
+            success: function(data)
+            {
+                //    {"id":"3","name":"Shah","percentage":"20","tbl_banks_id":"14",
+                //    "tbl_list_bank_branches_id":"284","account_no":"256565656565",
+                //    "amount":"65000","status":"1","record_add_by":"16","record_add_date":"2021-03-18 15:28:26",
+                //    "tbl_grants_id":"0","application_no":"10000103","tbl_emp_info_id":"0"}
+                //    alert(data.tbl_list_bank_branches_id);
+                //console.log(JSON.stringify(data));
 
                 $('[name="id"]').val(data.id);
                 $('[name="name"]').val(data.name);
-                $('input[name^="status"][value="' + data.status + '"').prop('checked', true);
+                $('[name="percentage"]').val(data.percentage);
+                $('#bank_type_id').val(data.tbl_banks_id);
+                $('#bank_type_id').select2().trigger('change');
+                $('#tbl_list_bank_branches_id').val(data.tbl_list_bank_branches_id);
+                $('#tbl_list_bank_branches_id').select2().trigger('change');
+                $('[name="account_no"]').val(data.account_no);
+                //$('[name="total_amount"]').val(data.total_amount);
+                $('[name="amount"]').val(data.amount);
+                $('[name="tbl_grants_id"]').val(data.tbl_grants_id); 
+                $('[name="application_no"]').val(data.application_no); 
+                $('[name="tbl_emp_info_id"]').val(data.tbl_emp_info_id);  
+                
+                //$('[name="bank_type"]').val(data.bank_type);
+                //$('input[name^="status"][value="'+data.status+'"').prop('checked',true);
 
                 $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-                $('#error').html(" ");
-
+                $('#error').html(" "); 
             },
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function (jqXHR, textStatus, errorThrown)
+            {
                 alert('Error get data from database');
             }
         });

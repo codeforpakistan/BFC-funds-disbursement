@@ -55,8 +55,8 @@ class Heirs extends MY_Controller {
 
 	}
 
-	public function getData($id) {
-		$data = $this->heirs_model->getRecordById($id);
+	public function getData($id) { 
+        $data = $this->heirs_model->getRecordById($id);  
 		echo json_encode($data);
 	}
 
@@ -103,25 +103,56 @@ class Heirs extends MY_Controller {
         if($type == 'retirement') {
             $grant_info = $this->common_model->getRecordByColoumn('tbl_retirement_grant', 'application_no',  $id);
             $total_amount = $grant_info['net_amount'];
+            $data['tbl_emp_info_id'] = $grant_info['tbl_emp_info_id'];
+            $data['tbl_grants_id'] = '3'; 
+        }
+        if($type == 'lumpsum') {
+            $grant_info = $this->common_model->getRecordByColoumn('tbl_lump_sum_grant', 'application_no',  $id);
+            $total_amount = $grant_info['net_amount'];
+            $data['tbl_emp_info_id'] = $grant_info['tbl_emp_info_id'];
+            $data['tbl_grants_id'] = '6'; 
+        }
+        if($type == 'monthly') {
+            $grant_info = $this->common_model->getRecordByColoumn('tbl_monthly_grant', 'application_no',  $id);
+            $total_amount = $grant_info['net_amount'];
+            $data['tbl_emp_info_id'] = $grant_info['tbl_emp_info_id'];
+            $data['tbl_grants_id'] = '4'; 
         }
         
         $data['total_amount'] = $total_amount;
         
         $data['bank_types'] = $this->common_model->getAllRecordByArray('tbl_banks', array('status' => '1'));
         $data['banks'] = $this->common_model->getAllRecordByArray('tbl_list_bank_branches', array('status' => '1'));
-		$data['page_title'] = 'View All Heirs';
+		//$data['heirs'] = $this->common_model->getAllRecordByArray('tbl_legal_heirs', array('application_no' => $id));
+        
+        //$data['heirs'] = $this->heirs_model->get_heirs_list($id);
+
+        $data['page_title'] = 'View All Heirs';
 		$data['description'] = '...';
 		$this->load->view('templates/header', $data);
 		$this->load->view('heirs/view_heirs', $data);
 		$this->load->view('templates/footer');
 	}
 
-	public function get_heirs() {
 
+    // public function heirs_details($id=null) { 
+    //     $data['page_title'] = 'Batch Details: ' . $id;
+    //     $data['batch_number'] = $id;
+    //     $data['description'] = '...';  
+    //     $data['batch_nmbr'] =  $id; 
+    //     $data['applications'] = $this->common_model->getAllRecordByArray('tbl_batches', array('batch_no' => $id));
+    //     $this->load->view('templates/header', $data);
+	// 	   $this->load->view('heirs/view_heirs', $data);
+	// 	   $this->load->view('templates/footer'); 
+    // }
+
+
+	public function get_heirs( $tbl_grants_id, $app_no) {
+        //echo 'i m here'; exit;
 		$data = $row = array();
         //echo 'i m here'; exit;
 		// Fetch district's records
-		$heirsData = $this->heirs_model->getRows($_POST);
+		$heirsData = $this->heirs_model->getRows($_POST,  $tbl_grants_id, $app_no);
 
 		$i = $_POST['start'];
 		foreach ($heirsData as $heirsInfo) {
@@ -140,15 +171,15 @@ class Heirs extends MY_Controller {
 			'<a href="javascript:void(0)" onclick="getData(' . "'" . $heirsInfo->id . "'" . ')">
                       <button type="button" id="item_edit" class="item_edit btn btn-sm btn-xs btn-warning"><i class="fa fa-edit"></i></button>
                       </a>';
-			 
-			$data[] = array($i, $heirsInfo->name, $heirsInfo->percentage, $heirsInfo->tbl_list_bank_branches_id, 
-            $heirsInfo->account_no, $heirsInfo->amount,  $status, $add_by_date, $actionBtn);
+			$bank_branch = $heirsInfo->bank_name.' ('.$heirsInfo->branch_code.')'; 
+			$data[] = array($i, $heirsInfo->heirs_name, $heirsInfo->percentage.'%', $bank_branch, 
+            $heirsInfo->account_no, 'Rs.'.$heirsInfo->amount,  $status, $add_by_date, $actionBtn);
 		}
 
 		$output = array(
 			"draw" => $_POST['draw'],
 			"recordsTotal" => $this->heirs_model->countAll(),
-			"recordsFiltered" => $this->heirs_model->countFiltered($_POST),
+			"recordsFiltered" => $this->heirs_model->countFiltered($_POST, $tbl_grants_id, $app_no),
 			"data" => $data,
 		);
 

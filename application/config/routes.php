@@ -65,7 +65,12 @@ $route['batches'] = 'batches/view_batches/';
 $route['batch_details/(:any)'] = 'batches/batch_details/$1';
 $route['PrintBatch/(:any)/(:any)'] = 'batches/PrintBatch/$1/$2';
 
-$route['heirs/(:any)/(:any)'] = 'heirs/view_heirs/$1/$2';
+//$route['heirs/(:any)/(:any)'] = 'heirs/view_heirs/$1/$2';
+$route['heirs/retirement/(:any)'] = 'heirs/view_heirs/retirement/$1';
+$route['heirs/lumpsum/(:any)'] = 'heirs/view_heirs/lumpsum/$1';
+$route['heirs/monthly/(:any)'] = 'heirs/view_heirs/monthly/$1';
+
+//$route['heirs/getData/(:any)'] = 'heirs/getData/$1';
 
 $route['batch_app_status'] = 'batches/batch_app_status/';
 

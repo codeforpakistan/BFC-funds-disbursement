@@ -426,32 +426,21 @@
     //     $('#doa').on('change', function() {
             
     //     });
-    // });
+    // }); 
 
-    
-
-
-    function getServiceLength() {
-        
+    function getServiceLength() { 
         startDate = new Date($('#doa').val());
-        endDate = new Date($('#dor').val());
-
-        var diff_date =  endDate - startDate;
-        
+        endDate = new Date($('#dor').val()); 
+        var diff_date =  endDate - startDate; 
         var years = Math.floor(diff_date/31536000000);
         var months = Math.floor((diff_date % 31536000000)/2628000000);
-        var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000);
-     
-
-        result = years+" year(s) "+months+" month(s) and "+days+" day(s)";
-
+        var days = Math.floor(((diff_date % 31536000000) % 2628000000)/86400000);  
+        result = years+" year(s) "+months+" month(s) and "+days+" day(s)"; 
         if(result == 'NaN year(s) NaN month(s) NaN and day(s)'){
             $('#los').val(''); 
         } else {
             $('#los').val(result); 
-        }
-
-        
+        }  
     }
 
 
@@ -560,7 +549,7 @@
                 dataType: "json",
                 success:function(data) {
                 //alert(JSON.stringify(data));
-                    //alert(data.id)
+                //alert(data.id)
                 $('#pay_scale_id').val(data.pay_scale_id);
                 $('#pay_scale').val(data.pay_scale); 
                 //return data;

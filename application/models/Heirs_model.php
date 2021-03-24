@@ -51,7 +51,7 @@ class Heirs_model extends CI_Model {
 					    '<td><strong>' . 'Status' . '</strong></td><td>' . $status . '</td>' .
 					'</tr>' .
                     '<tr>' .
-					    '<td><strong>' . 'Bank Type' . '</strong></td><td>' . $this->input->post('tbl_banks_id') . ' %</td>' .
+					    '<td><strong>' . 'Bank Type' . '</strong></td><td>' . $this->input->post('tbl_banks_id') . ' </td>' .
 					    '<td><strong>' . 'Bank Branch' . '</strong></td><td>' . $this->input->post('tbl_list_bank_branches_id') . '</td>' .
 					'</tr>' .
                     '<tr>' .
@@ -59,7 +59,7 @@ class Heirs_model extends CI_Model {
 					    '<td><strong>' . 'Amount' . '</strong></td><td>' . $this->input->post('amount') . '</td>' .
 					'</tr>' .
                     '<tr>' .
-					    '<td><strong>' . 'Percentage' . '</strong></td><td>' . $this->input->post('percentage') . '</td>' .
+					    '<td><strong>' . 'Percentage' . '</strong></td><td>' . $this->input->post('percentage') . '%</td>' .
 					    '<td><strong>' . '' . '</strong></td><td> </td>' .
 					'</tr>'
 
@@ -72,19 +72,48 @@ class Heirs_model extends CI_Model {
 		}
 	}
 
+    // public function get_heirs_list($id) {
+    //     // $this->db->select("*");
+    //     // $this->db->from($tbl_name);
+    //     // $this->db->where($your_conditions);
+    //     // $query = $this->db->get();
+    //     // return $query->result_array();
+    
+    
+    //     $query = $this->db->select("hl.id, hl.name as heirs_name, hl.percentage, 
+    //     hl.tbl_banks_id, hl.tbl_list_bank_branches_id, hl.account_no, hl.amount, hl.status, 
+    //     hl.record_add_by, hl.record_add_date, hl.tbl_grants_id, 
+    //     hl.application_no, hl.tbl_emp_info_id,  
+    //     bb.name as bank_name, bb.branch_code")
+    //            ->from("tbl_legal_heirs as hl")
+    //            ->join("tbl_list_bank_branches as bb", "bb.id = hl.tbl_list_bank_branches_id", "inner")
+    //            ->where("hl.application_no", $id)
+    //            ->get();
+    //     return $query->result_array();  
+    // }
+
 	public function getRecordById($id) {
 		$this->db->from($this->table);
 		$this->db->where('id', $id);
 		$query = $this->db->get();
-
+        
 		return $query->row();
 	}
 
 	public function update_heirs() {
 
-		$data = array(
-			'name' => ucwords($this->input->post('name')),
-			'status' => $this->input->post('status'),
+		$data = array(  
+            'name' => ucwords($this->input->post('name')),
+			'percentage' => $this->input->post('percentage'),
+            'tbl_banks_id' => $this->input->post('bank_type_id'),
+            'tbl_list_bank_branches_id' => $this->input->post('tbl_list_bank_branches_id'),
+            'account_no' => $this->input->post('account_no'),
+            'tbl_grants_id' => $this->input->post('tbl_grants_id'),
+            'application_no' => $this->input->post('application_no'),
+            'tbl_emp_info_id' => $this->input->post('tbl_emp_info_id'),
+            'amount' => $this->input->post('amount'), 
+			'record_add_by' => $_SESSION['admin_id'], 
+            'status' => $this->input->post('status') 
 		);
 		//XSS prevention
 		$data = $this->security->xss_clean($data);
@@ -100,8 +129,20 @@ class Heirs_model extends CI_Model {
 				->action_type('update') //action type identify Action like add or update
 				->detail(
 					'<tr>' .
-					'<td><strong>' . 'Legal Heir Name' . '</strong></td><td>' . ucwords($this->input->post('name') . '</td>')
-					. '<td><strong>' . 'Status' . '</strong></td><td>' . $status . '</td>' .
+					    '<td><strong>' . 'Legal Heir Name' . '</strong></td><td>' . ucwords($this->input->post('name') . '</td>') .
+					    '<td><strong>' . 'Status' . '</strong></td><td>' . $status . '</td>' .
+					'</tr>' .
+                    '<tr>' .
+					    '<td><strong>' . 'Bank Type' . '</strong></td><td>' . $this->input->post('tbl_banks_id') . ' </td>' .
+					    '<td><strong>' . 'Bank Branch' . '</strong></td><td>' . $this->input->post('tbl_list_bank_branches_id') . '</td>' .
+					'</tr>' .
+                    '<tr>' .
+					    '<td><strong>' . 'Account No' . '</strong></td><td>' . $this->input->post('account_no') . '</td>' .
+					    '<td><strong>' . 'Amount' . '</strong></td><td>' . $this->input->post('amount') . '</td>' .
+					'</tr>' .
+                    '<tr>' .
+					    '<td><strong>' . 'Percentage' . '</strong></td><td>' . $this->input->post('percentage') . '%</td>' .
+					    '<td><strong>' . '' . '</strong></td><td> </td>' .
 					'</tr>'
 				) //detail
 				->log(); //Add Database Entry
@@ -117,9 +158,9 @@ class Heirs_model extends CI_Model {
 		     * Fetch members data from the database
 		     * @param $_POST filter data based on the posted parameters
 	*/
-	public function getRows($postData) {
+	public function getRows($postData, $grantType, $app_no) {
         //echo 'model'; exit;
-		$this->_get_datatables_query($postData);
+		$this->_get_datatables_query($postData, $grantType, $app_no);
 		if ($postData['length'] != -1) {
 			$this->db->limit($postData['length'], $postData['start']);
 		}
@@ -139,8 +180,8 @@ class Heirs_model extends CI_Model {
 		     * Count records based on the filter params
 		     * @param $_POST filter data based on the posted parameters
 	*/
-	public function countFiltered($postData) {
-		$this->_get_datatables_query($postData);
+	public function countFiltered($postData,  $tbl_grants_id, $app_no) {
+		$this->_get_datatables_query($postData, $tbl_grants_id, $app_no);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
@@ -149,9 +190,22 @@ class Heirs_model extends CI_Model {
 		     * Perform the SQL queries needed for an server-side processing requested
 		     * @param $_POST filter data based on the posted parameters
 	*/
-	private function _get_datatables_query($postData) {
+	private function _get_datatables_query($postData, $tbl_grants_id, $app_no) {
+        //echo '<pre>'; print_r($postData);
+		// $this->db->from($this->table);
+        // $this->db->where('tbl_grants_id', $tbl_grants_id);
+        // $this->db->where('application_no', $app_no);
 
-		$this->db->from($this->table);
+        $query = $this->db->select("hl.id, hl.name as heirs_name, hl.percentage, 
+        hl.tbl_banks_id, hl.tbl_list_bank_branches_id, hl.account_no, hl.amount, hl.status, 
+        hl.record_add_by, hl.record_add_date, hl.tbl_grants_id, 
+        hl.application_no, hl.tbl_emp_info_id,  
+        bb.name as bank_name, bb.branch_code")
+               ->from("tbl_legal_heirs as hl")
+               ->join("tbl_list_bank_branches as bb", "bb.id = hl.tbl_list_bank_branches_id", "inner")
+               ->where("hl.application_no", $app_no);
+        //     ->get();
+        //return $query->result_array(); 
 
 		$i = 0;
 		// loop searchable columns
