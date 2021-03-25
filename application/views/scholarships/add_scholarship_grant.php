@@ -195,7 +195,7 @@
                                             <i class="fa fa-percent"></i>
                                         </div>
 
-                                        <input type="text" readonly autocomplete="off" value="<?php echo set_value('percentage'); ?>" name="percentage" id="percentage" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
+                                        <input type="text" autocomplete="off" value="<?php echo set_value('percentage'); ?>" name="percentage" id="percentage" class="form-control validate[required]" placeholder="Enter <?php echo $label; ?>" />
                                     </div><?php echo form_error('percentage'); ?>
                                 </div>
                             </div>

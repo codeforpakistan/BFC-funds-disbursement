@@ -123,6 +123,7 @@ class Reports_model extends CI_Model {
 
 		$data = array();
 		$i = 1;
+        $total_amount = 0;
 		foreach ($records as $record) {
 
 			// if ($record->status == 1) {
@@ -143,8 +144,14 @@ class Reports_model extends CI_Model {
             $grantID = $record->tbl_grants_id; 
             $getGrantDetails = $this->common_model->getRecordByColoumn('tbl_grants', 'id', $grantID);
             $grant_type = $getGrantDetails['name'];
-            //$grant_tbl_name = $getGrantDetails['tbl_name'];
+            $grant_tbl_name = $getGrantDetails['tbl_name'];
+            // echo '<br>table =' . $grant_tbl_name;
+            $tbl_app_details = $this->common_model->getRecordByColoumn($grant_tbl_name, 'application_no', $applicationNo);
+            //$account_no = $tbl_app_details['account_no']; 
+            $netAmount =  $tbl_app_details['net_amount']; 
+            //echo '<br>netAmount - '. $netAmount;
             
+            $total_amount += $netAmount;
 
             $empID = $record->tbl_emp_info_id;   
             $getGrant  = $this->common_model->getRecordByColoumn('tbl_emp_info', 'id', $empID);
@@ -180,12 +187,26 @@ class Reports_model extends CI_Model {
 				"GranteeName" => $applicant_name, 
                 "bankName" => $bankName,
                 "districtName" => $district_name,
+                "netAmount" => 'Rs. '.$netAmount,
                 "DateAdded" => $recordAddDate, 
 				"status" => $status
 			);
 			$i++;
 		}
 
+            array_push($data, array(
+                "no" => '', 
+                "applicationNo" => '', 
+                "GrantType" => '',
+                "GranteeName" => '', 
+                "bankName" => '',
+                "districtName" => '',
+                "netAmount" => 'Rs. '.$total_amount,
+                "DateAdded" => '', 
+                "status" => '',
+            ));
+
+        //$data['total_amount'] = $total_amount;
 		## Response
 		$response = array(
 			"draw" => intval($draw),

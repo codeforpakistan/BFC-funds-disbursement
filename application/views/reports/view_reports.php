@@ -196,12 +196,13 @@
                                 <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Grantee Name')); ?></th>
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Bank Name')); ?></th>
                                 <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'District')); ?></th>
+                                <th width="5%"><?php echo ucwords(str_replace('_', ' ', 'Amount')); ?></th>
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'Date Added')); ?></th>
                                 <th width="8%"><?php echo ucwords(str_replace('_', ' ', 'status')); ?></th> 
                             </tr>
                         </thead>
                         <tbody>
-                        </tbody>
+                        </tbody> 
                     </table>  
                 </div>
             </form>
@@ -275,10 +276,7 @@
             'excel',
             'csv',
             'pdf',  
-            ],
-
-
-
+            ], 
 
             // Processing indicator
             "processing": true,
@@ -309,8 +307,7 @@
 
                     data.bank_type_id = $('#bank_type_id').val();
                     data.tbl_bank_id = $('#tbl_bank_id').val();
-                    data.district_id = $('#district_id').val();
-
+                    data.district_id = $('#district_id').val(); 
                     //data.batch_status = $('#batch_status').val();
 
                     //data.tbl_bank_id = $('#tbl_bank_id').val();
@@ -345,6 +342,9 @@
                     data: 'districtName'
                 },
                 {
+                    data: 'netAmount'
+                },
+                {
                     data: 'DateAdded'
                 }, 
                 {
@@ -353,7 +353,7 @@
             ],
             //Set column definition initialisation properties
             "columnDefs": [{
-                "targets": [0, 1, 2, 3, 4], //5
+                "targets": [0, 1, 2, 3, 4, 5], //5
                 "orderable": false
             }]
         });
