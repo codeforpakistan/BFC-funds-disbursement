@@ -157,7 +157,36 @@ class Funeral_model extends CI_Model {
             پر ا سیس کیا  جا  ئے  گا';
             $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
             $send       = $this->common_model->sendSMS($smsArray);
-
+    
+            if($this->input->post('bank_verification')=='No')
+            {
+                $smsContent = 'آپ کے کا غذات میں بینک سے تصد یق شد ہ اکا و نٹ کی تفصیل مو جو د نہیں ہے ۔ آ پ یہ کا پی اِس دفتر جلد ازجلد بھیج دیں یا لے آئیں تاکہ آپ کا کیس آگے بھیج سکے';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('s_n_office_dept_seal')=='No')
+            {
+                $smsContent ='apke jamashudda documents may Signature & Name Of The Head Of Office With Official Seal missing hay Please jald az jald baigh day';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('payroll_attach')=='No')
+            {
+                 $smsContent ='apke jamashudda documents may payroll missing hay Please jald az jald baigh day';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('bank_verification')=='No')
+            {
+                 $smsContent ='apke jamashudda documents may Signature & Name Of The Head Of Office With Official Seal missing hay Please jald az jald baigh day';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            
             
             // this is for activity log of a record
             

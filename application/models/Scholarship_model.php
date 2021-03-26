@@ -92,6 +92,9 @@ class Scholarship_model extends CI_Model {
         //echo '<br>insertID = '. $last_insert_id; exit;
         
 		if ($this->db->affected_rows() > 0) {
+			
+	        
+			
 			// this is for activity log of a record
             $getDept = $this->common_model->getRecordById($this->input->post('tbl_department_id'), $tbl_name = 'tbl_department');
 			$this->logger
@@ -256,7 +259,8 @@ class Scholarship_model extends CI_Model {
         //echo '<br>insertID = '. $last_insert_id; exit;
         
 		if ($this->db->affected_rows() > 0) {
-
+    
+        
 
 
             //send sms 
@@ -265,10 +269,94 @@ class Scholarship_model extends CI_Model {
             $smsContent = $application_no . ' app ka application no hai aur ap ne scholarship grant k lye apply kiya hai.';
             $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
             $send       = $this->common_model->sendSMS($smsArray);
-            //echo 'send = '. $send;     
-            //echo '<pre>'; print_r($send);
-            //exit();
-
+            
+            //$getEmp = $this->common_model->getRecordById($this->input->post('tbl_emp_info_id'), $tbl_name = 'tbl_emp_info');
+        //    $contact_no = $getEmp['contact_no'];
+			
+			if($this->input->post('std_signature')=='No')
+            {
+                $smsContent = 'Apke k documents may Student Signature missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('seal_institute')=='No')
+            {
+                $smsContent = 'Apke k documents may seal institute missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('office_seal_hod')=='No')
+            {
+                $smsContent = 'Apke k documents may office seal hod missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('bank_verification')=='No')
+            {
+                $smsContent = 'Apke k documents may bank verification missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('dmc_attach')=='No')
+            {
+                $smsContent = 'Apke k documents may dmc attachachment missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('grade_attach')=='No')
+            {
+                $smsContent = 'Apke k documents may grade attachachment missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('gov_servent_sign')=='No')
+            {
+                $smsContent = 'Apke k documents may government servent sign missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+             if($this->input->post('head_institute')=='No')
+            {
+                $smsContent = 'Apke k documents may head of institute sign missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+             if($this->input->post('hod_sign')=='No')
+            {
+                $smsContent = 'Apke k documents may hod sign missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            
+             if($this->input->post('payroll_lpc_attach')=='No')
+            {
+                $smsContent = 'Apke k documents may payroll attachment missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('cnic_attach')=='No')
+            {
+                $smsContent = 'Apke k documents may cnic attachment missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            
+			
+			
+            
+            
+            
 
 			// this is for activity log of a record
             $getDept = $this->common_model->getRecordById($this->input->post('tbl_department_id'), $tbl_name = 'tbl_department');
@@ -447,6 +535,90 @@ class Scholarship_model extends CI_Model {
                 $smsContent = $application_no . ' app ka application no scholarship grant k lye update kar diya gya hai.';
                 $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
                 $send       = $this->common_model->sendSMS($smsArray);
+                
+                
+            if($this->input->post('std_signature')=='No')
+            {
+                $smsContent = 'Apke k documents may Student Signature missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('seal_institute')=='No')
+            {
+                $smsContent = 'Apke k documents may seal institute missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('office_seal_hod')=='No')
+            {
+                $smsContent = 'Apke k documents may office seal hod missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('bank_verification')=='No')
+            {
+                $smsContent = 'Apke k documents may bank verification missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('dmc_attach')=='No')
+            {
+                $smsContent = 'Apke k documents may dmc attachachment missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('grade_attach')=='No')
+            {
+                $smsContent = 'Apke k documents may grade attachachment missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('gov_servent_sign')=='No')
+            {
+                $smsContent = 'Apke k documents may government servent sign missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+             if($this->input->post('head_institute')=='No')
+            {
+                $smsContent = 'Apke k documents may head of institute sign missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+             if($this->input->post('hod_sign')=='No')
+            {
+                $smsContent = 'Apke k documents may hod sign missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            
+             if($this->input->post('payroll_lpc_attach')=='No')
+            {
+                $smsContent = 'Apke k documents may payroll attachment missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            if($this->input->post('cnic_attach')=='No')
+            {
+                $smsContent = 'Apke k documents may cnic attachment missing hay';
+                $smsArray   = array('applicantMobNo' => $contact_no, 'smsContent' => $smsContent);
+                $send       = $this->common_model->sendSMS($smsArray);
+            }
+            
+            
+		
+                
+                
                 
                  
                 $getDept = $this->common_model->getRecordById($this->input->post('tbl_department_id'), $tbl_name = 'tbl_department');

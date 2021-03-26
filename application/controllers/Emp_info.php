@@ -26,7 +26,14 @@ class Emp_info extends MY_Controller {
 		// }
 		$data['page_title'] = 'Add New Employee Information';
 		$data['description'] = '...';
-		$data['post'] = $this->common_model->getAllRecordByArray('tbl_post', array('status' => '1'));
+        if($_SESSION['tbl_admin_role_id'] == '6') {
+            $data['post'] = $this->common_model->getAllRecordsByCond('tbl_post', "status = '1' AND tbl_pay_scale_id < '16' ORDER BY tbl_pay_scale_id DESC ");
+        } else if($_SESSION['tbl_admin_role_id'] == '4') {
+            $data['post'] = $this->common_model->getAllRecordsByCond('tbl_post', "status = '1' AND tbl_pay_scale_id > '15' ORDER BY tbl_pay_scale_id DESC ");
+        } else if($_SESSION['tbl_admin_role_id'] == '1') {
+            $data['post'] = $this->common_model->getAllRecordByArray('tbl_post', array('status' => '1'));
+        }
+		
 		$data['department'] = $this->common_model->getAllRecordByArray('tbl_department', array('status' => '1'));
 		$data['district'] = $this->common_model->getAllRecordByArray('tbl_district', array('status' => '1'));
 		if ($this->input->post('submit')) {

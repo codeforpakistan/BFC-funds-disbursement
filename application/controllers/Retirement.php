@@ -75,12 +75,21 @@ class Retirement extends MY_Controller {
 
   
             $tbl_emp_info_ID = $this->input->post('tbl_emp_info_id'); 
-            $your_conditions = array('tbl_emp_info_id' => $tbl_emp_info_ID, 'tbl_grants_id' => '3');
-            $countExists = $this->common_model->countAllRecordsByCond('tbl_grants_has_tbl_emp_info_gerund', $your_conditions);
+            $retired_conditions = array('tbl_emp_info_id' => $tbl_emp_info_ID, 'tbl_grants_id' => '3');
+            $countRetirementExists = $this->common_model->countAllRecordsByCond('tbl_grants_has_tbl_emp_info_gerund', $retired_conditions);
             //echo 'count = '. $countExists;
-            if($countExists > 0) {
+            $lumpsum_conditions = array('tbl_emp_info_id' => $tbl_emp_info_ID, 'tbl_grants_id' => '6');
+            $countLumpsumExists = $this->common_model->countAllRecordsByCond('tbl_grants_has_tbl_emp_info_gerund', $lumpsum_conditions);
+
+            if($countRetirementExists > 0) {
                 //$data['post'] = $this->input->post();
-                $this->session->set_flashdata('error_custom', 'This record already exists!');
+                $this->session->set_flashdata('error_custom', 'You already have applied for retirement grant.');
+                $this->load->view('templates/header', $data);
+                $this->load->view('retirement/add_retirement_grant', $data);
+                $this->load->view('templates/footer');
+            } else if($countLumpsumExists > 0) {
+                //$data['post'] = $this->input->post();
+                $this->session->set_flashdata('error_custom', 'You already have applied for lumpsum grant.');
                 $this->load->view('templates/header', $data);
                 $this->load->view('retirement/add_retirement_grant', $data);
                 $this->load->view('templates/footer');

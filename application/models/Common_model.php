@@ -19,7 +19,7 @@ class Common_model extends CI_Model {
 	public function getuniqueBatchDetailBankWise($id)
 	{
 	    
-		$query = $this->db->query("SELECT DISTINCT(g.tbl_banks_id) as tbl_banks_id, tg.tbl_name , bk.name as bank_name 
+		$query = $this->db->query("SELECT DISTINCT(g.tbl_banks_id) as tbl_banks_id, tg.tbl_name ,b.bfc_bank, bk.name as bank_name 
 		                                    FROM `tbl_batches` b 
 		                                    JOIN tbl_grants_has_tbl_emp_info_gerund g on b.application_no = g.application_no 
 		                                    JOIN tbl_banks bk on bk.id = g.tbl_banks_id 

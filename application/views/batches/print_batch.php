@@ -40,17 +40,39 @@
     <p>To</p>
     <p>
          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The Manager,<br>
-	     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=($applications[0]['bfc_bank'] ==1)?'National Bank of Pakistan':'Khyber Bank'?><br>
+	     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?=($uniquebanks[0]['bfc_bank'] ==1)?'National Bank of Pakistan':'Khyber Bank'?><br>
 	     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Saddar Road Branch, Peshawar.</p>
 	     
-	<p>Subject:		&nbsp;&nbsp;&nbsp; 
-	                
+	<p>Subject:		&nbsp;&nbsp;&nbsp; <b><u> <?php $grant = $uniquebanks[0]['tbl_name']; 
+	               $typofgrant = '';
+	                if($grant =='tbl_retirement_grant') $typofgrant = 'RETIREMENT';
+	                else if($grant =='tbl_monthly_grant') $typofgrant = 'MONTHLY';
+	                else if($grant =='tbl_scholaarship_grant') $typofgrant = 'SCHOLAARSHIP';
+	                else  if($grant =='bl_funeral_grant') $typofgrant ='FUNERAL';
+	                else if ($grant =='tbl_lump_sum_grant') $typofgrant = 'LUMPSUM';
+	                echo $typofgrant.' GRANT PAYMENTS';
+	?>
+	           </u></b> 
 	       
 	                                            
 	</p>
+	<?php 
+	                    
+	                    $totalamount1 = 0;   
+                            foreach($uniquebanks as $row){
+                               $tbl_banks_id = $row['tbl_banks_id']; 
+                               $tbl_name = $row['tbl_name'];
+                              $applications1 =  $this->common_model->getBatchDetailBankWise($tbl_banks_id, $tbl_name, $batch_no);
+                                $totalamount1+=intval($applications1['net_amount']);
+                            }
+                            ?>
+                          
+                          
 	
 	<p>
-	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Kindly refer to the subject cited above and to state that Rs.<?=number_format($sum)?> may be transferred to the relevant account of grantees of Benevolent Fund. A detailed list including Name, Father’s Name, Designation, Bank Branch Name, Code & Account Numbers mentioned against each grantee, may be debited from Benevolent Fund General Account No.<?=($applications[0]['bfc_bank'] ==2)?'00945005':'900132-7/ 3086442361'?>  held with your branch.
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I am directed to refer to the subject cited above and to state that the Competent Authority has approved an amount of Rs.<?=number_format($totalamount1)?> for transfer of fund to the 
+	    , on account of <?=strtolower($typofgrant)?> grant payments, which may be debited from Benevolent Fund Main Account No. PLS A/C <?=($uniquebanks[0]['bfc_bank'] ==2)?'00945005':'900132-7/ 3086442361'?>, held with your branch, summarized details are as under.
+	    
 	</p>
 	
 	
@@ -64,42 +86,50 @@
                 <tbody class="tbody">
                     <?php 
 	                    
-	                       
+	                    $totalbanks = $totalamount = 0;   
                             foreach($uniquebanks as $row){
                                $tbl_banks_id = $row['tbl_banks_id']; 
                                $tbl_name = $row['tbl_name'];
                               $applications =  $this->common_model->getBatchDetailBankWise($tbl_banks_id, $tbl_name, $batch_no);
+                                $totalbanks+= $applications['totalcases'];
+                                $totalamount+=intval($applications['net_amount']);
                             ?>
                             
                             <tr>
                                     <td><?=$row['bank_name']?></td>
-                                    <td><?=$applications['totalcases']?></td>
-                                    <td><?=$applications['net_amount']?></td>
+                                    <td style="text-align:center;"><?=$applications['totalcases']?></td>
+                                    <td style="text-align:center;"><?=number_format($applications['net_amount'])?></td>
                             </tr>    
+                            
                            
 	               <?php } ?>
+	               <tr>
+	                    <td>Total:</td>
+	                    <td style="text-align:center;"><?=$totalbanks?></td>
+	                    <td style="text-align:center;"><?=number_format($totalamount)?></td>
+	               </tr>
 	               </tbody>
 	               </table>
 	               
-    <p>It is, therefore, requested to transfer online the aforementioned amount as per instruction given above, under antimation to this department please</p>
+    <p>It is, therefore, requested to transfer online the aforementioned amount as per instruction given above, under intimation to this department please</p>
     
     
     <div style="float:left;width: 100%;margin-top: 15%;font-size:10px" >
-        <div style="float:left;width: 10%" >
-            Checked </div><div style="float:left;width: 23%" >_______________________
-        </div>   
-        <div style="float:left;width: 10%" >
-        Verified</div><div style="float:left;width: 23%" >_______________________
-        </div>
-        <div style="float:left;width: 10%" >
-        Yours Sincerely</div><div style="float:left;width: 24%" >_______________________
-        </div>
+        <div style="float:left;width: 31%;"> ____________________________________ </div> 
+        <div style="float:left;width: 31%;"> ____________________________________ </div> 
+        <div style="float:left;width: 31%;"> ____________________________________ </div> 
     </div>
     
-    <div style="float:left;width: 100%; font-size:10px" >
-        <div style="float:left;width: 10%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 23%" >Assistant (A/Cs Section) Benevolent Fund Board</div>   
-        <div style="float:left;width: 10%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 23%" >Assistant Secertary (B&A) Benevolent Fund Board</div>
-        <div style="float:left;width: 10%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 24%" >Secertary <br> Benevolent Fund Board</div>
+    <div style="float:left;width: 100%; font-size:10px;">
+        <div style="float:left;width: 31%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assistant (A/Cs Section)</div>   
+        <div style="float:left;width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 31%" >Assistant Secertary (B&A)</div>
+        <div style="float:left;width: 31%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Secertary</div>
+    </div>
+    
+     <div style="float:left;width: 100%; font-size:10px;">
+        <div style="float:left;width: 31%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Benevolent Fund Board</div>   
+        <div style="float:left;width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 31%" >Benevolent Fund Board</div>
+        <div style="float:left;width: 31%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Benevolent Fund Board</div>
     </div>
     
     <pagebreak /> 
@@ -146,24 +176,24 @@
     </table>
       
     
-    
-    <div style="float:left;width: 100%;margin-top: 15%;font-size:10px" >
-        <div style="float:left;width: 10%" >
-            Checked </div><div style="float:left;width: 23%" >_______________________
-        </div>   
-        <div style="float:left;width: 10%" >
-        Verified</div><div style="float:left;width: 23%" >_______________________
-        </div>
-        <div style="float:left;width: 10%" >
-        Yours Sincerely</div><div style="float:left;width: 24%" >_______________________
-        </div>
+      <div style="float:left;width: 100%;margin-top: 15%;font-size:10px" >
+        <div style="float:left;width: 31%;"> ____________________________________ </div> 
+        <div style="float:left;width: 31%;"> ____________________________________ </div> 
+        <div style="float:left;width: 31%;"> ____________________________________ </div> 
     </div>
     
-    <div style="float:left;width: 100%; font-size:10px" >
-        <div style="float:left;width: 10%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 23%" >Assistant (A/Cs Section) Benevolent Fund Board</div>   
-        <div style="float:left;width: 10%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 23%" >Assistant Secertary (B&A) Benevolent Fund Board</div>
-        <div style="float:left;width: 10%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 24%" >Secertary <br> Benevolent Fund Board</div>
-    </div><pagebreak />
+    <div style="float:left;width: 100%; font-size:10px;">
+        <div style="float:left;width: 31%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Assistant (A/Cs Section)</div>   
+        <div style="float:left;width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 31%" >Assistant Secertary (B&A)</div>
+        <div style="float:left;width: 31%" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Secertary</div>
+    </div>
+    
+     <div style="float:left;width: 100%; font-size:10px;">
+        <div style="float:left;width: 31%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Benevolent Fund Board</div>   
+        <div style="float:left;width: 3%;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</div><div style="float:left;width: 31%" >Benevolent Fund Board</div>
+        <div style="float:left;width: 31%">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Benevolent Fund Board</div>
+    </div>
+    <pagebreak />
     <?php }  ?>
      
 <style type="text/css">

@@ -242,6 +242,7 @@ class Batches extends MY_Controller {
         $data['batch_no'] = $id;
         $page     = 'batches/print_batch.php';
         $this->load->view($page,$data);
+    	
     	$html = $this->load->view($page,$data,TRUE);
 		$this->load->library('m_pdf');
 		$this->m_pdf->pdf->WriteHTML($html);
